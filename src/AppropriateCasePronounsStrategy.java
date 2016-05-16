@@ -4,7 +4,10 @@
  */
 public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see EssaySearchStrategy#findInEssay()
+	 */
 	public void findInEssay() {
 		// TODO Auto-generated method stub
 		
