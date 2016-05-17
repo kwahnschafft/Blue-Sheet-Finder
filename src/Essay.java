@@ -31,7 +31,7 @@ public class Essay {
 			int i = 0;
 			while(i < str.length()) {
 				int k = i;
-				while(k < str.length() && str.charAt(k) != ' ') {
+				while(k < str.length() && str.charAt(k) != ' ') { //TODO separate by punctuation as well
 					temp += str.charAt(k);
 					k++;
 				}
