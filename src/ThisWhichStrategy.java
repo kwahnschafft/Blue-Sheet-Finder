@@ -5,9 +5,15 @@
 public class ThisWhichStrategy implements EssaySearchStrategy {
 
 	@Override
-	public void findInEssay() {
+	public ListNode2[] findInEssay(TreeMap tree) {
 		// TODO Auto-generated method stub
+		return null;
 		
+	}
+
+	public String getRule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,13 +1,19 @@
 /*
- * Written By: Shannon Wing, Kelly Finke, and Kiara Wahnschafft
+ * Written By: Shannon Wing
  * Date: 5/15/16
  */
 public class FirstSecondPersonStrategy implements EssaySearchStrategy {
 
 	@Override
-	public void findInEssay() {
+	public ListNode2[] findInEssay(TreeMap tree) {
 		// TODO Auto-generated method stub
+		return null;
 		
+	}
+
+	public String getRule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

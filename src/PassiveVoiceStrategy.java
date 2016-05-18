@@ -1,5 +1,5 @@
 /*
- * Written By: Shannon Wing, Kelly Finke, and Kiara Wahnschafft
+ * Written By: Shannon Wing
  * Date: 5/15/16
  */
 public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
