@@ -9,6 +9,15 @@ public class WordLoc{
 	private ListNode2 sentence;
 	private int index;
 	
+	//wraps String in a ListNode2 and creates new WordLoc
+	public WordLoc(String s, int i){
+		ListNode2 node = new ListNode2(s);
+		node.setPrevious(node);
+		node.setNext(node);
+		sentence = node;
+		index = i;
+	}
+	
 	//constructs new WordLoc
 	public WordLoc(ListNode2 s, int i){
 		sentence = s;

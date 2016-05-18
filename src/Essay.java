@@ -23,28 +23,38 @@ public class Essay {
 	}
 
 	/*
-	 * adds all the words in the sentences to the tree of words
+	 * adds all the words in all the sentences to the tree of words
 	 */
-	public static void addWords() {
-		String temp = "";
+	public static void addAllWords() {
 		for(String str : sentences) {
-			int i = 0;
-			while(i < str.length()) {
-				int k = i;
-				while(k < str.length() && str.charAt(k) != ' ') { //TODO separate by punctuation as well
-					temp += str.charAt(k);
-					k++;
-				}
-				//tree.add(temp, str); //add method of the tree
-				i = k+1;
-				temp = "";
-			}	
+			addSentenceWords(str);
+		}
+	}
+	
+	//adds words from a single sentence to the tree of words
+	public static void addSentenceWords(String str){
+		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
+		String temp = "";
+		int i = 0;
+		while(i < str.length()) {
+			int k = i;
+			if(punctuation.indexOf(str.charAt(k)) >= 0){ //character is punctuation
+				temp = ""+str.charAt(k);
+			}else{
+			while(k < str.length() && str.charAt(k) != ' ' && punctuation.indexOf(str.charAt(k)) < 0) {
+				temp += str.charAt(k);
+				k++;
+			}
+			}
+			tree.put(temp, new WordLoc(str, i)); //add method of the tree
+			i = k+1;
+			temp = "";
 		}
 	}
 	
 	public static void main(String[] args) {
 		parse("Heae ael fwe iajfiawpejf eof. AGwaelkj foiajfewjf ej feljakew;f. alsdfj.");
 		System.out.println(sentences);
-		addWords();
+		addAllWords();
 	}
 }
