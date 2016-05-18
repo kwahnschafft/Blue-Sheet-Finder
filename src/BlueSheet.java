@@ -82,12 +82,27 @@ public class BlueSheet extends JFrame {
 
     Box b2 = Box.createHorizontalBox();
     b2.add(areaScrollPaneIn);
-    b2.add(Box.createHorizontalStrut(10));
    // b2.add(areaScrollPaneOut);
+    
+    JPanel p3 = new JPanel();
+    p3.setPreferredSize(new Dimension(100, 81));
+    p3.setLayout(new GridLayout(2,1));
+    p3.setBorder(new LineBorder(Color.BLACK));
+    
+    textAreaIn = new JTextArea(10, 100);
+    textAreaIn.setFont(font);
+    textAreaIn.setLineWrap(true);
+    textAreaIn.setWrapStyleWord(true);
+    JScrollPane sentenceScrollPane = new JScrollPane(textAreaIn);
+    
+    Box b3 = Box.createHorizontalBox();
+    b3.add(p3);
+    b3.add(sentenceScrollPane);
 
     Container c = getContentPane();
     c.add(p123, BorderLayout.EAST);
     c.add(b2, BorderLayout.CENTER);
+    c.add(b3, BorderLayout.SOUTH);
 
   }
 
@@ -130,7 +145,7 @@ public class BlueSheet extends JFrame {
       {
  
       }
-      setTextOut(getTextIn());
+     // setTextOut(getTextIn());
     }
   }
 
