@@ -6,8 +6,22 @@ public class QuotationStrategy implements EssaySearchStrategy{
 
 	@Override
 	public ListNode2[] findInEssay(TreeMap tree) {
-		// TODO Auto-generated method stub
-		return null;
+		String searchFor = "\"";
+			
+			ListNode2[] returning = new ListNode2[1];
+			//search tree for each pronoun case
+			
+				//when quotation is found add head of LinkedList to array slot
+				for (String word: tree.keySet())
+				{
+				    if (word.compareTo(searchFor) == 0)
+				    {
+				        returning[0] = tree.get(word);
+				        break;
+				    }
+				}
+			return returning;
+			
 	}
 
 	public String getRule() {
