@@ -84,20 +84,29 @@ public class BlueSheet extends JFrame {
     b2.add(areaScrollPaneIn);
    // b2.add(areaScrollPaneOut);
     
+    JPanel changes = new JPanel();
+    changes.setPreferredSize(new Dimension(40, 81));
+    changes.setLayout(new GridLayout(2,1));
+    changes.add(new JButton("Correct"));
+    changes.add(new JButton("Change"));
+    
     JPanel p3 = new JPanel();
     p3.setPreferredSize(new Dimension(100, 81));
-    p3.setLayout(new GridLayout(2,1));
+    p3.setLayout(new GridLayout(1,3));
     p3.setBorder(new LineBorder(Color.BLACK));
+    p3.add(new JButton("Previous"));
+    p3.add(changes);
+    p3.add(new JButton("Next"));
     
-    textAreaIn = new JTextArea(10, 100);
+    textAreaIn = new JTextArea(6, 70);
     textAreaIn.setFont(font);
     textAreaIn.setLineWrap(true);
     textAreaIn.setWrapStyleWord(true);
     JScrollPane sentenceScrollPane = new JScrollPane(textAreaIn);
     
     Box b3 = Box.createHorizontalBox();
-    b3.add(p3);
     b3.add(sentenceScrollPane);
+    b3.add(p3);
 
     Container c = getContentPane();
     c.add(p123, BorderLayout.EAST);
