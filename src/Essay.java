@@ -1,13 +1,18 @@
 import java.util.LinkedList;
 
 public class Essay {
-	private static LinkedList<String> sentences = new LinkedList<String>();
+	//blank header node for sentences linked list
+	private static ListNode2 sentencesHead;
 	
 	/*
 	 * place all sentences of essay into a linked list of sentences (strings)
 	 */
 	public static void parse(String essay) {
+		sentencesHead = new ListNode2(null);
+		sentencesHead.setNext(sentencesHead);
+		sentencesHead.setPrevious(sentencesHead);
 		String temp = "";
+		ListNode2 tempNode;
 		int i = 0;
 		while(i < essay.length()) {
 			int k = i;
@@ -16,7 +21,12 @@ public class Essay {
 				k++;
 			}
 			temp += essay.charAt(k);
-			sentences.add(temp);
+			//add node to sentence list
+			tempNode = new ListNode2(temp);
+			tempNode.setNext(sentencesHead);
+			tempNode.setPrevious(sentencesHead.getPrevious());
+			sentencesHead.getPrevious().setNext(tempNode);
+			sentencesHead.setPrevious(tempNode);
 			i = k+1;
 			temp = "";
 		}
@@ -26,8 +36,10 @@ public class Essay {
 	 * adds all the words in all the sentences to the tree of words
 	 */
 	public static void addAllWords() {
-		for(String str : sentences) {
-			addSentenceWords(str);
+		ListNode2 node = sentencesHead.getNext();
+		while(node != sentencesHead) {
+			addSentenceWords((String)node.getValue());
+			node = node.getNext();
 		}
 	}
 	
@@ -52,9 +64,10 @@ public class Essay {
 		}
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		parse("Heae ael fwe iajfiawpejf eof. AGwaelkj foiajfewjf ej feljakew;f. alsdfj.");
 		System.out.println(sentences);
 		addAllWords();
 	}
+	*/
 }
