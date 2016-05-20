@@ -17,14 +17,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
-public class CryptogramMenu extends JMenuBar
+public class MenuBar extends JMenuBar
 {
-  private BlueSheet cryptogram;
+  private BlueSheet bluesheet;
   private JMenuItem openItem, saveItem, exitItem;
 
-  public CryptogramMenu(BlueSheet crypto, ActionListener decodeAction)
+  public MenuBar(BlueSheet crypto, ActionListener decodeAction)
   {
-    cryptogram = crypto;
+    bluesheet = crypto;
 
     JMenu fileMenu = new JMenu("File");
     fileMenu.setMnemonic('F');
@@ -71,7 +71,7 @@ public class CryptogramMenu extends JMenuBar
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int result = fileChooser.showOpenDialog(cryptogram);
+        int result = fileChooser.showOpenDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
@@ -86,7 +86,7 @@ public class CryptogramMenu extends JMenuBar
         }
         catch (FileNotFoundException ex)
         {
-          JOptionPane.showMessageDialog(cryptogram, "Invalid File Name",
+          JOptionPane.showMessageDialog(bluesheet, "Invalid File Name",
                       "Cannot open " + pathName, JOptionPane.ERROR_MESSAGE);
           return;
         }
@@ -117,14 +117,14 @@ public class CryptogramMenu extends JMenuBar
         }
 
         String text = buffer.toString();
-        cryptogram.setTextIn(text);
-        cryptogram.setTextOut(text);
+        bluesheet.setEssayText(text);
+        Essay.parse(text); //create the tree map of words in the essay
       }
       else if (m == saveItem)
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int result = fileChooser.showSaveDialog(cryptogram);
+        int result = fileChooser.showSaveDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
@@ -139,12 +139,12 @@ public class CryptogramMenu extends JMenuBar
         }
         catch (IOException ex)
         {
-          JOptionPane.showMessageDialog(cryptogram, "Invalid File Name",
+          JOptionPane.showMessageDialog(bluesheet, "Invalid File Name",
                       "Cannot create " + pathName, JOptionPane.ERROR_MESSAGE);
           return;
         }
 
-        String text = cryptogram.getTextOut();
+        String text = bluesheet.getEssayText();
         outputFile.print(text);
         outputFile.close();
       }
