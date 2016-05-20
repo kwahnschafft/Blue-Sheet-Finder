@@ -66,28 +66,46 @@ public class BlueSheet extends JFrame {
     p1.setLayout(new GridLayout(5, 1));
     p1.setBorder(new LineBorder(Color.BLACK));
     ButtonGroup bluesheets = new ButtonGroup();
-    JRadioButton one = new JRadioButton("III. Do not use 'this' or 'which' to refer to a clause.");
-    JRadioButton two = new JRadioButton("II. Write complete");
-    JRadioButton three = new JRadioButton("second");
-    JRadioButton four = new JRadioButton("second");
-    JRadioButton five = new JRadioButton("second");
+    JRadioButton one = new JRadioButton("I. Past Tense");
+    JRadioButton three = new JRadioButton("III. First or Second Person");
+    JRadioButton four = new JRadioButton("IV. Vague 'this' or 'which'");
+    JRadioButton six = new JRadioButton("VI. Pronoun Case");
+    JRadioButton seven = new JRadioButton("VII. Ambiguous Pronoun");
+    JRadioButton eight = new JRadioButton("VIII. Apostrophe Problem");
+    JRadioButton nine = new JRadioButton("IX. Avoid passive voice.");
+    JRadioButton twelve = new JRadioButton("XII. Progressive Tense");
+    JRadioButton thirteen = new JRadioButton("XIII. Problem in Quotation Form");
+    
     bluesheets.add(one);
-    bluesheets.add(two);
     bluesheets.add(three);
     bluesheets.add(four);
-    bluesheets.add(five);
+    bluesheets.add(six);
+    bluesheets.add(seven);
+    bluesheets.add(eight);
+    bluesheets.add(nine);
+    bluesheets.add(twelve);
+    bluesheets.add(thirteen);
+    
     p1.add(one);
-    p1.add(two);
     p1.add(three);
     p1.add(four);
-    p1.add(five);
+    p1.add(six);
+    p1.add(seven);
+    p1.add(eight);
+    p1.add(nine);
+    p1.add(twelve);
+    p1.add(thirteen);
     p1.setBackground(Color.decode(blueColor));
    
     one.addActionListener(new CustomActionListenerOne());
-    two.addActionListener(new CustomActionListenerTwo());
     three.addActionListener(new CustomActionListenerThree());
     four.addActionListener(new CustomActionListenerFour());
-    five.addActionListener(new CustomActionListenerFive());
+    six.addActionListener(new CustomActionListenerSix());
+    seven.addActionListener(new CustomActionListenerSeven());
+    eight.addActionListener(new CustomActionListenerEight());
+    nine.addActionListener(new CustomActionListenerNine());
+    twelve.addActionListener(new CustomActionListenerTwelve());
+    thirteen.addActionListener(new CustomActionListenerThirteen());
     
     JPanel p2 = new JPanel();
     p2.setPreferredSize(new Dimension(200, 60));
@@ -191,12 +209,6 @@ public class BlueSheet extends JFrame {
     	  rule.setText(III);
       }
    }
-  class CustomActionListenerTwo implements ActionListener{
-      public void actionPerformed(ActionEvent e) {
-    	  String IV = rules[1];
-    	  rule.setText(IV);
-      }
-   }
   
   class CustomActionListenerThree implements ActionListener{
       public void actionPerformed(ActionEvent e) {
@@ -217,6 +229,39 @@ public class BlueSheet extends JFrame {
           essay.setBackground(Color.orange);
       }
    }
+  
+  class CustomActionListenerSix implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+          essay.setBackground(Color.orange);
+      }
+   }
+  
+  class CustomActionListenerSeven implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+          essay.setBackground(Color.orange);
+      }
+   }
+  class CustomActionListenerEight implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+          essay.setBackground(Color.orange);
+      }
+   }
+  class CustomActionListenerNine implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+          essay.setBackground(Color.orange);
+      }
+   }
+  class CustomActionListenerTwelve implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+          essay.setBackground(Color.orange);
+      }
+   }
+  class CustomActionListenerThirteen implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+          essay.setBackground(Color.orange);
+      }
+   }
+  
   
   
   public String getEssayText() {
