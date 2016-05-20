@@ -10,4 +10,10 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 		
 	}
 
+	@Override
+	public String getRule() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

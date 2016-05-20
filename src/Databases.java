@@ -3,6 +3,7 @@
  * Date: 5/19/16
  */
 public class Databases {
+	//hashtable
 	String[] progressiveTense;
 	String[] pastTense;
 	String[] passiveVoice;
@@ -10,7 +11,7 @@ public class Databases {
 	//downloads and stores all of the words from a pdf into an array
 	public Databases ()
 	{
-		
+		pastTense = new Past
 		
 	}
 	
