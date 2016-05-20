@@ -16,7 +16,7 @@ public class Essay {
 		int i = 0;
 		while(i < essay.length()) {
 			int k = i;
-			while(k < essay.length() && essay.charAt(k) != '.') {
+			while(k < essay.length() - 1 && essay.charAt(k) != '.') {
 				temp += essay.charAt(k);
 				k++;
 			}
