@@ -35,19 +35,6 @@ public class BlueSheet extends JFrame {
   private JTextArea sentence;
   private JLabel rule;
   String blueColor = "#" + "B8DFEF";
-  String[] rules = 
-	       
-	     	  "<html>" +
-	     	   "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
-	     	  	 "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
-	     	  	     	         + "<li style='list-style-type:none'></li>"
-	     	  	     	         + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>",
-     	     "<html>" +
-     	     	 "<b>VII. Avoid ambiguos pronouns.</b>" +
-     	     	  "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> Oedipus and the shepherd argue about whether <i>he</i> should know the truth.</li>" 
-     	     	         + "<li style='list-style-type:none'></li>"
-     	     	         + "<li style='list-style-type: none'><b>(Correct)</b> Oedipus and the shepherd argue about whether <i>Oedipus</i> should know the truth.</li>" + "</ul" + "</html>"
-	         };
   
   public BlueSheet() {
 
@@ -62,7 +49,6 @@ public class BlueSheet extends JFrame {
     JRadioButton three = new JRadioButton("III. First or Second Person");
     JRadioButton four = new JRadioButton("IV. Vague 'this' or 'which'");
     JRadioButton six = new JRadioButton("VI. Pronoun Case");
-    JRadioButton seven = new JRadioButton("VII. Ambiguous Pronoun");
     JRadioButton eight = new JRadioButton("VIII. Apostrophe Problem");
     JRadioButton nine = new JRadioButton("IX. Avoid passive voice.");
     JRadioButton twelve = new JRadioButton("XII. Progressive Tense");
@@ -72,7 +58,6 @@ public class BlueSheet extends JFrame {
     bluesheets.add(three);
     bluesheets.add(four);
     bluesheets.add(six);
-    bluesheets.add(seven);
     bluesheets.add(eight);
     bluesheets.add(nine);
     bluesheets.add(twelve);
@@ -82,7 +67,6 @@ public class BlueSheet extends JFrame {
     p1.add(three);
     p1.add(four);
     p1.add(six);
-    p1.add(seven);
     p1.add(eight);
     p1.add(nine);
     p1.add(twelve);
@@ -93,7 +77,6 @@ public class BlueSheet extends JFrame {
     three.addActionListener(new CustomActionListenerThree());
     four.addActionListener(new CustomActionListenerFour());
     six.addActionListener(new CustomActionListenerSix());
-    seven.addActionListener(new CustomActionListenerSeven());
     eight.addActionListener(new CustomActionListenerEight());
     nine.addActionListener(new CustomActionListenerNine());
     twelve.addActionListener(new CustomActionListenerTwelve());
@@ -197,22 +180,19 @@ public class BlueSheet extends JFrame {
 	
   class CustomActionListenerOne implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-    	  String III = rules[0];
-    	  rule.setText(III);
+    	  rule.setText(PastTenseStrategy.getRule());
       }
    }
   
   class CustomActionListenerThree implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-    	  String VI = rules[2];
-    	  rule.setText(VI);
+    	  rule.setText("insert rule 3");
       }
    }
   
   class CustomActionListenerFour implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          String VII = rules[3];
-          rule.setText(VII);
+          rule.setText("insert rule 4");
       }
    }
   
@@ -228,11 +208,6 @@ public class BlueSheet extends JFrame {
       }
    }
   
-  class CustomActionListenerSeven implements ActionListener{
-      public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
-      }
-   }
   class CustomActionListenerEight implements ActionListener{
       public void actionPerformed(ActionEvent e) {
           essay.setBackground(Color.orange);
@@ -250,7 +225,7 @@ public class BlueSheet extends JFrame {
    }
   class CustomActionListenerThirteen implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+          rule.setText(QuotationStrategy.getRule());
       }
    }
   
