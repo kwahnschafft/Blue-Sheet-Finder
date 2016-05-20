@@ -6,9 +6,10 @@ import java.util.Iterator;
  */
 public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 
-	static String[] searchFor = {"who", "whom", "she", "her", "he", "him"};
+	
 	
 	public ListNode2[] findInEssay(TreeMap tree) {
+		String[] searchFor = {"who", "whom", "she", "her", "he", "him"};
 		
 		ListNode2[] returning = new ListNode2[6];
 		//search tree for each pronoun case
