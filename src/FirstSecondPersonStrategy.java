@@ -4,6 +4,12 @@
  */
 public class FirstSecondPersonStrategy implements EssaySearchStrategy {
 
+	String rule = "<html>" +
+    "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
+  	"<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
+  	 + "<li style='list-style-type:none'></li>"
+  	 + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>";
+	     	  	     	         
 	@Override
 	public ListNode2[] findInEssay(TreeMap tree) {
         String[] searchFor = {"i", "me", "my", "we", "us", "our", "you", "your"};

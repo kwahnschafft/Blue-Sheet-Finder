@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -17,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -30,6 +33,29 @@ public class BlueSheet extends JFrame {
 
   private JTextArea essay;
   private JTextArea sentence;
+  private JLabel rule;
+  String blueColor = "#" + "B8DFEF";
+  String[] rules = {"<html>" +
+	        "<b>III. Do not use the first or second person('I,' 'me,' 'my'; 'we,' 'us,' 'our'; 'you,' 'your') in critical writing.</b>" +
+	        "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> <i>I think that</i> Holden Caulfield, the hero of <u>The Catcher in the Rye</u>, is actually a hypocrite.</li>" 
+	         + "<li style='list-style-type:none'></li>"
+	         + "<li style='list-style-type: none'><b>(Correct)</b> Holden Caulfield, the hero of <u>The Catcher in the Rye</u>, is actually a hypocrite.</li>" + "</ul" + "</html>",
+	         "<html>" +
+	     	 "<b>IV. Do not use 'this' or 'which' to refer to a clause.</b>" +
+	     	  "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> In Dr. Seuss's <u>Horton Hears a Who</u>, Horton the elephant says that he hears a voice. <i>This</i> causes his friends to accuse him of being insane.</li>" 
+	     	         + "<li style='list-style-type:none'></li>"
+	     	         + "<li style='list-style-type: none'><b>(Correct)</b> In Dr. Seuss's <u>Horton Hears a Who</u>, Horton the elephant says that he hears a voice. <i>This claim</i> causes his friends to accuse him of being insane.</li>" + "</ul" + "</html>",
+	     	  "<html>" +
+	     	   "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
+	     	  	 "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
+	     	  	     	         + "<li style='list-style-type:none'></li>"
+	     	  	     	         + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>",
+     	     "<html>" +
+     	     	 "<b>VII. Avoid ambiguos pronouns.</b>" +
+     	     	  "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> Oedipus and the shepherd argue about whether <i>he</i> should know the truth.</li>" 
+     	     	         + "<li style='list-style-type:none'></li>"
+     	     	         + "<li style='list-style-type: none'><b>(Correct)</b> Oedipus and the shepherd argue about whether <i>Oedipus</i> should know the truth.</li>" + "</ul" + "</html>"
+	         };
   
   public BlueSheet() {
 
@@ -40,8 +66,8 @@ public class BlueSheet extends JFrame {
     p1.setLayout(new GridLayout(5, 1));
     p1.setBorder(new LineBorder(Color.BLACK));
     ButtonGroup bluesheets = new ButtonGroup();
-    JRadioButton one = new JRadioButton("first");
-    JRadioButton two = new JRadioButton("second");
+    JRadioButton one = new JRadioButton("III. Do not use 'this' or 'which' to refer to a clause.");
+    JRadioButton two = new JRadioButton("II. Write complete");
     JRadioButton three = new JRadioButton("second");
     JRadioButton four = new JRadioButton("second");
     JRadioButton five = new JRadioButton("second");
@@ -55,8 +81,8 @@ public class BlueSheet extends JFrame {
     p1.add(three);
     p1.add(four);
     p1.add(five);
+    p1.setBackground(Color.decode(blueColor));
    
-    
     one.addActionListener(new CustomActionListenerOne());
     two.addActionListener(new CustomActionListenerTwo());
     three.addActionListener(new CustomActionListenerThree());
@@ -65,8 +91,21 @@ public class BlueSheet extends JFrame {
     
     JPanel p2 = new JPanel();
     p2.setPreferredSize(new Dimension(200, 60));
-    p2.setLayout(new GridLayout(3, 5));
+    p2.setLayout(new GridBagLayout());
     p2.setBorder(new LineBorder(Color.BLACK));
+    p2.setBorder(new EmptyBorder(10, 10, 0, 0));
+    GridBagConstraints p2gbc = new GridBagConstraints();
+    p2gbc.gridx = 0;
+    p2gbc.gridy = 0;
+    p2gbc.gridwidth = 1;
+	p2gbc.gridheight = 1;
+	p2gbc.weightx = 1.0;
+	p2gbc.weighty = 1.0;
+	p2gbc.anchor = GridBagConstraints.NORTHWEST;
+	p2gbc.fill = GridBagConstraints.HORIZONTAL;
+    rule = new JLabel("");
+    p2.setBackground(Color.decode(blueColor));
+    p2.add(rule, p2gbc);
 
     Font font = new Font("Monospaced", Font.PLAIN, 12);
 
@@ -99,7 +138,7 @@ public class BlueSheet extends JFrame {
     next.setEnabled(false);
     p3.add(next);
     
-    sentence = new JTextArea(4, 20);
+    sentence = new JTextArea(8, 20);
     sentence.setFont(font);
     sentence.setLineWrap(true);
     sentence.setWrapStyleWord(true);
@@ -148,24 +187,28 @@ public class BlueSheet extends JFrame {
 	
   class CustomActionListenerOne implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.magenta);
+    	  String III = rules[0];
+    	  rule.setText(III);
       }
    }
   class CustomActionListenerTwo implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.blue);
+    	  String IV = rules[1];
+    	  rule.setText(IV);
       }
    }
   
   class CustomActionListenerThree implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.yellow);
+    	  String VI = rules[2];
+    	  rule.setText(VI);
       }
    }
   
   class CustomActionListenerFour implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.green);
+          String VII = rules[3];
+          rule.setText(VII);
       }
    }
   
