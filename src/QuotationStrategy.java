@@ -4,6 +4,7 @@
  */
 public class QuotationStrategy implements EssaySearchStrategy{
 
+	private static String rule = "hi";
 	@Override
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String searchFor = "\"";
@@ -24,9 +25,9 @@ public class QuotationStrategy implements EssaySearchStrategy{
 			
 	}
 
-	public String getRule() {
+	public static String getRule() {
 		// TODO Auto-generated method stub
-		return null;
+		return rule;
 	}
 
 }

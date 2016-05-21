@@ -6,7 +6,11 @@ import java.util.Iterator;
  */
 public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 
-	
+	private String rule = "<html>" +
+    "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
+  	 "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
+  	     	         + "<li style='list-style-type:none'></li>"
+  	     	         + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>";
 	
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String[] searchFor = {"who", "whom", "she", "her", "he", "him"};
@@ -33,7 +37,7 @@ public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 	//returns a String consisting of the pronoun case rule
 	public String getRule()
 	{
-		return "";
+		return rule;
 	}
 
 }
