@@ -19,10 +19,10 @@ import java.io.FileNotFoundException;
 
 public class MenuBar extends JMenuBar
 {
-  private BlueSheet bluesheet;
+  private BlueSheetChecker bluesheet;
   private JMenuItem openItem, saveItem, exitItem;
 
-  public MenuBar(BlueSheet crypto, ActionListener decodeAction)
+  public MenuBar(BlueSheetChecker crypto, ActionListener decodeAction)
   {
     bluesheet = crypto;
 

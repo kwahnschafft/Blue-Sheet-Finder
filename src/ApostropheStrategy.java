@@ -1,17 +1,18 @@
 import java.util.Iterator;
 
 /*
- *  Written By: Shannon Wing
+ *  Written By: Kiara
  * Date: 5/15/16
  */
-public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
+
+public class ApostropheStrategy implements EssaySearchStrategy {
 
 	private static String rule = "<html>" +
-    "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
-  	 "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
-     + "<li style='list-style-type:none'></li>"
-     + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>";
-	
+		    "<b>VIII. Use an apostrophe to indicate possession, <i>not</i> to indicate that a noun is plural. Distinguish properly between <i>its</i> and <i>it's</i>.</b>" +
+		  	 "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> Longbourn is Elizabeth <i>Bennets</i> home.</li>" 
+		     + "<li style='list-style-type:none'></li>"
+		     + "<li style='list-style-type: none'><b>(Correct)</b> Longbourn is Elizabeth <i>Bennet's</i> home.</li>" + "</ul" + "</html>";
+			
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String[] searchFor = {"who", "whom", "she", "her", "he", "him"};
 		
@@ -33,11 +34,8 @@ public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 		return returning;
 		
 	}
-
-	//returns a String consisting of the pronoun case rule
-	public static String getRule()
-	{
+	
+	public static String getRule() {
 		return rule;
 	}
-
 }
