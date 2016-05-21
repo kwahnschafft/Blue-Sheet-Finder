@@ -1,13 +1,23 @@
-import java.util.LinkedList;
+/** 
+ * Represents an essay and holds data structures of sentences and words
+ * @author Kelly Finke, Kiara Wahnschafft, Shannon Wing
+ */
 
 public class Essay {
 	//blank header node for sentences linked list
-	private static ListNode2 sentencesHead;
+	private ListNode2 sentencesHead;
+	private TreeMap wordsTree;
+	
+	// Constructs an essay
+	public Essay(String text){
+		parse(text);
+		addAllWords();
+	}
 	
 	/*
 	 * place all sentences of essay into a linked list of sentences (strings)
 	 */
-	public static void parse(String essay) {
+	public void parse(String essay) {
 		sentencesHead = new ListNode2(null);
 		sentencesHead.setNext(sentencesHead);
 		sentencesHead.setPrevious(sentencesHead);
@@ -35,7 +45,7 @@ public class Essay {
 	/*
 	 * adds all the words in all the sentences to the tree of words
 	 */
-	public static void addAllWords() {
+	public void addAllWords() {
 		ListNode2 node = sentencesHead.getNext();
 		while(node != sentencesHead) {
 			addSentenceWords((String)node.getValue());
@@ -44,7 +54,7 @@ public class Essay {
 	}
 	
 	//adds words from a single sentence to the tree of words
-	public static void addSentenceWords(String str){
+	public void addSentenceWords(String str){
 		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
 		String temp = "";
 		int i = 0;
@@ -58,16 +68,19 @@ public class Essay {
 				k++;
 			}
 			}
-			tree.put(temp, new WordLoc(str, i)); //add method of the tree
+			wordsTree.put(temp, new WordLoc(str, i)); //add method of the tree
 			i = k+1;
 			temp = "";
 		}
 	}
 	
-/*	public static void main(String[] args) {
-		parse("Heae ael fwe iajfiawpejf eof. AGwaelkj foiajfewjf ej feljakew;f. alsdfj.");
-		System.out.println(sentences);
-		addAllWords();
+	//returns the wordsTree
+	public TreeMap getTree(){
+		return wordsTree;
 	}
-	*/
+	
+	//returns header node of sentences
+	public ListNode2 getSentences(){
+		return sentencesHead;
+	}
 }
