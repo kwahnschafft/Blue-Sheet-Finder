@@ -4,11 +4,11 @@
  */
 public class FirstSecondPersonStrategy implements EssaySearchStrategy {
 
-	String rule = "<html>" +
-    "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
-  	"<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
+	private static String rule = "<html>" +
+    "<b>III. Do not use the first or second person ('I,' 'me,' 'my'; 'we,' 'us,' 'our'; 'you,' 'your') in critical writing.</b>" +
+  	"<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> <i>I think that</i> Holden Caulfield, the hero of <u>The Catcher in the Rye</u>, is actually a hypocrite.</li>" 
   	 + "<li style='list-style-type:none'></li>"
-  	 + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>";
+  	 + "<li style='list-style-type: none'><b>(Correct)</b> Holden Caulfield, the hero of <u>The Catcher in the Rye</u>, is actually a hypocrite.</li>" + "</ul" + "</html>";
 	     	  	     	         
 	@Override
 	public ListNode2[] findInEssay(TreeMap tree) {
@@ -33,9 +33,8 @@ public class FirstSecondPersonStrategy implements EssaySearchStrategy {
 		
 	}
 
-	public String getRule() {
-		// TODO Auto-generated method stub
-		return null;
+	public static String getRule() {
+		return rule;
 	}
 
 }
