@@ -6,7 +6,7 @@
 public class Essay {
 	//blank header node for sentences linked list
 	private ListNode2 sentencesHead;
-	private TreeMap wordsTree;
+	private TreeMap wordsTree = new TreeMap();
 	
 	// Constructs an essay
 	public Essay(String text){
@@ -62,11 +62,12 @@ public class Essay {
 			int k = i;
 			if(punctuation.indexOf(str.charAt(k)) >= 0){ //character is punctuation
 				temp = ""+str.charAt(k);
-			}else{
-			while(k < str.length() && str.charAt(k) != ' ' && punctuation.indexOf(str.charAt(k)) < 0) {
-				temp += str.charAt(k);
-				k++;
 			}
+			else{
+				while(k < str.length() && str.charAt(k) != ' ' && punctuation.indexOf(str.charAt(k)) < 0) {
+					temp += str.charAt(k);
+					k++;
+				}
 			}
 			wordsTree.put(temp, new WordLoc(str, i)); //add method of the tree
 			i = k+1;

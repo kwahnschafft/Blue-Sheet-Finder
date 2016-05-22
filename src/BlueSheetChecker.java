@@ -22,6 +22,10 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
@@ -178,7 +182,6 @@ public class BlueSheetChecker extends JFrame {
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
 	 c.setMinimumSize(c.getSize());
-	 
   }
   
   public void createStuff(String text) {
@@ -201,27 +204,33 @@ public class BlueSheetChecker extends JFrame {
   class CustomActionListenerFour implements ActionListener{
       public void actionPerformed(ActionEvent e) {
           rule.setText(ThisWhichStrategy.getRule());
-          ThisWhichStrategy thisWhich = new ThisWhichStrategy();
-          ListNode2[] array = thisWhich.findInEssay(tree);
-          displaySentences(array);
+          if(!essay.getText().equals("")) {
+        	  ThisWhichStrategy thisWhich = new ThisWhichStrategy();
+          	ListNode2[] array = thisWhich.findInEssay(tree);
+          	displaySentences(array);
+          }
       }
    }
   
   class CustomActionListenerSix implements ActionListener{
       public void actionPerformed(ActionEvent e) {
           rule.setText(AppropriateCasePronounsStrategy.getRule());
-          AppropriateCasePronounsStrategy appCase = new  AppropriateCasePronounsStrategy();
-          ListNode2[] array = appCase.findInEssay(tree);
-          displaySentences(array);
+          if(!essay.getText().equals("")) {
+        	  AppropriateCasePronounsStrategy appCase = new  AppropriateCasePronounsStrategy();
+        	  ListNode2[] array = appCase.findInEssay(tree);
+              displaySentences(array);
+          }
       }
    }
   
   class CustomActionListenerEight implements ActionListener{
       public void actionPerformed(ActionEvent e) {
     	  rule.setText(ApostropheStrategy.getRule());
-    	  ApostropheStrategy apostrophe = new  ApostropheStrategy();
-          ListNode2[] array = apostrophe.findInEssay(tree);
-          displaySentences(array);
+    	  if(!essay.getText().equals("")) {
+    		  ApostropheStrategy apostrophe = new  ApostropheStrategy();
+    		  ListNode2[] array = apostrophe.findInEssay(tree);
+              displaySentences(array);
+    	  }
       }
    }
   class CustomActionListenerNine implements ActionListener{
@@ -237,16 +246,34 @@ public class BlueSheetChecker extends JFrame {
   class CustomActionListenerThirteen implements ActionListener{
       public void actionPerformed(ActionEvent e) {
           rule.setText(QuotationStrategy.getRule());
-          QuotationStrategy quote = new QuotationStrategy();
-          ListNode2[] array = quote.findInEssay(tree);
-          displaySentences(array);
+          if(!essay.getText().equals("")) {
+	          QuotationStrategy quote = new QuotationStrategy();
+	          ListNode2[] array = quote.findInEssay(tree);
+	          displaySentences(array);
+          }
       }
    }
   
   public void displaySentences(ListNode2[] array) {
 	  for(int i = 0; i < array.length; i++) {
 		  ListNode2 node = array[i];
-		  sentence.setText((String)(((WordLoc)node.getValue()).getSentence().getValue()));
+		  if(node != null && !(node.getValue() == null)) {
+			  WordLoc sentenceLoc = (WordLoc)(node.getValue());
+			  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
+			  sentence.setText(displayedSentence);
+			  Highlighter highlighter = sentence.getHighlighter();
+		      int start = sentenceLoc.getWordIndex();
+		      int end = start;
+		      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
+		    	  end++;
+		      }
+		      try {
+				highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  }
 	  }
   }
   
