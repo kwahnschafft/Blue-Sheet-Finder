@@ -35,7 +35,7 @@ public class BlueSheetChecker extends JFrame {
   private JTextArea essay;
   private JTextArea sentence;
   private JLabel rule;
-  private TreeMap tree = Essay.getTree();
+  private TreeMap tree;
   String blueColor = "#" + "B8DFEF";
   
   public BlueSheetChecker() {
@@ -180,6 +180,11 @@ public class BlueSheetChecker extends JFrame {
 	 c.setMinimumSize(c.getSize());
 	 
   }
+  
+  public void createStuff(String text) {
+	  Essay essay = new Essay(text);
+	  tree = essay.getTree();
+  }
 	
   class CustomActionListenerOne implements ActionListener{
       public void actionPerformed(ActionEvent e) {
@@ -241,6 +246,7 @@ public class BlueSheetChecker extends JFrame {
   public void displaySentences(ListNode2[] array) {
 	  for(int i = 0; i < array.length; i++) {
 		  ListNode2 node = array[i];
+		  sentence.setText((String)(((WordLoc)node.getValue()).getSentence().getValue()));
 	  }
   }
   

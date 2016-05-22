@@ -117,8 +117,8 @@ public class MenuBar extends JMenuBar
         }
 
         String text = buffer.toString();
+        bluesheet.createStuff(text);
         bluesheet.setEssayText(text);
-        Essay.parse(text); //create the tree map of words in the essay
       }
       else if (m == saveItem)
       {
