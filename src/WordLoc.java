@@ -29,6 +29,11 @@ public class WordLoc{
 		return sentence;
 	}
 	
+	//returns string in sentence ListNode
+	public String getSentenceString(){
+		return (String)sentence.getValue();
+	}
+	
 	//returns index of word in sentence
 	public int getWordIndex(){
 		return index;
