@@ -19,10 +19,10 @@ import java.io.FileNotFoundException;
 
 public class MenuBar extends JMenuBar
 {
-  private BlueSheet bluesheet;
+  private BlueSheetChecker bluesheet;
   private JMenuItem openItem, saveItem, exitItem;
 
-  public MenuBar(BlueSheet crypto, ActionListener decodeAction)
+  public MenuBar(BlueSheetChecker crypto, ActionListener decodeAction)
   {
     bluesheet = crypto;
 
@@ -117,8 +117,8 @@ public class MenuBar extends JMenuBar
         }
 
         String text = buffer.toString();
+        bluesheet.createStuff(text);
         bluesheet.setEssayText(text);
-        Essay.parse(text); //create the tree map of words in the essay
       }
       else if (m == saveItem)
       {

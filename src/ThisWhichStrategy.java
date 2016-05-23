@@ -4,12 +4,12 @@
  */
 public class ThisWhichStrategy implements EssaySearchStrategy {
 
-	private String rule = "<html>" +
+	private static String rule = "<html>" +
 	 "<b>IV. Do not use 'this' or 'which' to refer to a clause.</b>" +
 	  "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> In Dr. Seuss's <u>Horton Hears a Who</u>, Horton the elephant says that he hears a voice. <i>This</i> causes his friends to accuse him of being insane.</li>" 
 	         + "<li style='list-style-type:none'></li>"
 	         + "<li style='list-style-type: none'><b>(Correct)</b> In Dr. Seuss's <u>Horton Hears a Who</u>, Horton the elephant says that he hears a voice. <i>This claim</i> causes his friends to accuse him of being insane.</li>" + "</ul" + "</html>";
-	@Override
+	
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String[] searchFor = {"this", "which"};
 			
@@ -32,7 +32,7 @@ public class ThisWhichStrategy implements EssaySearchStrategy {
 		
 	}
 
-	public String getRule() {
+	public static String getRule() {
 		return rule;
 	}
 

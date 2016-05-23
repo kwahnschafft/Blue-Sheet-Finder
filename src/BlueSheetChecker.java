@@ -18,9 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
@@ -29,27 +34,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 
-public class BlueSheet extends JFrame {
+public class BlueSheetChecker extends JFrame {
 
   private JTextArea essay;
   private JTextArea sentence;
   private JLabel rule;
+  private TreeMap tree;
   String blueColor = "#" + "B8DFEF";
-  String[] rules = 
-	       
-	     	  "<html>" +
-	     	   "<b>VI. Put pronouns in the appropriate case (subjective, objective, possessive).</b>" +
-	     	  	 "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> She is the last person <i>who</i> I would suspect.</li>" 
-	     	  	     	         + "<li style='list-style-type:none'></li>"
-	     	  	     	         + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>",
-     	     "<html>" +
-     	     	 "<b>VII. Avoid ambiguos pronouns.</b>" +
-     	     	  "<ul>" + "<li style='list-style-type: none'><b>(Incorrect)</b> Oedipus and the shepherd argue about whether <i>he</i> should know the truth.</li>" 
-     	     	         + "<li style='list-style-type:none'></li>"
-     	     	         + "<li style='list-style-type: none'><b>(Correct)</b> Oedipus and the shepherd argue about whether <i>Oedipus</i> should know the truth.</li>" + "</ul" + "</html>"
-	         };
   
-  public BlueSheet() {
+  public BlueSheetChecker() {
 
     setJMenuBar(new MenuBar(this, new DecodeAction()));
 
@@ -62,7 +55,6 @@ public class BlueSheet extends JFrame {
     JRadioButton three = new JRadioButton("III. First or Second Person");
     JRadioButton four = new JRadioButton("IV. Vague 'this' or 'which'");
     JRadioButton six = new JRadioButton("VI. Pronoun Case");
-    JRadioButton seven = new JRadioButton("VII. Ambiguous Pronoun");
     JRadioButton eight = new JRadioButton("VIII. Apostrophe Problem");
     JRadioButton nine = new JRadioButton("IX. Avoid passive voice.");
     JRadioButton twelve = new JRadioButton("XII. Progressive Tense");
@@ -72,7 +64,6 @@ public class BlueSheet extends JFrame {
     bluesheets.add(three);
     bluesheets.add(four);
     bluesheets.add(six);
-    bluesheets.add(seven);
     bluesheets.add(eight);
     bluesheets.add(nine);
     bluesheets.add(twelve);
@@ -82,7 +73,6 @@ public class BlueSheet extends JFrame {
     p1.add(three);
     p1.add(four);
     p1.add(six);
-    p1.add(seven);
     p1.add(eight);
     p1.add(nine);
     p1.add(twelve);
@@ -93,17 +83,21 @@ public class BlueSheet extends JFrame {
     three.addActionListener(new CustomActionListenerThree());
     four.addActionListener(new CustomActionListenerFour());
     six.addActionListener(new CustomActionListenerSix());
-    seven.addActionListener(new CustomActionListenerSeven());
     eight.addActionListener(new CustomActionListenerEight());
     nine.addActionListener(new CustomActionListenerNine());
     twelve.addActionListener(new CustomActionListenerTwelve());
     thirteen.addActionListener(new CustomActionListenerThirteen());
     
+    rule = new JLabel();
+    rule.setVerticalAlignment(JLabel.TOP);
+    rule.setPreferredSize(new Dimension(100,350));
+    JScrollPane scroller = new JScrollPane(rule, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    rule.setOpaque(true);
+    rule.setBackground(Color.decode(blueColor));
     JPanel p2 = new JPanel();
     p2.setPreferredSize(new Dimension(200, 60));
     p2.setLayout(new GridBagLayout());
     p2.setBorder(new LineBorder(Color.BLACK));
-    p2.setBorder(new EmptyBorder(10, 10, 0, 0));
     GridBagConstraints p2gbc = new GridBagConstraints();
     p2gbc.gridx = 0;
     p2gbc.gridy = 0;
@@ -112,11 +106,8 @@ public class BlueSheet extends JFrame {
 	p2gbc.weightx = 1.0;
 	p2gbc.weighty = 1.0;
 	p2gbc.anchor = GridBagConstraints.NORTHWEST;
-	p2gbc.fill = GridBagConstraints.HORIZONTAL;
-    rule = new JLabel("");
-    p2.setBackground(Color.decode(blueColor));
-    p2.add(rule, p2gbc);
-
+	p2gbc.fill = GridBagConstraints.BOTH;
+    p2.add(scroller, p2gbc);
     Font font = new Font("Monospaced", Font.PLAIN, 12);
 
     essay = new JTextArea(20, 50);
@@ -154,7 +145,6 @@ public class BlueSheet extends JFrame {
     sentence.setWrapStyleWord(true);
     JScrollPane sentenceScrollPane = new JScrollPane(sentence);
     sentenceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-  
 	  
 	 JPanel panel = new JPanel(new GridBagLayout());
 	 GridBagConstraints gbc = new GridBagConstraints();
@@ -192,69 +182,100 @@ public class BlueSheet extends JFrame {
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
 	 c.setMinimumSize(c.getSize());
-	 
+  }
+  
+  public void createStuff(String text) {
+	  Essay essay = new Essay(text);
+	  tree = essay.getTree();
   }
 	
   class CustomActionListenerOne implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-    	  String III = rules[0];
-    	  rule.setText(III);
+    	  rule.setText(PastTenseStrategy.getRule());
       }
    }
   
   class CustomActionListenerThree implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-    	  String VI = rules[2];
-    	  rule.setText(VI);
+    	  rule.setText(FirstSecondPersonStrategy.getRule());
       }
    }
   
   class CustomActionListenerFour implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          String VII = rules[3];
-          rule.setText(VII);
-      }
-   }
-  
-  class CustomActionListenerFive implements ActionListener{
-      public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+          rule.setText(ThisWhichStrategy.getRule());
+          if(!essay.getText().equals("")) {
+        	  ThisWhichStrategy thisWhich = new ThisWhichStrategy();
+          	ListNode2[] array = thisWhich.findInEssay(tree);
+          	displaySentences(array);
+          }
       }
    }
   
   class CustomActionListenerSix implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+          rule.setText(AppropriateCasePronounsStrategy.getRule());
+          if(!essay.getText().equals("")) {
+        	  AppropriateCasePronounsStrategy appCase = new  AppropriateCasePronounsStrategy();
+        	  ListNode2[] array = appCase.findInEssay(tree);
+              displaySentences(array);
+          }
       }
    }
   
-  class CustomActionListenerSeven implements ActionListener{
-      public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
-      }
-   }
   class CustomActionListenerEight implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+    	  rule.setText(ApostropheStrategy.getRule());
+    	  if(!essay.getText().equals("")) {
+    		  ApostropheStrategy apostrophe = new  ApostropheStrategy();
+    		  ListNode2[] array = apostrophe.findInEssay(tree);
+              displaySentences(array);
+    	  }
       }
    }
   class CustomActionListenerNine implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+          rule.setText(PassiveVoiceStrategy.getRule());
       }
    }
   class CustomActionListenerTwelve implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+    	  rule.setText(ProgressiveTenseStrategy.getRule());
       }
    }
   class CustomActionListenerThirteen implements ActionListener{
       public void actionPerformed(ActionEvent e) {
-          essay.setBackground(Color.orange);
+          rule.setText(QuotationStrategy.getRule());
+          if(!essay.getText().equals("")) {
+	          QuotationStrategy quote = new QuotationStrategy();
+	          ListNode2[] array = quote.findInEssay(tree);
+	          displaySentences(array);
+          }
       }
    }
   
-  
+  public void displaySentences(ListNode2[] array) {
+	  for(int i = 0; i < array.length; i++) {
+		  ListNode2 node = array[i];
+		  if(node != null && !(node.getValue() == null)) {
+			  WordLoc sentenceLoc = (WordLoc)(node.getValue());
+			  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
+			  sentence.setText(displayedSentence);
+			  Highlighter highlighter = sentence.getHighlighter();
+		      int start = sentenceLoc.getWordIndex();
+		      int end = start;
+		      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
+		    	  end++;
+		      }
+		      try {
+				highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  }
+	  }
+  }
   
   public String getEssayText() {
     return essay.getText();
@@ -301,7 +322,7 @@ public class BlueSheet extends JFrame {
 
   public static void main(String[] args)
   {
-    BlueSheet window = new BlueSheet();
+    BlueSheetChecker window = new BlueSheetChecker();
     window.setDefaultCloseOperation(EXIT_ON_CLOSE);
     window.pack();
     window.setVisible(true);
