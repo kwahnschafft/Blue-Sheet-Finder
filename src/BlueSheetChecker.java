@@ -292,12 +292,35 @@ public class BlueSheetChecker extends JFrame {
   }
   
   public void createList(ListNode2[] array) {
-	  for(int i = 0; i < array.length; i++) {
-		  ListNode2 node = array[i];
-		  if(node != null && !(node.getValue() == null) && start == null) {
-			  start = node;
-		  }			  
+	  int i = 0;
+	  while(i < array.length && array[i] != null){ //find first linked list that is populated
+		  i ++;
 	  }
+	  if(i >= array.length){
+		  //no populated lists
+		  //do nothing?
+	  }else{
+		  ListNode2 headHead = array[i - 1]; //head of final loop
+		  while(i < array.length){ //add other lists
+			  if(array[i] != null){//add list to headHead
+				  addLinkedLists(array[i], headHead);
+			  }
+			  i ++;
+		  }
+		  //make non-circular
+		  headHead.getPrevious().setNext(null);
+		  headHead.setPrevious(null);
+	  }
+  }
+  
+  //combines two doubly linked circular lists
+  private void addLinkedLists(ListNode2 subList, ListNode2 bigList){
+	  ListNode2 subLast = subList.getPrevious();
+	  ListNode2 bigLast = bigList.getPrevious();
+	  bigList.setPrevious(subLast);
+	  subLast.setNext(bigList);
+	  bigLast.setNext(subList);
+	  subList.setPrevious(bigLast);
   }
 
   public void displaySentence(ListNode2 node) {
