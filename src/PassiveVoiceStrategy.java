@@ -16,7 +16,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 		
 	}
 
-	public static String getRule() {
+	public String getRule() {
 		return rule;
 	}
 
