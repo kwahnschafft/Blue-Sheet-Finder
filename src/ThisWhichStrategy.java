@@ -32,7 +32,7 @@ public class ThisWhichStrategy implements EssaySearchStrategy {
 		
 	}
 
-	public static String getRule() {
+	public String getRule() {
 		return rule;
 	}
 

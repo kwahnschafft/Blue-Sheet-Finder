@@ -35,7 +35,7 @@ public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 	}
 
 	//returns a String consisting of the pronoun case rule
-	public static String getRule()
+	public String getRule()
 	{
 		return rule;
 	}
