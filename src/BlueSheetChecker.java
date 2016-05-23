@@ -40,7 +40,7 @@ public class BlueSheetChecker extends JFrame {
   private JTextArea sentence;
   private JLabel rule;
   private TreeMap tree;
-  private ListNode2 current;
+  private ListNode2 start;
   String blueColor = "#" + "B8DFEF";
   
   public BlueSheetChecker() {
@@ -261,13 +261,14 @@ public class BlueSheetChecker extends JFrame {
   
   class CustomActionListenerCorrect implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
-		  if(current != null)
-			  current = current.getNext();
+		  if(start != null)
+			  start = start.getNext();
       }
    }
   
   class CustomActionListenerChange implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  
       }
    }
   class CustomActionListenerPrevious implements ActionListener{
@@ -283,10 +284,19 @@ public class BlueSheetChecker extends JFrame {
 	  for(int i = 0; i < array.length; i++) {
 		  ListNode2 node = array[i];
 		  if(node != null && !(node.getValue() == null)) {
-			  current = node;
-			  displaySentence(current);
+			  start = node;
+			  createList(array);
 			  return;
 		  }
+	  }
+  }
+  
+  public void createList(ListNode2[] array) {
+	  for(int i = 0; i < array.length; i++) {
+		  ListNode2 node = array[i];
+		  if(node != null && !(node.getValue() == null) && start == null) {
+			  start = node;
+		  }			  
 	  }
   }
 
