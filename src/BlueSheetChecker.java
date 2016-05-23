@@ -40,6 +40,7 @@ public class BlueSheetChecker extends JFrame {
   private JTextArea sentence;
   private JLabel rule;
   private TreeMap tree;
+  private ListNode2 current;
   String blueColor = "#" + "B8DFEF";
   
   public BlueSheetChecker() {
@@ -121,8 +122,10 @@ public class BlueSheetChecker extends JFrame {
     changes.setPreferredSize(new Dimension(100,50));
     changes.setLayout(new GridLayout(2,1));
     JButton correct = new JButton("Correct");
+    correct.addActionListener(new CustomActionListenerCorrect());
     correct.setEnabled(false);
     JButton change = new JButton("Change");
+    correct.addActionListener(new CustomActionListenerChange());
     change.setEnabled(false);
     changes.add(correct);
     changes.add(change);
@@ -132,10 +135,12 @@ public class BlueSheetChecker extends JFrame {
     p3.setLayout(new GridLayout(1,3));
     p3.setBorder(new LineBorder(Color.BLACK));
     JButton previous = new JButton("Previous");
+    correct.addActionListener(new CustomActionListenerPrevious());
     previous.setEnabled(false);
     p3.add(previous);
     p3.add(changes);
     JButton next = new JButton("Next");
+    correct.addActionListener(new CustomActionListenerNext());
     next.setEnabled(false);
     p3.add(next);
     
@@ -254,26 +259,53 @@ public class BlueSheetChecker extends JFrame {
       }
    }
   
+  class CustomActionListenerCorrect implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  if(current != null)
+			  current = current.getNext();
+      }
+   }
+  
+  class CustomActionListenerChange implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+      }
+   }
+  class CustomActionListenerPrevious implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+      }
+   }
+  class CustomActionListenerNext implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+      }
+   }
+  
   public void displaySentences(ListNode2[] array) {
 	  for(int i = 0; i < array.length; i++) {
 		  ListNode2 node = array[i];
 		  if(node != null && !(node.getValue() == null)) {
-			  WordLoc sentenceLoc = (WordLoc)(node.getValue());
-			  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
-			  sentence.setText(displayedSentence);
-			  Highlighter highlighter = sentence.getHighlighter();
-		      int start = sentenceLoc.getWordIndex();
-		      int end = start;
-		      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
-		    	  end++;
-		      }
-		      try {
-				highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			  current = node;
+			  displaySentence(current);
+			  return;
 		  }
+	  }
+  }
+
+  public void displaySentence(ListNode2 node) {
+	  WordLoc sentenceLoc = (WordLoc)(node.getValue());
+	  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
+	  sentence.setText(displayedSentence);
+	  Highlighter highlighter = sentence.getHighlighter();
+      int start = sentenceLoc.getWordIndex();
+      int end = start;
+      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
+    	  end++;
+      }
+      try {
+		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
+	  } 
+      catch (BadLocationException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	  }
   }
   
