@@ -16,29 +16,7 @@ public class Databases {
 	//downloads and stores all of the words from a pdf into an array
 	public Databases ()
 	{
-		String filesname = "PastTenseVerbs.doc";
-        POIFSFileSystem fs = null;
-        try
-        {
-                  fs = new POIFSFileSystem(new FileInputStream(filesname; 
-                  //Couldn't close the braces at the end as my site did not allow it to close
-
-                  HWPFDocument doc = new HWPFDocument(fs);
-
-          WordExtractor we = new WordExtractor(doc);
-
-          String[] paragraphs = we.getParagraphText();
-
-          System.out.println( "Word Document has " + paragraphs.length + " paragraphs" );
-          for( int i=0; i<paragraphs .length; i++ ) {
-            paragraphs[i] = paragraphs[i].replaceAll("\\cM?\r?\n","");
-                    System.out.println( "Length:"+paragraphs[ i ].length());
-          }
-                }
-                catch(Exception e) { 
-                    e.printStackTrace();
-                }
-         }
+		
 		
 	}
 	
