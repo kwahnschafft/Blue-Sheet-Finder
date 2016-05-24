@@ -323,6 +323,8 @@ public class BlueSheetChecker extends JFrame {
   }
   class CustomActionListenerCorrect implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
+		  ListNode2 nodeBeingRemoved = current;
+		  next.doClick();
     	  essayEssay.removeCorrected(current);
       }
   }
