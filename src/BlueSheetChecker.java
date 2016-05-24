@@ -325,7 +325,8 @@ public class BlueSheetChecker extends JFrame {
 	  public void actionPerformed(ActionEvent e) {
 		  ListNode2 nodeBeingRemoved = current;
 		  next.doClick();
-    	  essayEssay.removeCorrected(current);
+    	  essayEssay.removeCorrected(nodeBeingRemoved);
+    	  checkButtons();
       }
   }
   class CustomDocumentListenerChangedSentence implements DocumentListener{
@@ -365,7 +366,10 @@ public class BlueSheetChecker extends JFrame {
 		  change.setEnabled(false);
 		  System.out.println("prev button pressed");
 		  displaySentence(current);
-		  next.setEnabled(true);
+		  if(current.getNext() == null)
+			  next.setEnabled(false);
+		  else
+			  next.setEnabled(true);
 		  if(current.getPrevious() == null)
 			  previous.setEnabled(false);
       }
@@ -378,12 +382,21 @@ public class BlueSheetChecker extends JFrame {
 		  displaySentence(current);
 		  correct.setEnabled(true);
 		  change.setEnabled(false);
-		  previous.setEnabled(true);
+		  if(current.getPrevious() == null)
+			  previous.setEnabled(false);
+		  else
+			  previous.setEnabled(true);
 		  if(current.getNext() == null)
 			  next.setEnabled(false);
       }
    }
   
+  public void checkButtons() {
+	  if(current != null && current.getPrevious() == null)
+		  previous.setEnabled(false);
+	  if(current != null && current.getNext() == null)
+		  next.setEnabled(false);
+  }
   public void displaySentences(ListNode2[] array) {
 	  next.setEnabled(false);
 	  previous.setEnabled(false);

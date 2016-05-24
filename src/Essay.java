@@ -156,8 +156,10 @@ public class Essay {
 				if(node.getNext() == node){ //only node
 					wordsTree.remove(wloc.getWord());
 				}else { //disconnect node from list
-					node.getPrevious().setNext(node.getNext());
-					node.getNext().setPrevious(node.getPrevious());
+					if(node.getPrevious() != null)
+						node.getPrevious().setNext(node.getNext());
+					if(node.getNext() != null)
+						node.getNext().setPrevious(node.getPrevious());
 					node.setNext(null);
 					node.setPrevious(null);
 				}
