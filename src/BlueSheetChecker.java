@@ -43,7 +43,7 @@ public class BlueSheetChecker extends JFrame {
   private ListNode2 current;
   private JButton next;
   private JButton previous;
-  String blueColor = "#" + "B8DFEF";
+  String blueColor = "#B8DFEF";
   
   public BlueSheetChecker() {
 
@@ -137,14 +137,18 @@ public class BlueSheetChecker extends JFrame {
     p3.setLayout(new GridLayout(1,3));
     p3.setBorder(new LineBorder(Color.BLACK));
     previous = new JButton("Previous");
-    correct.addActionListener(new CustomActionListenerPrevious());
+    previous.addActionListener(new CustomActionListenerPrevious());
     previous.setEnabled(false);
     p3.add(previous);
     p3.add(changes);
     next = new JButton("Next");
-    correct.addActionListener(new CustomActionListenerNext());
+    next.addActionListener(new CustomActionListenerNext());
     next.setEnabled(false);
     p3.add(next);
+    
+    JPanel p4 = new JPanel();
+    p4.setPreferredSize(new Dimension(200, 75));
+    p4.setBorder(new LineBorder(Color.BLACK));
     
     sentence = new JTextArea(8, 20);
     sentence.setFont(font);
@@ -185,6 +189,13 @@ public class BlueSheetChecker extends JFrame {
 	 gbc.gridy = 3;
 	 gbc.gridheight = 1;
 	 panel.add(p3, gbc);
+	 
+	 gbc.gridx = 0;
+	 gbc.gridy = 4;
+	 gbc.gridheight = 1;
+	 gbc.gridwidth = 2;
+	 panel.add(p4, gbc);
+	 
 	
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
@@ -284,6 +295,7 @@ public class BlueSheetChecker extends JFrame {
 	  public void actionPerformed(ActionEvent e) {
 		  current = current.getPrevious();
 		  displaySentence(current);
+		  next.setEnabled(true);
 		  if(current.getPrevious() == null)
 			  previous.setEnabled(false);
       }
@@ -292,17 +304,17 @@ public class BlueSheetChecker extends JFrame {
 	  public void actionPerformed(ActionEvent e) {
 		  current = current.getNext();
 		  displaySentence(current);
+		  previous.setEnabled(true);
 		  if(current.getNext() == null)
 			  next.setEnabled(false);
       }
    }
   
   public void displaySentences(ListNode2[] array) {
-	  System.out.println("displaySetnenceSCall");
-	  System.out.println(array);
+	  next.setEnabled(false);
+	  previous.setEnabled(false);
 	  createList(array);
 	  if(current != null) {
-		  System.out.println("hot dog");
 		  displaySentence(current);
 		  if(current.getNext() != null)
 			  next.setEnabled(true);
@@ -316,12 +328,11 @@ public class BlueSheetChecker extends JFrame {
 		  i++;
 	  }
 	  if(i >= array.length){
-		  System.out.println("hi");
 		  //no populated lists
 		  return;
 	  }
 	  else{
-		  ListNode2 headHead = array[i - 1]; //head of final loop
+		  ListNode2 headHead = array[i]; //head of final loop
 		  while(i < array.length){ //add other lists
 			  if(array[i] != null){//add list to headHead
 				  addLinkedLists(array[i], headHead);
@@ -333,21 +344,23 @@ public class BlueSheetChecker extends JFrame {
 		  headHead.setPrevious(null);
 		  current = headHead;
 	  }
-	  System.out.println((String)((((WordLoc)(current.getValue())).getSentence().getValue())));
   }
   
   //combines two doubly linked circular lists
   private void addLinkedLists(ListNode2 subList, ListNode2 bigList){
 	  ListNode2 subLast = subList.getPrevious();
 	  ListNode2 bigLast = bigList.getPrevious();
-	  bigList.setPrevious(subLast);
-	  subLast.setNext(bigList);
-	  bigLast.setNext(subList);
-	  subList.setPrevious(bigLast);
+	  if(bigList != null) 
+		  bigList.setPrevious(subLast);
+	  if(subLast != null)
+		  subLast.setNext(bigList);
+	  if(bigLast != null)
+		  bigLast.setNext(subList);
+	  if(subList != null)
+		  subList.setPrevious(bigLast);
   }
 
   public void displaySentence(ListNode2 node) {
-	  System.out.println("displaySetnenceCall");
 	  WordLoc sentenceLoc = (WordLoc)(node.getValue());
 	  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
 	  sentence.setText(displayedSentence);
@@ -418,4 +431,3 @@ public class BlueSheetChecker extends JFrame {
     window.setMinimumSize(window.getSize());
   }
 }
-
