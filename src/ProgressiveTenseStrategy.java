@@ -20,12 +20,12 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 		    //search tree for words ending in ing
 			for (String word: tree.keySet())
 			{
-				//when word ending in ing is found add head of LinkedList
+				//when word ending in ing is found 
 				//check to make sure it is progressive using database and add
 				//the ListNode2 head to the arrayList
 			    if (word.substring(word.length()-3, word.length()).compareTo(searchFor) == 0)
 			    {
-			    	if (getIngNotProgressiveTenseD().contains(word) == false)
+			    	if (Databases.getIngNotProgressiveTenseD().contains(word) == false)
 			        	returning.add(tree.get(word));  	  
 			    }
 			}

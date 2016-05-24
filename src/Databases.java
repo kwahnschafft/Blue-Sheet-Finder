@@ -1,4 +1,9 @@
 /*
+ * Singleton class of all databases needed for the Database Search Strategies
+ * 
+ * downloads and stores all of the words from txt files into
+ * hashtables for easy access
+ * 
  * Written By: Shannon Wing
  * Date: 5/19/16
  */
@@ -10,107 +15,132 @@ import java.util.Scanner;
 public class Databases {
 	
 	//check about sizing for each
-	Hashtable<Integer, String> ingNotProgressiveTense;
-	Hashtable<Integer, String> pastTense;
-	Hashtable<Integer, String> passiveVoice;
+	private static Hashtable<Integer, String> ingNotProgressiveTenseD;
+	private static Hashtable<Integer, String> edNotPastTenseD;
+	private static Hashtable<Integer, String> passiveVoiceD;
+	private static Hashtable<Integer, String> irregularPastTenseD;
 	
-
-	
-	//downloads and stores all of the words from a txt files into
-	// hashtables for easy access
-	public Databases ()
+	public static Hashtable<Integer, String> getEdNotPastTenseD()
 	{
+		if (edNotPastTenseD == null)
+		{
+		   File file = new File("EdWordsNotPastTense.txt");
+	       Scanner input = null;
+	       try
+	       {
+	           input = new Scanner(file);
+	       }
+	        
+	       catch (FileNotFoundException ex) //returns error if input.txt is not found
+	       {
+	         System.out.println("*** Cannot open file ***");
+	         System.exit(1); //quit the program
+	       }
+	     
+	       while(input.hasNextLine())
+	       {
+	     	  try {
+		        	String in = input.nextLine();
+		        	edNotPastTenseD.put(in.hashCode(), in);
+	 		  }
+	     	  catch(Exception e) {
+	     		
+	     	  }
+	       }
+		}
+		return edNotPastTenseD;
+	}
+	
+	public static Hashtable<Integer, String> getIrregularPastTenseD()
+	{
+		if (irregularPastTenseD == null)
+		{
+		   File file = new File("IrregularPastTenseVerbs.txt");
+	       Scanner input = null;
+	       try
+	       {
+	           input = new Scanner(file);
+	       }
+	        
+	       catch (FileNotFoundException ex) //returns error if input.txt is not found
+	       {
+	         System.out.println("*** Cannot open file ***");
+	         System.exit(1); //quit the program
+	       }
+	     
+	       while(input.hasNextLine())
+	       {
+	     	  try {
+		        	String in = input.nextLine();
+		        	irregularPastTenseD.put(in.hashCode(), in);
+	 		  }
+	     	  catch(Exception e) {
+	     		
+	     	  }
+	       }
+		}
+		return irregularPastTenseD;
+	}
 		
-	   File file = new File("PastTenseVerbs.txt");
-       Scanner input = null;
-       try
-       {
-           input = new Scanner(file);
-       }
-        
-       catch (FileNotFoundException ex) //returns error if input.txt is not found
-       {
-         System.out.println("*** Cannot open file ***");
-         System.exit(1); //quit the program
-       }
-     
-       while(input.hasNextLine())
-       {
-     	  try {
-	        	String in = input.nextLine();
-	        	pastTense.put(in.hashCode(), in);
- 		  }
-     	  catch(Exception e) {
-     		
-     	  }
-       }
-       
-       file = new File("IngWordsNotProgressiveTense.txt");
-       input = null;
-       try
-       {
-           input = new Scanner(file);
-       }
-        
-       catch (FileNotFoundException ex) //returns error if input.txt is not found
-       {
-         System.out.println("*** Cannot open file ***");
-         System.exit(1); //quit the program
-       }
-     
-       while(input.hasNextLine())
-       {
-     	  try {
-	        	String in = input.nextLine();
-	        	ingNotProgressiveTense.put(in.hashCode(), in);
- 		  }
-     	  catch(Exception e) {
-     		
-     	  }
-       }
-       
-       file = new File("PassiveVoiceVerbs.txt");
-       input = null;
-       try
-       {
-           input = new Scanner(file);
-       }
-        
-       catch (FileNotFoundException ex) //returns error if input.txt is not found
-       {
-         System.out.println("*** Cannot open file ***");
-         System.exit(1); //quit the program
-       }
-     
-       while(input.hasNextLine())
-       {
-     	  try {
-	        	String in = input.nextLine();
-	        	passiveVoice.put(in.hashCode(), in);
- 		  }
-     	  catch(Exception e) {
-     		
-     	  }
-       }
-			
-	}
-	
-	//returns database array of most common progressive tense words
-	public Hashtable<Integer,String> getPastTenseD()
+	public static Hashtable<Integer, String> getIngNotProgressiveTenseD()
 	{
-		return pastTense;
-	}
+		if (ingNotProgressiveTenseD == null)
+		{
+		   File file = new File("IngWordsNotProgressiveTense.txt");
+		   Scanner input = null;
+		   try
+		   {
+		       input = new Scanner(file);
+		   }
+		    
+		   catch (FileNotFoundException ex) //returns error if input.txt is not found
+		   {
+		     System.out.println("*** Cannot open file ***");
+		     System.exit(1); //quit the program
+		   }
+		 
+		   while(input.hasNextLine())
+		   {
+		 	  try {
+		        	String in = input.nextLine();
+		        	ingNotProgressiveTenseD.put(in.hashCode(), in);
+			  }
+		 	  catch(Exception e) {
+		 		
+		 	  }
+		   }
+		}
+		return ingNotProgressiveTenseD;
+	} 
 	
-	//returns database array of most common past tense verbs
-	public Hashtable<Integer, String> getIngNotProgressiveTenseD()
+	public static Hashtable<Integer, String> getPassiveVoiceD()
 	{
-		return ingNotProgressiveTense;
-	}
-	
-	//returns database array of most common passive voice verbs
-	public Hashtable<Integer, String> getPassiveVoiceD()
-	{
-		return passiveVoice;
-	}
-
+		if (passiveVoiceD == null)
+		{
+	      File file = new File("PassiveVoiceVerbs.txt");
+	      Scanner input = null;
+	       try
+	       {
+	           input = new Scanner(file);
+	       }
+	        
+	       catch (FileNotFoundException ex) //returns error if input.txt is not found
+	       {
+	         System.out.println("*** Cannot open file ***");
+	         System.exit(1); //quit the program
+	       }
+	     
+	       while(input.hasNextLine())
+	       {
+	     	  try {
+		        	String in = input.nextLine();
+		        	passiveVoiceD.put(in.hashCode(), in);
+	 		  }
+	     	  catch(Exception e) {
+	     		
+	     	  }
+	       }
+	    }
+		 return passiveVoiceD;
+   }
 }
