@@ -41,6 +41,8 @@ public class BlueSheetChecker extends JFrame {
   private JLabel rule;
   private TreeMap tree;
   private ListNode2 current;
+  private JButton next;
+  private JButton previous;
   String blueColor = "#" + "B8DFEF";
   
   public BlueSheetChecker() {
@@ -134,12 +136,12 @@ public class BlueSheetChecker extends JFrame {
     p3.setPreferredSize(new Dimension(100, 50));
     p3.setLayout(new GridLayout(1,3));
     p3.setBorder(new LineBorder(Color.BLACK));
-    JButton previous = new JButton("Previous");
+    previous = new JButton("Previous");
     correct.addActionListener(new CustomActionListenerPrevious());
     previous.setEnabled(false);
     p3.add(previous);
     p3.add(changes);
-    JButton next = new JButton("Next");
+    next = new JButton("Next");
     correct.addActionListener(new CustomActionListenerNext());
     next.setEnabled(false);
     p3.add(next);
@@ -194,66 +196,74 @@ public class BlueSheetChecker extends JFrame {
 	  tree = essay.getTree();
   }
 	
-  class CustomActionListenerOne implements ActionListener{
+  class CustomActionListenerOne implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
-    	  rule.setText(PastTenseStrategy.getRule());
+    	  PastTenseStrategy past = new PastTenseStrategy();
+    	  rule.setText(past.getRule());
       }
    }
   
-  class CustomActionListenerThree implements ActionListener{
+  class CustomActionListenerThree implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  rule.setText(FirstSecondPersonStrategy.getRule());
-      }
-   }
-  
-  class CustomActionListenerFour implements ActionListener{
-      public void actionPerformed(ActionEvent e) {
-          rule.setText(ThisWhichStrategy.getRule());
-          if(!essay.getText().equals("")) {
-        	  ThisWhichStrategy thisWhich = new ThisWhichStrategy();
-          	ListNode2[] array = thisWhich.findInEssay(tree);
-          	displaySentences(array);
+    	  FirstSecondPersonStrategy firstSecond = new FirstSecondPersonStrategy();
+    	  rule.setText(firstSecond.getRule());
+    	  if(!essay.getText().equals("")) {
+          	  ListNode2[] array = firstSecond.findInEssay(tree);
+          	  displaySentences(array);
           }
       }
    }
   
-  class CustomActionListenerSix implements ActionListener{
+  class CustomActionListenerFour implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-          rule.setText(AppropriateCasePronounsStrategy.getRule());
+    	  ThisWhichStrategy tw = new ThisWhichStrategy();
+          rule.setText(tw.getRule());
           if(!essay.getText().equals("")) {
-        	  AppropriateCasePronounsStrategy appCase = new  AppropriateCasePronounsStrategy();
-        	  ListNode2[] array = appCase.findInEssay(tree);
+          	  ListNode2[] array = tw.findInEssay(tree);
+          	  displaySentences(array);
+          }
+      }
+   }
+  
+  class CustomActionListenerSix implements ActionListener{ //essay strategy
+      public void actionPerformed(ActionEvent e) {
+    	  AppropriateCasePronounsStrategy approp = new AppropriateCasePronounsStrategy();
+          rule.setText(approp.getRule());
+          if(!essay.getText().equals("")) {
+        	  ListNode2[] array = approp.findInEssay(tree);
               displaySentences(array);
           }
       }
    }
   
-  class CustomActionListenerEight implements ActionListener{
+  class CustomActionListenerEight implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  rule.setText(ApostropheStrategy.getRule());
+    	  ApostropheStrategy apost = new ApostropheStrategy();
+          rule.setText(apost.getRule());
     	  if(!essay.getText().equals("")) {
-    		  ApostropheStrategy apostrophe = new  ApostropheStrategy();
-    		  ListNode2[] array = apostrophe.findInEssay(tree);
+    		  ListNode2[] array = apost.findInEssay(tree);
               displaySentences(array);
     	  }
       }
    }
-  class CustomActionListenerNine implements ActionListener{
+  class CustomActionListenerNine implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
-          rule.setText(PassiveVoiceStrategy.getRule());
+    	  PassiveVoiceStrategy passiveVoice = new PassiveVoiceStrategy();
+          rule.setText(passiveVoice.getRule());
       }
    }
-  class CustomActionListenerTwelve implements ActionListener{
+  class CustomActionListenerTwelve implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
-    	  rule.setText(ProgressiveTenseStrategy.getRule());
+    	  ProgressiveTenseStrategy progressive = new ProgressiveTenseStrategy();
+          rule.setText(progressive.getRule());
       }
    }
-  class CustomActionListenerThirteen implements ActionListener{
+  class CustomActionListenerThirteen implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-          rule.setText(QuotationStrategy.getRule());
+    	  QuotationStrategy quotation = new QuotationStrategy();
+          rule.setText(quotation.getRule());
           if(!essay.getText().equals("")) {
-	          QuotationStrategy quote = new QuotationStrategy();
-	          ListNode2[] array = quote.findInEssay(tree);
+	          ListNode2[] array = quotation.findInEssay(tree);
 	          displaySentences(array);
           }
       }
@@ -261,36 +271,83 @@ public class BlueSheetChecker extends JFrame {
   
   class CustomActionListenerCorrect implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
-		  if(current != null)
-			  current = current.getNext();
+		  
       }
    }
   
   class CustomActionListenerChange implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  
       }
    }
   class CustomActionListenerPrevious implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  current = current.getPrevious();
+		  displaySentence(current);
+		  if(current.getPrevious() == null)
+			  previous.setEnabled(false);
       }
    }
   class CustomActionListenerNext implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  current = current.getNext();
+		  displaySentence(current);
+		  if(current.getNext() == null)
+			  next.setEnabled(false);
       }
    }
   
   public void displaySentences(ListNode2[] array) {
-	  for(int i = 0; i < array.length; i++) {
-		  ListNode2 node = array[i];
-		  if(node != null && !(node.getValue() == null)) {
-			  current = node;
-			  displaySentence(current);
-			  return;
-		  }
+	  System.out.println("displaySetnenceSCall");
+	  System.out.println(array);
+	  createList(array);
+	  if(current != null) {
+		  System.out.println("hot dog");
+		  displaySentence(current);
+		  if(current.getNext() != null)
+			  next.setEnabled(true);
 	  }
+	  		
+  }
+  
+  public void createList(ListNode2[] array) {
+	  int i = 0;
+	  while(i < array.length && array[i] == null){ //find first linked list that is populated
+		  i++;
+	  }
+	  if(i >= array.length){
+		  System.out.println("hi");
+		  //no populated lists
+		  return;
+	  }
+	  else{
+		  ListNode2 headHead = array[i - 1]; //head of final loop
+		  while(i < array.length){ //add other lists
+			  if(array[i] != null){//add list to headHead
+				  addLinkedLists(array[i], headHead);
+			  }
+			  i++;
+		  }
+		  //make non-circular
+		  headHead.getPrevious().setNext(null);
+		  headHead.setPrevious(null);
+		  current = headHead;
+	  }
+	  System.out.println((String)((((WordLoc)(current.getValue())).getSentence().getValue())));
+  }
+  
+  //combines two doubly linked circular lists
+  private void addLinkedLists(ListNode2 subList, ListNode2 bigList){
+	  ListNode2 subLast = subList.getPrevious();
+	  ListNode2 bigLast = bigList.getPrevious();
+	  bigList.setPrevious(subLast);
+	  subLast.setNext(bigList);
+	  bigLast.setNext(subList);
+	  subList.setPrevious(bigLast);
   }
 
   public void displaySentence(ListNode2 node) {
+	  System.out.println("displaySetnenceCall");
 	  WordLoc sentenceLoc = (WordLoc)(node.getValue());
 	  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
 	  sentence.setText(displayedSentence);
@@ -304,7 +361,7 @@ public class BlueSheetChecker extends JFrame {
 		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
 	  } 
       catch (BadLocationException e) {
-		// TODO Auto-generated catch block
+		// Auto-generated catch block
 		e.printStackTrace();
 	  }
   }

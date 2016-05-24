@@ -35,7 +35,7 @@ public class ApostropheStrategy implements EssaySearchStrategy {
 		
 	}
 	
-	public static String getRule() {
+	public String getRule() {
 		return rule;
 	}
 }

@@ -36,8 +36,7 @@ public class QuotationStrategy implements EssaySearchStrategy{
 			
 	}
 
-	public static String getRule() {
-		// TODO Auto-generated method stub
+	public String getRule() {
 		return rule;
 	}
 

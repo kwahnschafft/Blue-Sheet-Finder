@@ -6,6 +6,7 @@ import org.apache.poi.poifs.filesystem.*;
 import org.apache.poi.hwpf.*;
 import org.apache.poi.hwpf.extractor.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class Databases {
 	//hashtable
@@ -16,7 +17,34 @@ public class Databases {
 	//downloads and stores all of the words from a pdf into an array
 	public Databases ()
 	{
-		
+		File file = new File("input.txt");
+        Scanner input = null;
+        try
+        {
+            input = new Scanner(file);
+        }
+        catch (FileNotFoundException ex) //returns error if input.txt is not found
+        {
+            System.out.println("*** Cannot open file ***");
+            System.exit(1); //quit the program
+        }
+        
+        while(input.hasNextLine())
+        {
+        	try {
+	        	String in = input.nextLine();
+	        	int i = 0;
+	        	int insert = 0;
+	        	String temp = "";
+	        	while(in.charAt(i) != ' ') { 
+	        		temp += in.charAt(i);
+	        		i++;
+	        	}
+    		}
+        	catch(Exception e) {
+        		
+        	}
+        }
 		
 	}
 	

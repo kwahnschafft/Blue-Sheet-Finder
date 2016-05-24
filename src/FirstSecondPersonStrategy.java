@@ -33,7 +33,7 @@ public class FirstSecondPersonStrategy implements EssaySearchStrategy {
 		
 	}
 
-	public static String getRule() {
+	public String getRule() {
 		return rule;
 	}
 
