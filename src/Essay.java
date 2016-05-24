@@ -83,22 +83,25 @@ public class Essay {
 	
 	//removes a wordloc node from a word and re-inserts the sentence
 	public void disconnectAndAdd(ListNode2 node, String newStr){
-		String sentence = (String)((WordLoc)node.getValue()).getSentenceNode().getValue();
+		WordLoc wloc = (WordLoc)node.getValue();
+		String sentence = (String)wloc.getSentenceNode().getValue();
 		if(!sentence.equals(newStr)){
 			//insert sentence into sentences linked list
 			//TODO error is person deletes entire sentence?
-			((WordLoc)node.getValue()).getSentenceNode().setValue(newStr);
+			wloc.getSentenceNode().setValue(newStr);
 			//fix words tree map
-			disconnect(sentence); //from words TreeMap
+			disconnect(sentence, wloc); //from words TreeMap
 			addSentenceWords(newStr);
 		}
 	}
 	
 	//updates any changes in a sentence in the word tree
-	public void disconnect(String str){
+	public void disconnect(String str, WordLoc wloc){
 		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
 		String temp = "";
 		int i = 0;
+		ListNode2 head;
+		ListNode2 node;
 		while(i < str.length()) {
 			int k = i;
 			System.out.println(str.charAt(k));
@@ -113,17 +116,36 @@ public class Essay {
 					k++;
 				}
 			}
+			//remove node from given word
+			head = wordsTree.get(temp);
+			node = head;
+			do{
+				if(node.getValue() == wloc){
+					//remove node
+					if(node.getNext() == node){ //only node
+						wordsTree.remove(temp);
+					}else { //disconnect node from list
+						node.getPrevious().setNext(node.getNext());
+						node.getNext().setPrevious(node.getPrevious());
+						node.setNext(null);
+						node.setPrevious(null);
+					}
+					break;
+				}
+			}while(node != head);
 			
 			
-			wordsTree.put(temp, new WordLoc(str, i, temp)); //add method of the tree
-			
-			
-			System.out.println("added \"" + temp + "\"");
+			System.out.println("disconnected \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
 				k++;
 			i = k;
 			temp = "";
 		}
+	}
+	
+	//removes corrected word from wordsTree
+	public void removeCorrected(){
+		
 	}
 	
 	
