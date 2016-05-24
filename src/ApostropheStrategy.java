@@ -14,7 +14,7 @@ public class ApostropheStrategy implements EssaySearchStrategy {
 		     + "<li style='list-style-type: none'><b>(Correct)</b> Longbourn is Elizabeth <i>Bennet's</i> home.</li>" + "</ul" + "</html>";
 			
 	public ListNode2[] findInEssay(TreeMap tree) {
-		String[] searchFor = {"who", "whom", "she", "her", "he", "him"};
+		String[] searchFor = {"'"};
 		
 		ListNode2[] returning = new ListNode2[6];
 		//search tree for each pronoun case

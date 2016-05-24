@@ -32,7 +32,7 @@ public class Essay {
 			}
 			temp += essay.charAt(k);
 			//add node to sentence list
-			tempNode = new ListNode2(temp);
+			tempNode = new ListNode2(temp.trim());
 			tempNode.setNext(sentencesHead);
 			tempNode.setPrevious(sentencesHead.getPrevious());
 			sentencesHead.getPrevious().setNext(tempNode);
@@ -60,8 +60,11 @@ public class Essay {
 		int i = 0;
 		while(i < str.length()) {
 			int k = i;
+			System.out.println(str.charAt(k));
 			if(punctuation.indexOf(str.charAt(k)) >= 0){ //character is punctuation
-				temp = ""+str.charAt(k);
+				temp += str.charAt(k);
+				System.out.println("here");
+				k++;
 			}
 			else{
 				while(k < str.length() && str.charAt(k) != ' ' && punctuation.indexOf(str.charAt(k)) < 0) {
@@ -70,7 +73,10 @@ public class Essay {
 				}
 			}
 			wordsTree.put(temp, new WordLoc(str, i)); //add method of the tree
-			i = k+1;
+			System.out.println("added \"" + temp + "\"");
+			if(k < str.length() && str.charAt(k) == ' ')
+				k++;
+			i = k;
 			temp = "";
 		}
 	}
