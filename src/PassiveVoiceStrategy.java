@@ -11,7 +11,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 		  	 + "<li style='list-style-type: none'><b>(Correct)</b> The Houyhnhnms <i>teach</i> Gulliver many lessons in rational behavior.</li>" + "</ul" + "</html>";
 			
 	@Override
-	public void findInDatabase() {
+	public ArrayList<ListNode2> findInDatabase(TreeMap tree) {
 		// TODO Auto-generated method stub
 		
 	}

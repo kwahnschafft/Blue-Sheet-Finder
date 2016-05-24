@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*
  * 
 <<<<<<< HEAD
@@ -19,7 +21,7 @@ public class PastTenseStrategy implements DatabaseSearchStrategy{
 	 + "</ul" + "</html>";
 	
 	@Override
-	public void findInDatabase() {
+	public ArrayList<ListNode2> findInDatabase() {
 		// TODO Auto-generated method stub
 		
 	}
