@@ -12,6 +12,9 @@ import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,6 +31,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
@@ -49,9 +56,10 @@ public class BlueSheetChecker extends JFrame {
   private JButton correct;
   private boolean newInsert;
   private boolean newRemove;
+  Essay essayEssay;
   String blueColor = "#B8DFEF";
   
-  public BlueSheetChecker() {
+  public BlueSheetChecker() throws Exception {
 
     setJMenuBar(new MenuBar(this, new DecodeAction()));
 
@@ -203,15 +211,28 @@ public class BlueSheetChecker extends JFrame {
 	 gbc.gridwidth = 2;
 	 panel.add(p4, gbc);
 	 
-	
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
 	 c.setMinimumSize(c.getSize());
   }
   
+    public static void read()
+    {
+      try {
+    	  System.out.println("hey");
+    	  Clip clip = (Clip) AudioSystem.getClip();
+    	  clip.open(AudioSystem.getAudioInputStream(new File("Users/kwahnschafft/Desktop/hi.wav")));
+    	  clip.start();
+      }
+      catch (Exception ex) {
+    	  
+      }
+  }
+  
   public void createStuff(String text) {
-	  Essay essay = new Essay(text);
-	  tree = essay.getTree();
+	  essayEssay = new Essay(text);
+	  newRemove = true;
+	  tree = essayEssay.getTree();
   }
 	
   class CustomActionListenerOne implements ActionListener{ //database strategy
@@ -297,30 +318,27 @@ public class BlueSheetChecker extends JFrame {
  
   class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
-    	  
+    	  essayEssay.disconnectAndAdd(current, sentence.getText());
       }
   }
   class CustomActionListenerCorrect implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
-    	  
+    	  essayEssay.removeCorrected(current);
       }
   }
   class CustomDocumentListenerChangedSentence implements DocumentListener{
 	  String newString = "";
 	    public void insertUpdate(DocumentEvent e) {
-	    	 System.out.println(newInsert);
 	        if(!newInsert) {
 	        	correct.setEnabled(true);
 	        	newInsert = true;
 	        }
 	        else {
-	        	System.out.println("hey");
 	        	correct.setEnabled(false);
 	        	change.setEnabled(true);
 	        }
 	    }
 	    public void removeUpdate(DocumentEvent e) {
-	    	System.out.println("remove");
 	    	if(!newRemove) {
 	        	correct.setEnabled(true);
 	        	newRemove = true;
@@ -333,14 +351,6 @@ public class BlueSheetChecker extends JFrame {
 	    }
 	    public void changedUpdate(DocumentEvent e) {
 	        //Plain text components do not fire these events
-	    	if(!newInsert) {
-	    		correct.setEnabled(true);
-	        	newInsert = true;
-	    	}
-	    	else {
-	    		newString = sentence.getText();
-	    		Essay.disconnectAndAdd(current, newString);
-	    	}
 	    }
    }
   
@@ -482,11 +492,13 @@ public class BlueSheetChecker extends JFrame {
 
   /******************************************************************/
   /***************                  main             ****************/
-  /******************************************************************/
+  /**
+ * @throws Exception ****************************************************************/
 
-  public static void main(String[] args)
+  public static void main(String[] args) throws Exception
   {
     BlueSheetChecker window = new BlueSheetChecker();
+    read();
     window.setDefaultCloseOperation(EXIT_ON_CLOSE);
     window.pack();
     window.setVisible(true);
