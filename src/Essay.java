@@ -144,8 +144,27 @@ public class Essay {
 	}
 	
 	//removes corrected word from wordsTree
-	public void removeCorrected(){
+	public void removeCorrected(ListNode2 node){
+		WordLoc wloc = (WordLoc)node.getValue();
+		ListNode2 head = wordsTree.get(wloc.getWord());
 		
+		//find wloc and remove
+		node = head;
+		do{
+			if(node.getValue() == wloc){
+				//remove node
+				if(node.getNext() == node){ //only node
+					wordsTree.remove(wloc.getWord());
+				}else { //disconnect node from list
+					node.getPrevious().setNext(node.getNext());
+					node.getNext().setPrevious(node.getPrevious());
+					node.setNext(null);
+					node.setPrevious(null);
+				}
+				return;
+			}
+		}while(node != head);
+		//TODO idk why it would get here
 	}
 	
 	
