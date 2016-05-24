@@ -221,7 +221,7 @@ public class BlueSheetChecker extends JFrame {
       try {
     	  System.out.println("hey");
     	  Clip clip = (Clip) AudioSystem.getClip();
-    	  clip.open(AudioSystem.getAudioInputStream(new File("Users/kwahnschafft/Desktop/hi.wav")));
+    	  clip.open(AudioSystem.getAudioInputStream(new File("hi.wav")));
     	  clip.start();
       }
       catch (Exception ex) {
