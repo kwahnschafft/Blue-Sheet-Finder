@@ -128,6 +128,7 @@ public class BlueSheetChecker extends JFrame {
     Font font = new Font("Monospaced", Font.PLAIN, 12);
 
     essay = new JTextArea(30, 50);
+    essay.setEditable(false);
     essay.setFont(font);
     essay.setLineWrap(true);
     essay.setWrapStyleWord(true);
