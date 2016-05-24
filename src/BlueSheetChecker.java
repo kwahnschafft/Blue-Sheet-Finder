@@ -22,6 +22,8 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
@@ -43,6 +45,10 @@ public class BlueSheetChecker extends JFrame {
   private ListNode2 current;
   private JButton next;
   private JButton previous;
+  private JButton change;
+  private JButton correct;
+  private boolean newInsert;
+  private boolean newRemove;
   String blueColor = "#B8DFEF";
   
   public BlueSheetChecker() {
@@ -113,7 +119,7 @@ public class BlueSheetChecker extends JFrame {
     p2.add(scroller, p2gbc);
     Font font = new Font("Monospaced", Font.PLAIN, 12);
 
-    essay = new JTextArea(20, 50);
+    essay = new JTextArea(30, 50);
     essay.setFont(font);
     essay.setLineWrap(true);
     essay.setWrapStyleWord(true);
@@ -123,11 +129,11 @@ public class BlueSheetChecker extends JFrame {
     JPanel changes = new JPanel();
     changes.setPreferredSize(new Dimension(100,50));
     changes.setLayout(new GridLayout(2,1));
-    JButton correct = new JButton("Correct");
+    correct = new JButton("Correct");
     correct.addActionListener(new CustomActionListenerCorrect());
     correct.setEnabled(false);
-    JButton change = new JButton("Change");
-    correct.addActionListener(new CustomActionListenerChange());
+    change = new JButton("Change");
+    change.addActionListener(new CustomActionListenerChange());
     change.setEnabled(false);
     changes.add(correct);
     changes.add(change);
@@ -150,10 +156,11 @@ public class BlueSheetChecker extends JFrame {
     p4.setPreferredSize(new Dimension(200, 75));
     p4.setBorder(new LineBorder(Color.BLACK));
     
-    sentence = new JTextArea(8, 20);
+    sentence = new JTextArea(5, 20);
     sentence.setFont(font);
     sentence.setLineWrap(true);
     sentence.setWrapStyleWord(true);
+    sentence.getDocument().addDocumentListener(new CustomDocumentListenerChangedSentence());
     JScrollPane sentenceScrollPane = new JScrollPane(sentence);
     sentenceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	  
@@ -209,6 +216,7 @@ public class BlueSheetChecker extends JFrame {
 	
   class CustomActionListenerOne implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  PastTenseStrategy past = new PastTenseStrategy();
     	  rule.setText(past.getRule());
       }
@@ -216,6 +224,7 @@ public class BlueSheetChecker extends JFrame {
   
   class CustomActionListenerThree implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  FirstSecondPersonStrategy firstSecond = new FirstSecondPersonStrategy();
     	  rule.setText(firstSecond.getRule());
     	  if(!essay.getText().equals("")) {
@@ -227,6 +236,7 @@ public class BlueSheetChecker extends JFrame {
   
   class CustomActionListenerFour implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  ThisWhichStrategy tw = new ThisWhichStrategy();
           rule.setText(tw.getRule());
           if(!essay.getText().equals("")) {
@@ -238,6 +248,7 @@ public class BlueSheetChecker extends JFrame {
   
   class CustomActionListenerSix implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  AppropriateCasePronounsStrategy approp = new AppropriateCasePronounsStrategy();
           rule.setText(approp.getRule());
           if(!essay.getText().equals("")) {
@@ -249,6 +260,7 @@ public class BlueSheetChecker extends JFrame {
   
   class CustomActionListenerEight implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  ApostropheStrategy apost = new ApostropheStrategy();
           rule.setText(apost.getRule());
     	  if(!essay.getText().equals("")) {
@@ -259,18 +271,21 @@ public class BlueSheetChecker extends JFrame {
    }
   class CustomActionListenerNine implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  PassiveVoiceStrategy passiveVoice = new PassiveVoiceStrategy();
           rule.setText(passiveVoice.getRule());
       }
    }
   class CustomActionListenerTwelve implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  ProgressiveTenseStrategy progressive = new ProgressiveTenseStrategy();
           rule.setText(progressive.getRule());
       }
    }
   class CustomActionListenerThirteen implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
     	  QuotationStrategy quotation = new QuotationStrategy();
           rule.setText(quotation.getRule());
           if(!essay.getText().equals("")) {
@@ -279,21 +294,64 @@ public class BlueSheetChecker extends JFrame {
           }
       }
    }
-  
-  class CustomActionListenerCorrect implements ActionListener{
+ 
+  class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
-		  
+    	  
       }
+  }
+  class CustomActionListenerCorrect implements ActionListener {
+	  public void actionPerformed(ActionEvent e) {
+    	  
+      }
+  }
+  class CustomDocumentListenerChangedSentence implements DocumentListener{
+	  String newString = "";
+	    public void insertUpdate(DocumentEvent e) {
+	    	 System.out.println(newInsert);
+	        if(!newInsert) {
+	        	correct.setEnabled(true);
+	        	newInsert = true;
+	        }
+	        else {
+	        	System.out.println("hey");
+	        	correct.setEnabled(false);
+	        	change.setEnabled(true);
+	        }
+	    }
+	    public void removeUpdate(DocumentEvent e) {
+	    	System.out.println("remove");
+	    	if(!newRemove) {
+	        	correct.setEnabled(true);
+	        	newRemove = true;
+	        }
+	        else {
+	        	correct.setEnabled(false);
+	        	change.setEnabled(true);
+	        }
+	    	
+	    }
+	    public void changedUpdate(DocumentEvent e) {
+	        //Plain text components do not fire these events
+	    	if(!newInsert) {
+	    		correct.setEnabled(true);
+	        	newInsert = true;
+	    	}
+	    	else {
+	    		newString = sentence.getText();
+	    		Essay.disconnectAndAdd(current, newString);
+	    	}
+	    }
    }
   
-  class CustomActionListenerChange implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
-		  
-      }
-   }
   class CustomActionListenerPrevious implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  newInsert = false;
+		  newRemove = false;
 		  current = current.getPrevious();
+		  correct.setEnabled(true);
+		  change.setEnabled(false);
+		  System.out.println("prev button pressed");
 		  displaySentence(current);
 		  next.setEnabled(true);
 		  if(current.getPrevious() == null)
@@ -302,8 +360,12 @@ public class BlueSheetChecker extends JFrame {
    }
   class CustomActionListenerNext implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  newInsert = false;
+		  newRemove = false;
 		  current = current.getNext();
 		  displaySentence(current);
+		  correct.setEnabled(true);
+		  change.setEnabled(false);
 		  previous.setEnabled(true);
 		  if(current.getNext() == null)
 			  next.setEnabled(false);
@@ -362,7 +424,7 @@ public class BlueSheetChecker extends JFrame {
 
   public void displaySentence(ListNode2 node) {
 	  WordLoc sentenceLoc = (WordLoc)(node.getValue());
-	  String displayedSentence = ((String)(sentenceLoc).getSentence().getValue());
+	  String displayedSentence = ((String)(sentenceLoc).getSentenceNode().getValue());
 	  sentence.setText(displayedSentence);
 	  Highlighter highlighter = sentence.getHighlighter();
       int start = sentenceLoc.getWordIndex();
