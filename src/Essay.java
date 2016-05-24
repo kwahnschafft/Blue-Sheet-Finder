@@ -72,7 +72,7 @@ public class Essay {
 					k++;
 				}
 			}
-			wordsTree.put(temp, new WordLoc(str, i)); //add method of the tree
+			wordsTree.put(temp, new WordLoc(str, i, temp)); //add method of the tree
 			System.out.println("added \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
 				k++;
@@ -80,6 +80,52 @@ public class Essay {
 			temp = "";
 		}
 	}
+	
+	//removes a wordloc node from a word and re-inserts the sentence
+	public void disconnectAndAdd(ListNode2 node, String newStr){
+		String sentence = (String)((WordLoc)node.getValue()).getSentenceNode().getValue();
+		if(!sentence.equals(newStr)){
+			//insert sentence into sentences linked list
+			//TODO error is person deletes entire sentence?
+			((WordLoc)node.getValue()).getSentenceNode().setValue(newStr);
+			//fix words tree map
+			disconnect(sentence); //from words TreeMap
+			addSentenceWords(newStr);
+		}
+	}
+	
+	//updates any changes in a sentence in the word tree
+	public void disconnect(String str){
+		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
+		String temp = "";
+		int i = 0;
+		while(i < str.length()) {
+			int k = i;
+			System.out.println(str.charAt(k));
+			if(punctuation.indexOf(str.charAt(k)) >= 0){ //character is punctuation
+				temp += str.charAt(k);
+				System.out.println("here");
+				k++;
+			}
+			else{
+				while(k < str.length() && str.charAt(k) != ' ' && punctuation.indexOf(str.charAt(k)) < 0) {
+					temp += str.charAt(k);
+					k++;
+				}
+			}
+			
+			
+			wordsTree.put(temp, new WordLoc(str, i, temp)); //add method of the tree
+			
+			
+			System.out.println("added \"" + temp + "\"");
+			if(k < str.length() && str.charAt(k) == ' ')
+				k++;
+			i = k;
+			temp = "";
+		}
+	}
+	
 	
 	//returns the wordsTree
 	public TreeMap getTree(){

@@ -8,24 +8,27 @@
 public class WordLoc{
 	private ListNode2 sentence;
 	private int index;
+	private String word;
 	
 	//wraps String in a ListNode2 and creates new WordLoc
-	public WordLoc(String s, int i){
+	public WordLoc(String s, int i, String w){
 		ListNode2 node = new ListNode2(s);
 		node.setPrevious(node);
 		node.setNext(node);
 		sentence = node;
 		index = i;
+		word = w;
 	}
 	
 	//constructs new WordLoc
-	public WordLoc(ListNode2 s, int i){
+	public WordLoc(ListNode2 s, int i, String w){
 		sentence = s;
 		index = i;
+		word = w;
 	}
 	
 	//returns sentence
-	public ListNode2 getSentence(){
+	public ListNode2 getSentenceNode(){
 		return sentence;
 	}
 	
@@ -39,13 +42,18 @@ public class WordLoc{
 		return index;
 	}
 	
+	//returns word in wordloc
+	public String getWord(){
+		return word;
+	}
+	
 	//returns true if this is the same a other
 	public boolean equals(WordLoc other){
-		return sentence == other.getSentence() && index == other.getWordIndex();
+		return sentence == other.getSentenceNode() && index == other.getWordIndex();
 	}
 	
 	//used for testing
 	public String toString(){
-		return sentence.getValue() + " at index " + index;
+		return "sentence: \"" + sentence.getValue() + "\" word: \"" + word + "\" index: " + index;
 	}
 }
