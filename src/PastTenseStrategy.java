@@ -30,4 +30,5 @@ public class PastTenseStrategy implements DatabaseSearchStrategy{
 		return rule;
 	}
 
+
 }
