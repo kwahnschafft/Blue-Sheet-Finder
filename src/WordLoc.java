@@ -43,4 +43,9 @@ public class WordLoc{
 	public boolean equals(WordLoc other){
 		return sentence == other.getSentence() && index == other.getWordIndex();
 	}
+	
+	//used for testing
+	public String toString(){
+		return sentence.getValue() + " at index " + index;
+	}
 }
