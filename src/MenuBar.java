@@ -22,9 +22,9 @@ public class MenuBar extends JMenuBar
   private BlueSheetChecker bluesheet;
   private JMenuItem openItem, saveItem, exitItem;
 
-  public MenuBar(BlueSheetChecker crypto, ActionListener decodeAction)
+  public MenuBar(BlueSheetChecker checker, ActionListener essayAction)
   {
-    bluesheet = crypto;
+    bluesheet = checker;
 
     JMenu fileMenu = new JMenu("File");
     fileMenu.setMnemonic('F');
@@ -44,16 +44,7 @@ public class MenuBar extends JMenuBar
     fileMenu.addSeparator();
     fileMenu.add(exitItem);
 
-    JMenu runMenu = new JMenu("Run");
-    runMenu.setMnemonic('R');
-    JMenuItem runItem = new JMenuItem("Run");
-    runItem.setMnemonic('R');
-    runItem.addActionListener(decodeAction);
-    
-    runMenu.add(runItem);
-
     add(fileMenu);
-    add(runMenu);
   }
 
   /******************************************************************/

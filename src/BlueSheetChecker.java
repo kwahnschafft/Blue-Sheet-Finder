@@ -61,7 +61,7 @@ public class BlueSheetChecker extends JFrame {
   
   public BlueSheetChecker() throws Exception {
 
-    setJMenuBar(new MenuBar(this, new DecodeAction()));
+    setJMenuBar(new MenuBar(this, new EssayAction()));
 
     JPanel p1 = new JPanel();
     p1.setPreferredSize(new Dimension(400, 81));
@@ -325,13 +325,19 @@ public class BlueSheetChecker extends JFrame {
   class CustomActionListenerCorrect implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
 		  ListNode2 nodeBeingRemoved = current;
-		  next.doClick();
+		  if(next.isEnabled())
+			  next.doClick();
+		  else if(previous.isEnabled())
+			  previous.doClick();
+		  else {
+			  sentence.setText("");
+			  current = null;
+		  }
     	  essayEssay.removeCorrected(nodeBeingRemoved);
     	  checkButtons();
       }
   }
   class CustomDocumentListenerChangedSentence implements DocumentListener{
-	  String newString = "";
 	    public void insertUpdate(DocumentEvent e) {
 	        if(!newInsert) {
 	        	correct.setEnabled(true);
@@ -377,6 +383,7 @@ public class BlueSheetChecker extends JFrame {
    }
   class CustomActionListenerNext implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
+		  System.out.println(((WordLoc) current.getValue()).getSentenceString());
 		  newInsert = false;
 		  newRemove = false;
 		  current = current.getNext();
@@ -397,6 +404,12 @@ public class BlueSheetChecker extends JFrame {
 		  previous.setEnabled(false);
 	  if(current != null && current.getNext() == null)
 		  next.setEnabled(false);
+	  if(current == null) {
+		  previous.setEnabled(false);
+		  next.setEnabled(false);
+		  change.setEnabled(false);
+		  correct.setEnabled(false);
+	  }
   }
   public void displaySentences(ListNode2[] array) {
 	  next.setEnabled(false);
@@ -484,7 +497,7 @@ public class BlueSheetChecker extends JFrame {
     sentence.setCaretPosition(0);
   }
 
-  private class DecodeAction implements ActionListener
+  private class EssayAction implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
     {
