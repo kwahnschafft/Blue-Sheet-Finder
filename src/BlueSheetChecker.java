@@ -12,6 +12,7 @@ import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -47,6 +48,8 @@ public class BlueSheetChecker extends JFrame {
 
   private JTextArea essay;
   private JTextArea sentence;
+  private JTextArea copy;
+  private String copied;
   private JLabel rule;
   private TreeMap tree;
   private ListNode2 current;
@@ -56,12 +59,15 @@ public class BlueSheetChecker extends JFrame {
   private JButton correct;
   private boolean newInsert;
   private boolean newRemove;
+  private JFrame frame;
+  private MenuBar thisMenu;
   Essay essayEssay;
   String blueColor = "#B8DFEF";
   
   public BlueSheetChecker() throws Exception {
 
-    setJMenuBar(new MenuBar(this, new EssayAction()));
+	thisMenu = new MenuBar(this, new EssayAction());
+    setJMenuBar(thisMenu);
 
     JPanel p1 = new JPanel();
     p1.setPreferredSize(new Dimension(400, 81));
@@ -364,6 +370,18 @@ public class BlueSheetChecker extends JFrame {
 	    }
    }
   
+  class CustomDocumentListenerCopyMade implements DocumentListener{
+	    public void insertUpdate(DocumentEvent e) {
+	    	copied = copy.getText();
+	    }
+	    public void removeUpdate(DocumentEvent e) {
+	    	copied = copy.getText();
+	    }
+	    public void changedUpdate(DocumentEvent e) {
+	        //Plain text components do not fire these events
+	    }
+ }
+  
   class CustomActionListenerPrevious implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
 		  newInsert = false;
@@ -396,6 +414,13 @@ public class BlueSheetChecker extends JFrame {
 			  previous.setEnabled(true);
 		  if(current.getNext() == null)
 			  next.setEnabled(false);
+      }
+   }
+  
+  class CustomActionListenerPaste implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+		  thisMenu.parseAndCreateEssay(copied);
       }
    }
   
@@ -503,17 +528,40 @@ public class BlueSheetChecker extends JFrame {
     {
       String cmd = ((AbstractButton)e.getSource()).getActionCommand();
 
-      if ("Run".equals(cmd))
-      {
+      if ("Add Text".equals(cmd)) {
+    	  frame = new JFrame("Insert your essay here");
+    	  frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	  JPanel p = new JPanel();
+    	  p.setLayout(new GridBagLayout());
+    	  copy = new JTextArea(30,40);
+    	  Font font = new Font("Monospaced", Font.PLAIN, 12);
+    	  copy.setFont(font);
+    	  copy.setLineWrap(true);
+    	  copy.setWrapStyleWord(true);
+    	  copy.getDocument().addDocumentListener(new CustomDocumentListenerCopyMade());
+    	  JScrollPane sentenceScrollPane = new JScrollPane(copy);
+    	  sentenceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    	  JButton closeAndPaste = new JButton("Insert Text");
+    	  closeAndPaste.addActionListener(new CustomActionListenerPaste());
+    	  GridBagConstraints gbc = new GridBagConstraints();
+    	  gbc.gridx = 0;
+    	  gbc.gridy = 0;
+    	  gbc.gridheight = 2;
+    	  p.add(copy, gbc);
+    	  gbc.gridy = 2;
+    	  gbc.gridheight = 1;
+    	  p.add(closeAndPaste, gbc);
+    	  frame.add(p);
   
-      }
-      else if ("Clear".equals(cmd))
-      {
+    	//3. Create components and put them in the frame.
+    	//...create emptyLabel...
+    	//frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
 
-      }
-      else if ("Encode".equals(cmd))
-      {
- 
+    	//4. Size the frame.
+    	frame.pack();
+
+    	//5. Show it.
+    	frame.setVisible(true);
       }
      // setTextOut(getTextIn());
     }
