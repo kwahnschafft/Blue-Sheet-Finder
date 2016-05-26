@@ -475,24 +475,38 @@ public class BlueSheetChecker extends JFrame {
 		  return;
 	  }
 	  else{
-		  ListNode2 headHead = array[i]; //head of final loop
+		  ListNode2 headHead = new ListNode2("Temp Node"); //head of final loop
+		  ListNode2 tail = addNodeDuplicates(array[i], headHead);
+		  //add lists from other words
 		  while(i < array.length){ //add other lists
 			  if(array[i] != null){//add list to headHead
-				  addLinkedLists(array[i], headHead);
+				  tail = addNodeDuplicates(array[i], tail);
 			  }
 			  i++;
 		  }
-		  //make non-circular
-		  if(headHead != null) {
-			  if(headHead.getPrevious() != null)
-				  headHead.getPrevious().setNext(null);
+
+		  //remove temporary headHead
+		  headHead = headHead.getNext();
+		  if(headHead == null){
+			  //TODO no words, idk what to do here
+		  }else{
 			  headHead.setPrevious(null);
 		  }
 		  current = headHead;
 	  }
   }
   
-  //combines two doubly linked circular lists
+  private ListNode2 addNodeDuplicates(ListNode2 head, ListNode2 tail){ //head to be copied, tail of larger list
+	  ListNode2 node = head;
+	  do{
+		  tail.setNext(new ListNode2(node.getValue(), tail, null));
+		  tail = tail.getNext();
+		  node = node.getNext();
+	  }while(node != head);
+	  return tail;
+  }
+  
+/*  //combines two doubly linked circular lists
   private void addLinkedLists(ListNode2 subList, ListNode2 bigList){
 	  ListNode2 subLast = subList.getPrevious();
 	  ListNode2 bigLast = bigList.getPrevious();
@@ -505,6 +519,10 @@ public class BlueSheetChecker extends JFrame {
 	  if(subList != null)
 		  subList.setPrevious(bigLast);
   }
+  
+  private ListNode2 duplicate(ListNode2 node){
+	  return new ListNode2(node.getValue());
+  }*/
 
   public void displaySentence(ListNode2 node) {
 	  WordLoc sentenceLoc = (WordLoc)(node.getValue());

@@ -72,6 +72,7 @@ public class Essay {
 					k++;
 				}
 			}
+			System.out.println("************************" + temp + " " + str + " " + i);
 			wordsTree.put(temp, new WordLoc(str, i, temp)); //add method of the tree
 			System.out.println("added \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
@@ -90,13 +91,13 @@ public class Essay {
 			//TODO error is person deletes entire sentence?
 			wloc.getSentenceNode().setValue(newStr);
 			//fix words tree map
-			disconnect(sentence, wloc); //from words TreeMap
+			disconnect(sentence); //from words TreeMap
 			addSentenceWords(newStr);
 		}
 	}
 	
 	//updates any changes in a sentence in the word tree
-	public void disconnect(String str, WordLoc wloc){
+	public void disconnect(String str){
 		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
 		String temp = "";
 		int i = 0;
@@ -120,13 +121,23 @@ public class Essay {
 			head = wordsTree.get(temp);
 			node = head;
 			do{
-				if(node.getValue() == wloc){
+				if(((WordLoc)node.getValue()).getSentenceString() == str){
 					//remove node
-					if(node.getNext() == node){ //only node
+					if(node.getPrevious() == null && node.getNext() == null){ //only node
 						wordsTree.remove(temp);
-					}else { //disconnect node from list
+					}else if(node.getPrevious() == null){ //first node
+						head.setValue(head.getNext().getValue());
+						ListNode2 tempNode = head.getNext();
+						head.setNext(tempNode.getNext());
+						if(tempNode.getNext() != null)
+							tempNode.getNext().setPrevious(head);
+						tempNode.setNext(null);
+						tempNode.setPrevious(null);
+						
+					}else{ //last or middle node
 						node.getPrevious().setNext(node.getNext());
-						node.getNext().setPrevious(node.getPrevious());
+						if(node.getNext() != null)
+							node.getNext().setPrevious(node.getPrevious());
 						node.setNext(null);
 						node.setPrevious(null);
 					}
