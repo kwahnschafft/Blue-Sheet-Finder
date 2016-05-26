@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Container;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -16,6 +18,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -239,13 +243,14 @@ public class BlueSheetChecker extends JFrame {
   
     public static void read()
     {
+
       try {
     	  Clip clip = (Clip) AudioSystem.getClip();
-    	  clip.open(AudioSystem.getAudioInputStream(new File("hi.wav")));
+    	  clip.open(AudioSystem.getAudioInputStream(new File("hey.m4a")));
     	  clip.start();
       }
       catch (Exception ex) {
-    	  
+    	  System.out.println(ex);
       }
   }
   

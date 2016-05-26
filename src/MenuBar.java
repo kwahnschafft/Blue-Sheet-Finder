@@ -151,9 +151,7 @@ public class MenuBar extends JMenuBar
 	  String osName = System.getProperty("os.name").toLowerCase();
 	  boolean isMacOs = osName.startsWith("mac os x");
 	  String result1 = str;
-	  if (isMacOs) //mac-specific character encoding
-	  {
-		  System.out.println("asdfasdf");
+	  if (isMacOs) { //mac-specific character encoding
 		  result1 = result1.replace( (char)145, (char)'\'');
 	      result1 = result1.replace( (char)8216, (char)'\''); // left single quote
 	      result1 = result1.replace( (char)146, (char)'\'');
