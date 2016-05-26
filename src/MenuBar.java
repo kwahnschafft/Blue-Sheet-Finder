@@ -38,6 +38,9 @@ public class MenuBar extends JMenuBar
     openItem = new JMenuItem("Open...");
     openItem.setMnemonic('O');
     openItem.addActionListener(fileAction);
+    JMenuItem decodeItem = new JMenuItem("Insert...");
+    decodeItem.setMnemonic('D');
+    decodeItem.addActionListener(essayAction);
     saveItem = new JMenuItem("Save...");
     saveItem.setMnemonic('S');
     saveItem.addActionListener(fileAction);
@@ -45,19 +48,12 @@ public class MenuBar extends JMenuBar
     exitItem.setMnemonic('x');
     exitItem.addActionListener(fileAction);
     fileMenu.add(openItem);
+    fileMenu.add(decodeItem);
     fileMenu.add(saveItem);
     fileMenu.addSeparator();
     fileMenu.add(exitItem);
 
-    JMenu decodeMenu = new JMenu("Add Text");
-    decodeMenu.setMnemonic('D');
-    JMenuItem decodeItem = new JMenuItem("Add Text");
-    decodeItem.setMnemonic('D');
-    decodeItem.addActionListener(essayAction);
-    decodeMenu.add(decodeItem);
-
     add(fileMenu);
-    add(decodeMenu);
   }
 
   /******************************************************************/
@@ -152,21 +148,27 @@ public class MenuBar extends JMenuBar
     }
   }
   public void parseAndCreateEssay(String str) {
+	  String osName = System.getProperty("os.name").toLowerCase();
+	  boolean isMacOs = osName.startsWith("mac os x");
 	  String result1 = str;
-	  result1 = result1.replace( (char)145, (char)'\'');
-      result1 = result1.replace( (char)8216, (char)'\''); // left single quote
-      result1 = result1.replace( (char)146, (char)'\'');
-      result1 = result1.replace( (char)8217, (char)'\''); // right single quote
-      result1 = result1.replace( (char)147, (char)'\"');
-      result1 = result1.replace( (char)148, (char)'\"');
-      result1 = result1.replace( (char)8220, (char)'\"'); // left double
-      result1 = result1.replace( (char)8221, (char)'\"'); // right double
-      result1 = result1.replace( (char)8211, (char)'-' ); // em dash??    
-      result1 = result1.replace( (char)150, (char)'-' );
+	  if (isMacOs) //mac-specific character encoding
+	  {
+		  System.out.println("asdfasdf");
+		  result1 = result1.replace( (char)145, (char)'\'');
+	      result1 = result1.replace( (char)8216, (char)'\''); // left single quote
+	      result1 = result1.replace( (char)146, (char)'\'');
+	      result1 = result1.replace( (char)8217, (char)'\''); // right single quote
+	      result1 = result1.replace( (char)147, (char)'\"');
+	      result1 = result1.replace( (char)148, (char)'\"');
+	      result1 = result1.replace( (char)8220, (char)'\"'); // left double
+	      result1 = result1.replace( (char)8221, (char)'\"'); // right double
+	      result1 = result1.replace( (char)8211, (char)'-' ); // em dash??    
+	      result1 = result1.replace( (char)150, (char)'-' );
+	  }
       
       System.out.println(result1);
       
-      bluesheet.createStuff(result1);
+      bluesheet.makeEssayAndTree(result1);
       bluesheet.setEssayText(result1);
   }
 }

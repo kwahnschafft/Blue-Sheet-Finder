@@ -69,6 +69,17 @@ public class BlueSheetChecker extends JFrame {
 	thisMenu = new MenuBar(this, new EssayAction());
     setJMenuBar(thisMenu);
 
+    //create panel that displays the input text being checked
+    Font font = new Font("Monospaced", Font.PLAIN, 12);
+    essay = new JTextArea(30, 50);
+    essay.setEditable(false);
+    essay.setFont(font);
+    essay.setLineWrap(true);
+    essay.setWrapStyleWord(true);
+    JScrollPane areaScrollPaneIn = new JScrollPane(essay);
+    areaScrollPaneIn.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    
+    //create panel with the blue sheet radio buttons
     JPanel p1 = new JPanel();
     p1.setPreferredSize(new Dimension(400, 81));
     p1.setLayout(new GridLayout(5, 1));
@@ -83,6 +94,8 @@ public class BlueSheetChecker extends JFrame {
     JRadioButton twelve = new JRadioButton("XII. Progressive Tense");
     JRadioButton thirteen = new JRadioButton("XIII. Problem in Quotation Form");
     
+    //add the blue sheet radio buttons to one button group 
+    //(so that only one button is selected at one)
     bluesheets.add(one);
     bluesheets.add(three);
     bluesheets.add(four);
@@ -91,17 +104,8 @@ public class BlueSheetChecker extends JFrame {
     bluesheets.add(nine);
     bluesheets.add(twelve);
     bluesheets.add(thirteen);
-    
-    p1.add(one);
-    p1.add(three);
-    p1.add(four);
-    p1.add(six);
-    p1.add(eight);
-    p1.add(nine);
-    p1.add(twelve);
-    p1.add(thirteen);
-    p1.setBackground(Color.decode(blueColor));
    
+    //add action listeners to the blue sheet buttons
     one.addActionListener(new CustomActionListenerOne());
     three.addActionListener(new CustomActionListenerThree());
     four.addActionListener(new CustomActionListenerFour());
@@ -111,6 +115,27 @@ public class BlueSheetChecker extends JFrame {
     twelve.addActionListener(new CustomActionListenerTwelve());
     thirteen.addActionListener(new CustomActionListenerThirteen());
     
+    //add the blue sheet buttons to the panel
+    p1.add(one);
+    p1.add(three);
+    p1.add(four);
+    p1.add(six);
+    p1.add(eight);
+    p1.add(nine);
+    p1.add(twelve);
+    p1.add(thirteen);
+    p1.setBackground(Color.decode(blueColor));
+    
+    //create panel that holds the current sentence being changed or deemed correct
+    sentence = new JTextArea(5, 20);
+    sentence.setFont(font);
+    sentence.setLineWrap(true);
+    sentence.setWrapStyleWord(true);
+    sentence.getDocument().addDocumentListener(new CustomDocumentListenerChangedSentence());
+    JScrollPane sentenceScrollPane = new JScrollPane(sentence);
+    sentenceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    
+    //create panel that displays the current blue sheet rule
     rule = new JLabel();
     rule.setVerticalAlignment(JLabel.TOP);
     rule.setPreferredSize(new Dimension(100,350));
@@ -131,16 +156,8 @@ public class BlueSheetChecker extends JFrame {
 	p2gbc.anchor = GridBagConstraints.NORTHWEST;
 	p2gbc.fill = GridBagConstraints.BOTH;
     p2.add(scroller, p2gbc);
-    Font font = new Font("Monospaced", Font.PLAIN, 12);
-
-    essay = new JTextArea(30, 50);
-    essay.setEditable(false);
-    essay.setFont(font);
-    essay.setLineWrap(true);
-    essay.setWrapStyleWord(true);
-    JScrollPane areaScrollPaneIn = new JScrollPane(essay);
-    areaScrollPaneIn.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     
+    //create panel that has the "change" and "correct" buttons
     JPanel changes = new JPanel();
     changes.setPreferredSize(new Dimension(100,50));
     changes.setLayout(new GridLayout(2,1));
@@ -153,6 +170,8 @@ public class BlueSheetChecker extends JFrame {
     changes.add(correct);
     changes.add(change);
     
+    //create panel that has the previous and next buttons 
+    //and the panel just created with the "change" and "correct" buttons
     JPanel p3 = new JPanel();
     p3.setPreferredSize(new Dimension(100, 50));
     p3.setLayout(new GridLayout(1,3));
@@ -166,19 +185,13 @@ public class BlueSheetChecker extends JFrame {
     next.addActionListener(new CustomActionListenerNext());
     next.setEnabled(false);
     p3.add(next);
-    
-    JPanel p4 = new JPanel();
-    p4.setPreferredSize(new Dimension(200, 75));
-    p4.setBorder(new LineBorder(Color.BLACK));
-    
-    sentence = new JTextArea(5, 20);
-    sentence.setFont(font);
-    sentence.setLineWrap(true);
-    sentence.setWrapStyleWord(true);
-    sentence.getDocument().addDocumentListener(new CustomDocumentListenerChangedSentence());
-    JScrollPane sentenceScrollPane = new JScrollPane(sentence);
-    sentenceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	  
+     //create panel for the HirschoMeter
+     JPanel p4 = new JPanel();
+     p4.setPreferredSize(new Dimension(200, 75));
+     p4.setBorder(new LineBorder(Color.BLACK));
+     
+     //create final panel and add all the previous panels to this panel
 	 JPanel panel = new JPanel(new GridBagLayout());
 	 GridBagConstraints gbc = new GridBagConstraints();
 	 gbc.gridx = 0;
@@ -218,6 +231,7 @@ public class BlueSheetChecker extends JFrame {
 	 gbc.gridwidth = 2;
 	 panel.add(p4, gbc);
 	 
+	 read();
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
 	 c.setMinimumSize(c.getSize());
@@ -226,7 +240,6 @@ public class BlueSheetChecker extends JFrame {
     public static void read()
     {
       try {
-    	  System.out.println("hey");
     	  Clip clip = (Clip) AudioSystem.getClip();
     	  clip.open(AudioSystem.getAudioInputStream(new File("hi.wav")));
     	  clip.start();
@@ -236,7 +249,7 @@ public class BlueSheetChecker extends JFrame {
       }
   }
   
-  public void createStuff(String text) {
+  public void makeEssayAndTree(String text) {
 	  essayEssay = new Essay(text);
 	  newRemove = true;
 	  tree = essayEssay.getTree();
@@ -445,6 +458,10 @@ public class BlueSheetChecker extends JFrame {
 		  if(current.getNext() != null)
 			  next.setEnabled(true);
 	  }
+	  else {
+		  sentence.setText("");
+		  System.out.println("asdfad");
+	  }
 	  		
   }
   
@@ -466,8 +483,11 @@ public class BlueSheetChecker extends JFrame {
 			  i++;
 		  }
 		  //make non-circular
-		  headHead.getPrevious().setNext(null);
-		  headHead.setPrevious(null);
+		  if(headHead != null) {
+			  if(headHead.getPrevious() != null)
+				  headHead.getPrevious().setNext(null);
+			  headHead.setPrevious(null);
+		  }
 		  current = headHead;
 	  }
   }
@@ -528,12 +548,12 @@ public class BlueSheetChecker extends JFrame {
     {
       String cmd = ((AbstractButton)e.getSource()).getActionCommand();
 
-      if ("Add Text".equals(cmd)) {
+      if ("Insert...".equals(cmd)) {
     	  frame = new JFrame("Insert your essay here");
     	  frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	  JPanel p = new JPanel();
     	  p.setLayout(new GridBagLayout());
-    	  copy = new JTextArea(30,40);
+    	  copy = new JTextArea(30,50);
     	  Font font = new Font("Monospaced", Font.PLAIN, 12);
     	  copy.setFont(font);
     	  copy.setLineWrap(true);
@@ -553,15 +573,8 @@ public class BlueSheetChecker extends JFrame {
     	  p.add(closeAndPaste, gbc);
     	  frame.add(p);
   
-    	//3. Create components and put them in the frame.
-    	//...create emptyLabel...
-    	//frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
-
-    	//4. Size the frame.
-    	frame.pack();
-
-    	//5. Show it.
-    	frame.setVisible(true);
+    	  frame.pack();
+    	  frame.setVisible(true);
       }
      // setTextOut(getTextIn());
     }
