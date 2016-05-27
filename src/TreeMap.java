@@ -19,6 +19,7 @@ public class TreeMap extends java.util.TreeMap<String, ListNode2>{
 	// if the key is not already in the tree, adds it,
 	// otherwise, adds the ListNode2 to the linked list attached to existing key
 	public ListNode2 put(String key, ListNode2 value){
+		key = key.toLowerCase();
 		if(!containsKey(key)){ //if key not already there, add normally
 			return super.put(key, value);
 		}

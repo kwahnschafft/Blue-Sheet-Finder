@@ -17,14 +17,14 @@ public class WordLoc{
 		node.setNext(node);
 		sentence = node;
 		index = i;
-		word = w;
+		word = w.toLowerCase();
 	}
 	
 	//constructs new WordLoc
 	public WordLoc(ListNode2 s, int i, String w){
 		sentence = s;
 		index = i;
-		word = w;
+		word = w.toLowerCase();
 	}
 	
 	//returns sentence
