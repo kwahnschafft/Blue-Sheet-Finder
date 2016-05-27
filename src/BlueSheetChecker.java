@@ -301,7 +301,7 @@ public class BlueSheetChecker extends JFrame {
           }
     	  
     	  //TODO delete this 
-    	/*  
+    	 /*
     	  ListNode2 head = essayEssay.getTree().get("me");
     	  ListNode2 node = head;
     	  do{
@@ -537,6 +537,7 @@ public class BlueSheetChecker extends JFrame {
 	  }
   }
   
+  //creates duplicates of nodes to be added to list of potential errors
   private ListNode2 addNodeDuplicates(ListNode2 head, ListNode2 tail){ //head to be copied, tail of larger list
 	  ListNode2 node = head;
 	  do{
