@@ -450,8 +450,7 @@ public class AutoHirsch extends JFrame {
   
   public void updateDisplay() {
 	  String currentEssay = "";
-	  ListNode2 node = essayEssay.getSentences().getNext();
-	  for(; node != null && !(node.getValue().equals(null)); node = node.getNext())  {
+	  for(ListNode2 node = essayEssay.getSentences(); node != null; node = node.getNext())  {
 		  //System.out.println("asld fj");
 		  currentEssay += node.getValue();
 	  }

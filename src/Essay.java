@@ -55,7 +55,7 @@ public class Essay {
 	 */
 	public void addAllWords() {
 		ListNode2 node = sentencesHead.getNext();
-		while(node != sentencesHead) {
+		while(node != null) {
 			addSentenceWords((String)node.getValue());
 			node = node.getNext();
 		}
