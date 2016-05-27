@@ -427,6 +427,8 @@ public class AutoHirsch extends JFrame {
   class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
     	  essayEssay.disconnectAndAdd(current, sentence.getText());
+    	  checkButtons();
+    	  updateDisplay();
       }
   }
   class CustomActionListenerCorrect implements ActionListener {
@@ -442,7 +444,18 @@ public class AutoHirsch extends JFrame {
 		  }
     	  essayEssay.removeCorrected(nodeBeingRemoved);
     	  checkButtons();
+    	  updateDisplay();
       }
+  }
+  
+  public void updateDisplay() {
+	  String currentEssay = "";
+	  ListNode2 node = essayEssay.getSentences().getNext();
+	  for(; node != null && !(node.getValue().equals(null)); node = node.getNext())  {
+		  //System.out.println("asld fj");
+		  currentEssay += node.getValue();
+	  }
+	  essay.setText(currentEssay);
   }
   class CustomDocumentListenerChangedSentence implements DocumentListener{
 	    public void insertUpdate(DocumentEvent e) {
@@ -526,9 +539,9 @@ public class AutoHirsch extends JFrame {
    }
   
   public void checkButtons() {
-	  if(current != null && current.getPrevious() == null)
+	  if(current != null && (current.getPrevious() == null || current.getPrevious().getValue() == null))
 		  previous.setEnabled(false);
-	  if(current != null && current.getNext() == null)
+	  if(current != null && (current.getNext() == null || current.getNext().getValue() == null))
 		  next.setEnabled(false);
 	  if(current == null) {
 		  previous.setEnabled(false);
