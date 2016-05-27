@@ -39,11 +39,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
-<<<<<<< Updated upstream
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-=======
-
 import com.sun.medialib.mlib.Image;
 
 import sun.audio.AudioPlayer;
@@ -55,7 +52,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
->>>>>>> Stashed changes
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
