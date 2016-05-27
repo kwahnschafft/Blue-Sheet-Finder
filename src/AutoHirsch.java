@@ -42,11 +42,15 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+<<<<<<< Updated upstream:src/AutoHirsch.java
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
 import com.sun.medialib.mlib.Image;
+=======
+//import com.sun.medialib.mlib.Image;
+>>>>>>> Stashed changes:src/BlueSheetChecker.java
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
