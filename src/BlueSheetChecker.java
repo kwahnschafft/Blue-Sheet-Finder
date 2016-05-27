@@ -41,7 +41,7 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import com.sun.medialib.mlib.Image;
+//import com.sun.medialib.mlib.Image;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
