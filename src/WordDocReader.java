@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 import java.io.*;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;

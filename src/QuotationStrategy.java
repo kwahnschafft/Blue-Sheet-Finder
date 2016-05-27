@@ -1,7 +1,11 @@
 /*
- * Written By: Shannon Wing
- * Date: 5/15/16
+ * 
+ * strategy to check for sentences with possible quotation errors within an essay
+ * 
+ * Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
+ * Date: 5/31/16
  */
+
 public class QuotationStrategy implements EssaySearchStrategy{
 
 	private static String rule = "<html>" +
@@ -16,7 +20,9 @@ public class QuotationStrategy implements EssaySearchStrategy{
 	 + "<li style='list-style-type:none'></li>"
 	 + "<li style='list-style-type: none'>Note from the above that when quoting lines of petry <i>in your text</i>, you indicate the end of each line by using a slash(/). Put a space before and after the slash.</li>"
 	 + "</ul" + "</html>";
-	@Override
+	
+	//returns an array of LinkedLists containing all of the sentences 
+	//within the essay that contain a quotation
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String searchFor = "\"";
 			
@@ -36,6 +42,8 @@ public class QuotationStrategy implements EssaySearchStrategy{
 			
 	}
 
+	//returns a String representation of 
+	//the quotation bluesheet rule
 	public String getRule() {
 		return rule;
 	}

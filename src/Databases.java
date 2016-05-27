@@ -4,8 +4,8 @@
  * downloads and stores all of the words from txt files into
  * hashtables for easy access
  * 
- * Written By: Shannon Wing
- * Date: 5/19/16
+ * Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
+ * Date: 5/31/16
  */
 
 import java.io.*;

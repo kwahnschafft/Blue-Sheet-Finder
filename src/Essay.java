@@ -1,6 +1,8 @@
 /** 
  * Represents an essay and holds data structures of sentences and words
- * @author Kelly Finke, Kiara Wahnschafft, Shannon Wing
+ * 
+ * Written By: Kelly Finke, Kiara Wahnschafft, Shannon Wing
+ * Date: 5/31/16
  */
 
 public class Essay {

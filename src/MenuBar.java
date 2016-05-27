@@ -1,5 +1,8 @@
 /**
  * Menu for Cryptogram Solver
+ * 
+ * Written By: Kiara Wahnschafft, Kelly Finke, Shannon Wing
+ * Date: 5/31/16
  */
 
 import java.awt.event.ActionListener;
