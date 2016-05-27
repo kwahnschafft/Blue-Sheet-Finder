@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -36,10 +37,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
@@ -47,6 +46,8 @@ import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+
+import com.sun.corba.se.impl.orbutil.graph.Node;
 
 public class BlueSheetChecker extends JFrame {
 
@@ -277,6 +278,19 @@ public class BlueSheetChecker extends JFrame {
           	  ListNode2[] array = firstSecond.findInEssay(tree);
           	  displaySentences(array);
           }
+    	  
+    	  //TODO delete this 
+    	/*  
+    	  ListNode2 head = essayEssay.getTree().get("me");
+    	  ListNode2 node = head;
+    	  do{
+    		  System.out.println(((WordLoc)node.getValue()).toString());
+    		  System.out.println("Prev: " + node.getPrevious().getValue());
+    		  System.out.println("Next: " + node.getNext().getValue());
+    		  System.out.println("------------------------------------------");
+    		  node = node.getNext();
+    	  }while(node != head);
+    	  */
       }
    }
   
@@ -482,6 +496,7 @@ public class BlueSheetChecker extends JFrame {
 	  else{
 		  ListNode2 headHead = new ListNode2("Temp Node"); //head of final loop
 		  ListNode2 tail = addNodeDuplicates(array[i], headHead);
+		  i ++;
 		  //add lists from other words
 		  while(i < array.length){ //add other lists
 			  if(array[i] != null){//add list to headHead
