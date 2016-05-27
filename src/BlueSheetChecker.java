@@ -15,8 +15,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,8 +39,23 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
+<<<<<<< Updated upstream
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+=======
+
+import com.sun.medialib.mlib.Image;
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+>>>>>>> Stashed changes
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
@@ -46,6 +63,7 @@ import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 
 import com.sun.corba.se.impl.orbutil.graph.Node;
 
@@ -194,7 +212,23 @@ public class BlueSheetChecker extends JFrame {
      //create panel for the HirschoMeter
      JPanel p4 = new JPanel();
      p4.setPreferredSize(new Dimension(200, 75));
+     p4.setLayout(new GridLayout(1, 5));
      p4.setBorder(new LineBorder(Color.BLACK));
+     BufferedImage image = null;
+     try
+     {
+       image = ImageIO.read(new File("leader.jpg"));
+     }
+     catch (Exception e)
+     {
+       e.printStackTrace();
+       System.exit(1);
+     }
+     ImageIcon img = new ImageIcon(image);
+     JLabel label = new JLabel("");
+     label.setIcon(img);
+     label.setPreferredSize(new Dimension(300,100));
+     p4.add( label, BorderLayout.CENTER );
      
      //create final panel and add all the previous panels to this panel
 	 JPanel panel = new JPanel(new GridBagLayout());
@@ -236,24 +270,11 @@ public class BlueSheetChecker extends JFrame {
 	 gbc.gridwidth = 2;
 	 panel.add(p4, gbc);
 	 
-	 read();
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
 	 c.setMinimumSize(c.getSize());
   }
   
-    public static void read()
-    {
-
-      try {
-    	  Clip clip = (Clip) AudioSystem.getClip();
-    	  clip.open(AudioSystem.getAudioInputStream(new File("hey.m4a")));
-    	  clip.start();
-      }
-      catch (Exception ex) {
-    	  System.out.println(ex);
-      }
-  }
   
   public void makeEssayAndTree(String text) {
 	  essayEssay = new Essay(text);
@@ -626,7 +647,6 @@ public class BlueSheetChecker extends JFrame {
   public static void main(String[] args) throws Exception
   {
     BlueSheetChecker window = new BlueSheetChecker();
-    read();
     window.setDefaultCloseOperation(EXIT_ON_CLOSE);
     window.pack();
     window.setVisible(true);
