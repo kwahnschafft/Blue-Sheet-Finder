@@ -128,6 +128,9 @@ public class Essay {
 			disconnect(sentence); //from words TreeMap
 			addSentenceWords(newStr);
 			
+			//change sentence
+			wloc.getSentenceNode().setValue(newStr);
+			
 			//removes this error from list to be displayed
 			node.setValue(null);
 			/*
