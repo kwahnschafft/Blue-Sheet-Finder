@@ -106,6 +106,7 @@ public class Essay {
 			//wloc.getSentenceNode().setValue(newStr);
 			//TODO is the above line needed??
 			
+			/*
 			System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
 			ListNode2 headd = wordsTree.get("me");
 	    	  ListNode2 nodee = headd;
@@ -116,11 +117,14 @@ public class Essay {
 	    		  System.out.println("------------------------------------------");
 	    		  nodee = nodee.getNext();
 	    	  }while(nodee != headd);
-			
+			*/
 			//fix words tree map
 			disconnect(sentence); //from words TreeMap
 			addSentenceWords(newStr);
 			
+			//removes this error from list to be displayed
+			node.setValue(null);
+			/*
 			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
 			headd = wordsTree.get("me");
 	    	 nodee = headd;
@@ -131,7 +135,9 @@ public class Essay {
 	    		  System.out.println("------------------------------------------");
 	    		  nodee = nodee.getNext();
 	    	  }while(nodee != headd);
+	    	  */
 		}
+		
 	}
 	
 	//updates any changes in a sentence in the word tree
@@ -233,9 +239,16 @@ public class Essay {
 	
 	//removes corrected word from wordsTree
 	public void removeCorrected(ListNode2 node){
+
+		
+		
 		WordLoc wloc = (WordLoc)node.getValue();
 		ListNode2 head = wordsTree.get(wloc.getWord());
 		ListNode2 next = head;
+		
+		//removes this error from list to be displayed
+		node.setValue(null);
+		
 	//	System.out.println(head.getValue()+ "***************************************************************************************************");
 		/*
 		System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
