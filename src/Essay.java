@@ -133,7 +133,7 @@ public class Essay {
 			temp = temp.toLowerCase();
 			System.out.println(temp);
 			
-			/*
+			
 			if(temp.equals("it")){
 				System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
 				ListNode2 headd = wordsTree.get("it");
@@ -146,7 +146,7 @@ public class Essay {
 		    		  nodee = nodee.getNext();
 		    	  }while(nodee != headd);
 				}
-				*/
+
 			
 			//remove node from given word
 			head = wordsTree.get(temp);
@@ -174,7 +174,7 @@ public class Essay {
 				}
 			}while(node != head);
 			
-			/*
+			
 			if(temp.equals("it")){
 			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
 			ListNode2 headd = wordsTree.get("it");
@@ -187,7 +187,7 @@ public class Essay {
 	    		  nodee = nodee.getNext();
 	    	  }while(nodee != headd);
 			}
-			*/
+			
 	    	  
 			System.out.println("disconnected \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
