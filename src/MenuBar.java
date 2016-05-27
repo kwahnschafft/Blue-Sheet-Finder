@@ -28,15 +28,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
-import org.docx4j.Docx4J;
-import org.docx4j.TextUtils;
-import org.docx4j.openpackaging.exceptions.Docx4JException;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.extractor.*;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
@@ -101,35 +98,7 @@ public class MenuBar extends JMenuBar
 
         File file = fileChooser.getSelectedFile();
         String stuff = "";
-        /*
-        try {
-			BasicConfigurator.configure();
-			//org.docx4j.
-        	WordprocessingMLPackage wordMLPackage = Docx4J.load(file);
-			MainDocumentPart part = wordMLPackage.getMainDocumentPart();
-			
-			
-			
-			
-			
-			@SuppressWarnings("deprecation")
-			org.docx4j.wml.Document wmlDoc = part.getJaxbElement();
-			OutputStreamWriter out = new OutputStreamWriter(System.out);
-			TextUtils.extractText(wmlDoc, out);
-			
-			stuff = out.toString();
-			System.out.println("out.tostring " + stuff);
-			out.close();
-			parseAndCreateEssay(stuff);
-			
-		} catch (Docx4JException e1) {
-			e1.printStackTrace();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
-        */
+     
         
         FileInputStream fis = null;
 		try {
@@ -151,54 +120,36 @@ public class MenuBar extends JMenuBar
         String displayText = WordExtractor.stripFields(rawText);
         //String text = bluesheet.getEssayText();
         parseAndCreateEssay(displayText);
-        
-        
-        /*
-        FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(pathName);
-		} catch (FileNotFoundException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}
-        InputStreamReader inputStreamReader = null;
-		try {
-			inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-		} catch (UnsupportedEncodingException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}      
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        String result1 = "";
-        String line = null;
-        try {
-			while ((line = bufferedReader.readLine()) != null) {
-			   result1 += line;
-			}
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-        try {
-			bufferedReader.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        parseAndCreateEssay(result1); */
       }
       else if (m == saveItem)
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
         int result = fileChooser.showSaveDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
         File file = fileChooser.getSelectedFile();
         if (file != null)
-          pathName = file.getAbsolutePath();
+          pathName = file.getAbsolutePath() + ".docx";
 
+        XWPFDocument document = new XWPFDocument();
+        XWPFParagraph tmpParagraph = document.createParagraph();
+        XWPFRun tmpRun = tmpParagraph.createRun();
+        tmpRun.setText(bluesheet.getEssayText());
+        try {
+			document.write(new FileOutputStream(new File(pathName)));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        /*
         PrintWriter outputFile;
         try
         {
@@ -209,7 +160,7 @@ public class MenuBar extends JMenuBar
           JOptionPane.showMessageDialog(bluesheet, "Invalid File Name",
                       "Cannot create " + pathName, JOptionPane.ERROR_MESSAGE);
           return;
-        }
+        }*/
       }
       else if (m == exitItem)
       {

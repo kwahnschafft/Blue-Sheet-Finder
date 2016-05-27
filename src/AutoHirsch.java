@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
@@ -41,15 +42,11 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-<<<<<<< Updated upstream:src/BlueSheetChecker.java
-//import com.sun.medialib.mlib.Image;
-=======
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
 import com.sun.medialib.mlib.Image;
->>>>>>> Stashed changes:src/AutoHirsch.java
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -387,6 +384,16 @@ public class AutoHirsch extends JFrame {
     	  newInsert = false;
     	  PassiveVoiceStrategy passiveVoice = new PassiveVoiceStrategy();
           rule.setText(passiveVoice.getRule());
+          if(!essay.getText().equals("")) {
+        	  ArrayList<ListNode2> list = passiveVoice.findInDatabase(tree);
+        	  System.out.println(list);
+        	  ListNode2[] array = new ListNode2[list.size()];
+        	  for(int i = 0; i < list.size(); i++) {
+        		  array[i] = list.get(i);
+        		  System.out.println("a");
+        	  }
+        	  displaySentences(array);
+          }
       }
    }
   class CustomActionListenerTwelve implements ActionListener{ //database strategy
@@ -394,6 +401,15 @@ public class AutoHirsch extends JFrame {
     	  newInsert = false;
     	  ProgressiveTenseStrategy progressive = new ProgressiveTenseStrategy();
           rule.setText(progressive.getRule());
+          if(!essay.getText().equals("")) {
+        	  ArrayList<ListNode2> list = progressive.findInDatabase(tree);
+        	  ListNode2[] array = new ListNode2[list.size()];
+        	  for(int i = 0; i < list.size(); i++) {
+        		  array[i] = list.get(i);
+        		  System.out.println("a");
+        	  }
+        	  displaySentences(array);
+          }
       }
    }
   class CustomActionListenerThirteen implements ActionListener{ //essay strategy
@@ -522,10 +538,11 @@ public class AutoHirsch extends JFrame {
 	  }
   }
   public void displaySentences(ListNode2[] array) {
+	  System.out.println("b");
 	  next.setEnabled(false);
 	  previous.setEnabled(false);
 	  createList(array);
-	  if(current != null) {
+	  if(current != null && current.getValue() != null) {
 		  displaySentence(current);
 		  if(current.getNext() != null)
 			  next.setEnabled(true);
