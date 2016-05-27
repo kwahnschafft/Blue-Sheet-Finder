@@ -1,6 +1,5 @@
 /**
- * Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
- * Date: 5/31/16
+ * BlueSheet
  */
 
 import java.awt.Color;
@@ -42,7 +41,15 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+<<<<<<< Updated upstream:src/BlueSheetChecker.java
 //import com.sun.medialib.mlib.Image;
+=======
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+
+import com.sun.medialib.mlib.Image;
+>>>>>>> Stashed changes:src/AutoHirsch.java
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -64,7 +71,7 @@ import javax.swing.ImageIcon;
 
 import com.sun.corba.se.impl.orbutil.graph.Node;
 
-public class BlueSheetChecker extends JFrame {
+public class AutoHirsch extends JFrame {
 
   private JTextArea essay;
   private JTextArea sentence;
@@ -84,7 +91,7 @@ public class BlueSheetChecker extends JFrame {
   Essay essayEssay;
   String blueColor = "#B8DFEF";
   
-  public BlueSheetChecker() throws Exception {
+  public AutoHirsch() throws Exception {
 
 	thisMenu = new MenuBar(this, new EssayAction());
     setJMenuBar(thisMenu);
@@ -272,9 +279,37 @@ public class BlueSheetChecker extends JFrame {
 	 c.setMinimumSize(c.getSize());
   }
   
+  public static void read() throws Exception {
+
+	    // specify the sound to play
+	    // (assuming the sound can be played by the audio system)
+	    File soundFile = new File("hey.wav");
+	    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+
+	    // load the sound into memory (a Clip)
+	    DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+	    Clip clip = (Clip) AudioSystem.getLine(info);
+	    clip.open(sound);
+
+	    // due to bug in Java Sound, explicitly exit the VM when
+	    // the sound has stopped.
+	    clip.addLineListener(new LineListener() {
+	        public void update(LineEvent event) {
+	            if (event.getType() == LineEvent.Type.STOP) {
+	                event.getLine().close();
+	                System.exit(0);
+	            }
+	        }
+
+	    });
+
+	    // play the sound clip
+	    clip.start();
+	}
   
   public void makeEssayAndTree(String text) {
 	  essayEssay = new Essay(text);
+	  System.out.println("makeesssayandtree " + text);
 	  newRemove = true;
 	  tree = essayEssay.getTree();
   }
@@ -591,7 +626,8 @@ public class BlueSheetChecker extends JFrame {
   }
 
   public void setEssayText(String text) {
-    essay.setText(text);
+    essay.setText(text.toString());
+    System.out.println("setessaytext " + text);
     essay.setCaretPosition(0);
   }
 
@@ -644,10 +680,11 @@ public class BlueSheetChecker extends JFrame {
 
   public static void main(String[] args) throws Exception
   {
-    BlueSheetChecker window = new BlueSheetChecker();
+    AutoHirsch window = new AutoHirsch();
     window.setDefaultCloseOperation(EXIT_ON_CLOSE);
     window.pack();
     window.setVisible(true);
     window.setMinimumSize(window.getSize());
+    read();
   }
 }

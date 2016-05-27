@@ -11,26 +11,45 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.FileNotFoundException;
+
+import org.docx4j.Docx4J;
+import org.docx4j.TextUtils;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.*;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class MenuBar extends JMenuBar
 {
-  private BlueSheetChecker bluesheet;
+  private AutoHirsch bluesheet;
   private JMenuItem openItem, saveItem, exitItem;
+  public static final Charset UTF_8 = StandardCharsets.UTF_8;
 
-  public MenuBar(BlueSheetChecker checker, ActionListener essayAction)
+  public MenuBar(AutoHirsch checker, ActionListener essayAction)
   {
     bluesheet = checker;
 
@@ -74,15 +93,72 @@ public class MenuBar extends JMenuBar
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
         int result = fileChooser.showOpenDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
         File file = fileChooser.getSelectedFile();
-        if (file != null)
-          pathName = file.getAbsolutePath();
-
+        String stuff = "";
+        /*
+        try {
+			BasicConfigurator.configure();
+			//org.docx4j.
+        	WordprocessingMLPackage wordMLPackage = Docx4J.load(file);
+			MainDocumentPart part = wordMLPackage.getMainDocumentPart();
+			
+			
+			
+			
+			
+			@SuppressWarnings("deprecation")
+			org.docx4j.wml.Document wmlDoc = part.getJaxbElement();
+			OutputStreamWriter out = new OutputStreamWriter(System.out);
+			TextUtils.extractText(wmlDoc, out);
+			
+			stuff = out.toString();
+			System.out.println("out.tostring " + stuff);
+			out.close();
+			parseAndCreateEssay(stuff);
+			
+		} catch (Docx4JException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         
+        */
+        
+        FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file.getAbsolutePath());
+		} catch (FileNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+       XWPFDocument document = null;
+		try {
+			document = new XWPFDocument(fis);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+        WordExtractor extractor = null;
+		try {
+			extractor = new XWPFWordExtractor(document);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        String rawText = extractor.getText();
+        String displayText = WordExtractor.stripFields(rawText);
+        //String text = bluesheet.getEssayText();
+        parseAndCreateEssay(displayText);
+        
+        
+        /*
         FileInputStream fileInputStream = null;
 		try {
 			fileInputStream = new FileInputStream(pathName);
@@ -114,7 +190,7 @@ public class MenuBar extends JMenuBar
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        parseAndCreateEssay(result1);
+        parseAndCreateEssay(result1); */
       }
       else if (m == saveItem)
       {
@@ -139,10 +215,6 @@ public class MenuBar extends JMenuBar
                       "Cannot create " + pathName, JOptionPane.ERROR_MESSAGE);
           return;
         }
-
-        String text = bluesheet.getEssayText();
-        outputFile.print(text);
-        outputFile.close();
       }
       else if (m == exitItem)
       {
@@ -169,7 +241,7 @@ public class MenuBar extends JMenuBar
 	      result1 = result1.replace( (char)150, (char)'-' );
 	  }
       
-      System.out.println(result1);
+      System.out.println("result 1 " + result1);
       
       bluesheet.makeEssayAndTree(result1);
       bluesheet.setEssayText(result1);
