@@ -1,4 +1,7 @@
 /*
+ * 
+ * strategy to check for sentences with possible quotation errors within an essay
+ * 
  * Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
  * Date: 5/31/16
  */

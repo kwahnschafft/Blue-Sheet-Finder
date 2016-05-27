@@ -1,4 +1,6 @@
 /*
+ * strategy to check for sentences with possible this, which errors within an essay
+ * 
  * Written By: Shannon Wing, Kelly Finke, and Kiara Wahnschafft
  * Date: 5/31/16
  */

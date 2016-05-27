@@ -1,5 +1,5 @@
 /*
- * represents the strategy to check for first or second person within an essay
+ * strategy to check for sentences with first or second person within an essay
  * 
  * Written By: Shannon Wing, Kelly Finke, Kiara Wahnschafft
  * Date: 5/31/16

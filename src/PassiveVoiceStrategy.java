@@ -1,4 +1,6 @@
 /*
+ * strategy to check for sentences with passive voice within an essay
+ * 
  * Written By: Shannon Wing, Kiara Wahschafft, Kelly Finke
  * Date: 5/31/16
  */

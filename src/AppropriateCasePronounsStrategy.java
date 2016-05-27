@@ -1,4 +1,6 @@
 /*
+ * strategy to check for sentences with possible pronoun case errors within an essay
+ * 
  *  Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
  * Date: 5/31/16
  */

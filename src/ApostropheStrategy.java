@@ -1,4 +1,6 @@
 /*
+ * strategy to check for sentences with possible apostrophe errors within an essay
+ * 
  *  Written By: Kiara Wahnschafft, Kelly Finke, Shannon Wing
  * Date: 5/31/16
  */
