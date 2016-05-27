@@ -145,13 +145,8 @@ public class MenuBar extends JMenuBar
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-        WordExtractor extractor = null;
-		try {
-			extractor = new XWPFWordExtractor(document);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        XWPFWordExtractor extractor = null;
+		extractor = new XWPFWordExtractor(document);
         String rawText = extractor.getText();
         String displayText = WordExtractor.stripFields(rawText);
         //String text = bluesheet.getEssayText();
