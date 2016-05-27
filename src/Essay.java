@@ -42,6 +42,12 @@ public class Essay {
 			i = k+1;
 			temp = "";
 		}
+		//make un circular
+		sentencesHead.getPrevious().setNext(null);
+		sentencesHead = sentencesHead.getNext();
+		if(sentencesHead != null){
+			sentencesHead.setPrevious(null);
+		}
 	}
 
 	/*
