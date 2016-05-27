@@ -1,5 +1,7 @@
-// Represents a node of a doubly-linked list.
-// From Litvin/Litvin Java Methods book
+/*
+ *  Represents a node of a doubly-linked list.
+ *  From Litvin/Litvin Java Methods book
+ */ 
 
 public class ListNode2
 {

@@ -1,7 +1,8 @@
 /*
  * Written By: Shannon Wing, Kelly Finke, and Kiara Wahnschafft
- * Date: 5/15/16
+ * Date: 5/31/16
  */
+
 public class ThisWhichStrategy implements EssaySearchStrategy {
 
 	private static String rule = "<html>" +
@@ -32,6 +33,8 @@ public class ThisWhichStrategy implements EssaySearchStrategy {
 		
 	}
 
+	//returns a String representation of the 
+	//this which bluesheet rule
 	public String getRule() {
 		return rule;
 	}

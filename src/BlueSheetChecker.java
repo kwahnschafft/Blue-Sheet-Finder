@@ -1,5 +1,6 @@
 /**
- * BlueSheet
+ * Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
+ * Date: 5/31/16
  */
 
 import java.awt.Color;

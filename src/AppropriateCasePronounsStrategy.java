@@ -1,8 +1,6 @@
-import java.util.Iterator;
-
 /*
- *  Written By: Shannon Wing
- * Date: 5/15/16
+ *  Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
+ * Date: 5/31/16
  */
 public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 
@@ -12,12 +10,14 @@ public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
      + "<li style='list-style-type:none'></li>"
      + "<li style='list-style-type: none'><b>(Correct)</b> She is the last person <i>whom</i> I would suspect.</li>" + "</ul" + "</html>";
 	
+	//returns an array of Linked Lists containing all of the sentences 
+	//within the essay that contains a pronoun case
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String[] searchFor = {"who", "whom", "she", "her", "he", "him"};
 		
 		ListNode2[] returning = new ListNode2[6];
-		//search tree for each pronoun case
 		
+		//search tree for each pronoun case
 		for (int i = 0; i < searchFor.length; i++)
 		{
 			//when word is found add head of LinkedList to array slot
@@ -34,7 +34,8 @@ public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 		
 	}
 
-	//returns a String consisting of the pronoun case rule
+	//returns a String representation of
+	// the pronoun case bluesheet rule
 	public String getRule()
 	{
 		return rule;
