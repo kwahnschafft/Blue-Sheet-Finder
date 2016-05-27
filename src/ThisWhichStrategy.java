@@ -11,6 +11,8 @@ public class ThisWhichStrategy implements EssaySearchStrategy {
 	         + "<li style='list-style-type:none'></li>"
 	         + "<li style='list-style-type: none'><b>(Correct)</b> In Dr. Seuss's <u>Horton Hears a Who</u>, Horton the elephant says that he hears a voice. <i>This claim</i> causes his friends to accuse him of being insane.</li>" + "</ul" + "</html>";
 	
+	//returns an array of LinkedLists containing all of the sentences 
+	//within the essay that contain a this or a which
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String[] searchFor = {"this", "which"};
 			

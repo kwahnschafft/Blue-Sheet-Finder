@@ -18,7 +18,8 @@ public class QuotationStrategy implements EssaySearchStrategy{
 	 + "<li style='list-style-type: none'>Note from the above that when quoting lines of petry <i>in your text</i>, you indicate the end of each line by using a slash(/). Put a space before and after the slash.</li>"
 	 + "</ul" + "</html>";
 	
-	
+	//returns an array of LinkedLists containing all of the sentences 
+	//within the essay that contain a quotation
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String searchFor = "\"";
 			
