@@ -43,6 +43,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    		while (ch != ' ')
 					    		{
 					    			index++;
+					    			ch = sentence.charAt(index);
 					    		}
 					    		
 					    		String nextWord = sentence.substring(origIndex, index);
