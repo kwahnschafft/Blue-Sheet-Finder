@@ -54,7 +54,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 							//when word after 'is' or 'are' ends in 'ing'
 							//check to make sure it is progressive using database and add
 							//the ListNode2 head to the arrayList
-						    if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-3, word.length()).compareTo("ing") == 0)
+						    if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-3, nextWord.length()).compareTo("ing") == 0)
 						    {
 						    	if (Databases.getIngNotProgressiveTenseD().contains(nextWord) == false)
 						    		 previousNode = node;

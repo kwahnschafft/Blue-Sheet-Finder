@@ -34,7 +34,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    	//check to see if next word in each sentence is pastTense
 					    	ListNode2 nodeWithWordLoc = tree.get(word);
 					    	
-					    	while(nodeWithWordLoc.getNext() != null)
+					    	while(nodeWithWordLoc != null)
 					    	{
 					    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
 					    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex()+3;
@@ -48,7 +48,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    		
 					    		String nextWord = sentence.substring(origIndex, index);
 					    		
-					    		 if (nextWord.length() > 2 && nextWord.length() > 2 && nextWord.substring(nextWord.length()-2, nextWord.length()).compareTo("ed") == 0)
+					    		 if ( nextWord.length() > 2 && nextWord.substring(nextWord.length()-2, nextWord.length()).compareTo("ed") == 0)
 								 {
 					    			 //if the next word is past tense, create a clone of the ListNode2
 					    			 //and add it to the LinkedList that is being returned
