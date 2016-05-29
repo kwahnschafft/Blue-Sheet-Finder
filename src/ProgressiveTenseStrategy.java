@@ -17,7 +17,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 	//returns an arraylist of LinkedLists containing all of the sentences 
 	//within the essay that contain progressive tense
 	public ArrayList<ListNode2> findInDatabase(TreeMap tree) {
-       String[] searchFor = {"is", "are"};
+       String[] searchFor = {"is", "are", "was", "were"};
        
    	ArrayList<ListNode2> returning = new ArrayList<ListNode2>();
 	ListNode2 head = null;
@@ -31,10 +31,10 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 			{
 				 if (word.compareTo(helperVerb) == 0)
 				    {
-				    	ListNode2 nodeWithWordLoc = tree.get(word).getNext();
+				    	ListNode2 nodeWithWordLoc = tree.get(word);
 				    	ListNode2 oldHead = tree.get(word);
-				    	while(!nodeWithWordLoc.equals(oldHead))
-				    	{
+				    	
+				    	do {
 				    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
 				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
 				    		if(helperVerb.equals("is"))
@@ -44,7 +44,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 				    			
 				    		int origIndex = index;
 				    		char ch = sentence.charAt(index);
-				    		while (ch != ' ')
+				    		while (ch != ' ' && ch != '.')
 				    		{
 				    			index++;
 				    			ch = sentence.charAt(index);
@@ -54,21 +54,22 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 							//when word after 'is' or 'are' ends in 'ing'
 							//check to make sure it is progressive using database and add
 							//the ListNode2 head to the arrayList
-						    if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-3, nextWord.length()).compareTo("ing") == 0)
+						    if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-3, nextWord.length()).compareTo("ing") == 0
+						    		&& !Databases.getIngNotProgressiveTenseD().contains(nextWord))
 						    {
-						    	if (Databases.getIngNotProgressiveTenseD().contains(nextWord) == false)
 						    		 previousNode = node;
-								node = new ListNode2(nodeWithWordLoc.getValue());
+								    node = new ListNode2(nodeWithWordLoc.getValue());
 							    	if (head == null)
 							    	{
 							    	    head = node;
 							    	}
 							    	else 
 							        	previousNode.setNext(node);  	  
+						    	
 						    }
 							nodeWithWordLoc = nodeWithWordLoc.getNext();
-							System.out.println("go");
-			            }
+
+			            }while(!nodeWithWordLoc.equals(oldHead));
 		            }       
 			}
 		}
