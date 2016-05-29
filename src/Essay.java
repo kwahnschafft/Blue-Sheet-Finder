@@ -57,13 +57,14 @@ public class Essay {
 	public void addAllWords() {
 		ListNode2 node = sentencesHead;
 		while(node != null) {
-			addSentenceWords((String)node.getValue());
+			addSentenceWords(node);
 			node = node.getNext();
 		}
 	}
 	
 	//adds words from a single sentence to the tree of words
-	public void addSentenceWords(String str){
+	public void addSentenceWords(ListNode2 sen){
+		String str = (String)sen.getValue();
 		//TODO ...
 		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
 		String temp = "";
@@ -82,7 +83,7 @@ public class Essay {
 					k++;
 				}
 			}
-			wordsTree.put(temp, new WordLoc(str, i, temp)); //add method of the tree
+			wordsTree.put(temp, new WordLoc(sen, i, temp)); //add method of the tree
 
 			System.out.println("added \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
@@ -94,6 +95,7 @@ public class Essay {
 	
 	//removes a wordloc node from a word and re-inserts the sentence
 	public void disconnectAndAdd(ListNode2 node, String newStr){
+	//	System.out.println(newStr);
 		WordLoc wloc = (WordLoc)node.getValue();
 		String sentence = (String)wloc.getSentenceNode().getValue();
 		if(!sentence.equals(newStr)){ //Not the exact same
@@ -104,7 +106,7 @@ public class Essay {
 			
 			//fix words tree map
 			disconnect(sentence); //from words TreeMap
-			addSentenceWords(newStr);
+			
 			
 			System.out.println("BEFOREBFOREBOFERBFOERBFEORBFOERBEFBROFEBREBFEFIREOREFBEOREBFE");
 			ListNode2 headd = sentencesHead;
@@ -121,8 +123,10 @@ public class Essay {
 			
 			//change sentence
 	    	 System.out.println(newStr);
+	    	 System.out.println(wloc.getSentenceNode().getValue());
 			wloc.getSentenceNode().setValue(newStr);
 			System.out.println(wloc.getSentenceNode().getValue() + "************************");
+			addSentenceWords(wloc.getSentenceNode());
 			
 			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
 			headd = sentencesHead;
