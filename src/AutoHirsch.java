@@ -404,12 +404,12 @@ public class AutoHirsch extends JFrame {
       int start = sentenceLoc.getWordIndex();
       int end = start;
       //apostrophe error highlight
-      if(displayedSentence.charAt(start) == '\'') {
+      if(displayedSentence.charAt(start) == '\'' && Character.isLetter(displayedSentence.charAt(start)) && displayedSentence.charAt(start) != ' ') {
     	  while(end < displayedSentence.length() && displayedSentence.charAt(end) == '\'')
     		  end++;
       }
       //quotation error highlight
-      else if(displayedSentence.charAt(start) == '\"') {
+      else if(displayedSentence.charAt(start) == '\"' && !Character.isLetter(displayedSentence.charAt(start)) && displayedSentence.charAt(start) != ' ') {
     	  while(end < displayedSentence.length() && displayedSentence.charAt(end) == '\"')
     		  end++;
       }
@@ -566,6 +566,11 @@ public class AutoHirsch extends JFrame {
           }
       }
    }
+  
+  /*
+   * Set the rule box to the progressive voice rule + use the progressive voice strategy
+   * to obtain and display the sentences with potential passive voic errors
+   */
   class CustomActionListenerTwelve implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
     	  newInsert = false;
