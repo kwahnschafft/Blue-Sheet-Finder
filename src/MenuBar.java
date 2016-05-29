@@ -17,13 +17,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -33,6 +31,12 @@ public class MenuBar extends JMenuBar
   private JMenuItem openItem, saveItem, exitItem;
   public static final Charset UTF_8 = StandardCharsets.UTF_8;
 
+  /*
+   * creates the menu bar of the AutoHirsch program
+   * adds a drop down menu to the bar that allows the
+   * user to insert text from a word document, type in
+   * text, or quit the program
+   */
   public MenuBar(AutoHirsch checker, ActionListener essayAction)
   {
     bluesheet = checker;
@@ -146,7 +150,6 @@ public class MenuBar extends JMenuBar
 	  boolean isMacOs = osName.startsWith("mac os x");
 	  String result1 = str;
 	  if (isMacOs) { //mac-specific character encoding
-		  System.out.println("hey");
 		  result1 = result1.replace( (char)2424, (char)'\n');
 		  result1 = result1.replace( (char)145, (char)'\'');
 	      result1 = result1.replace( (char)8216, (char)'\''); // left single quote
@@ -159,9 +162,6 @@ public class MenuBar extends JMenuBar
 	      result1 = result1.replace( (char)8211, (char)'-' ); // em dash??    
 	      result1 = result1.replace( (char)150, (char)'-' );
 	  }
-      
-      System.out.println("result 1 " + result1);
-      
       bluesheet.makeEssayAndTree(result1);
       bluesheet.setEssayText(result1);
   }
