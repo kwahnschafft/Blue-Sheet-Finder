@@ -48,7 +48,7 @@ public class Essay {
 		if(sentencesHead != null){
 			sentencesHead.setPrevious(null);
 		}
-		System.out.println("Sentence Node " + sentencesHead.getValue());
+//		System.out.println("Sentence Node " + sentencesHead.getValue());
 	}
 
 	/*
@@ -71,10 +71,10 @@ public class Essay {
 		int i = 0;
 		while(i < str.length()) {
 			int k = i;
-			System.out.println(str.charAt(k));
+	//		System.out.println(str.charAt(k));
 			if(punctuation.indexOf(str.charAt(k)) >= 0){ //character is punctuation
 				temp += str.charAt(k);
-				System.out.println("here");
+		//		System.out.println("here");
 				k++;
 			}
 			else{
@@ -85,7 +85,7 @@ public class Essay {
 			}
 			wordsTree.put(temp, new WordLoc(sen, i, temp)); //add method of the tree
 
-			System.out.println("added \"" + temp + "\"");
+		//	System.out.println("added \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
 				k++;
 			i = k;
@@ -157,10 +157,10 @@ public class Essay {
 		ListNode2 node;
 		while(i < str.length()) {
 			int k = i;
-			System.out.println(str.charAt(k));
+	//		System.out.println(str.charAt(k));
 			if(punctuation.indexOf(str.charAt(k)) >= 0){ //character is punctuation
 				temp += str.charAt(k);
-				System.out.println("here");
+	//			System.out.println("here");
 				k++;
 			}
 			else{
@@ -171,17 +171,17 @@ public class Essay {
 			}
 			
 			temp = temp.toLowerCase();
-			System.out.println(temp);
+	//		System.out.println(temp);
 			
-			System.out.println("Looking for " + temp);
+	//		System.out.println("Looking for " + temp);
 			//remove node from given word
 			head = wordsTree.get(temp);
 			node = head;
 			do{
-				System.out.println("node string " + ((WordLoc)node.getValue()).getSentenceString());
-				System.out.println("String string: " + str);
+		//		System.out.println("node string " + ((WordLoc)node.getValue()).getSentenceString());
+		//		System.out.println("String string: " + str);
 				if(((WordLoc)node.getValue()).getSentenceString() == str){
-					System.out.println("disconnecting \"" + temp + "\"");
+		//			System.out.println("disconnecting \"" + temp + "\"");
 					if(node == head){ //don't delete head unless its the only node left
 						if(node.getNext() == node){ //only node left 
 							wordsTree.remove(temp);
@@ -228,7 +228,7 @@ public class Essay {
 		//	System.out.println("node string " + ((WordLoc)node.getValue()).getSentenceString());
 		//	System.out.println("String string: " + str);
 			if(((WordLoc)next.getValue()) == wloc){
-				System.out.println("HERERE WE ARE IN THIS METHOS");
+	//			System.out.println("HERERE WE ARE IN THIS METHOS");
 	//		System.out.println("disconnecting \"" + temp + "\"");
 				if(next == head){ //don't delete head unless its the only node left
 					if(next.getNext() == next){ //only node left 
@@ -248,7 +248,7 @@ public class Essay {
 					next.getNext().setPrevious(next.getPrevious());
 					next.setNext(null);
 					next.setPrevious(null);
-					System.out.println("****************** info of removed node: " + next.getValue());
+		//			System.out.println("****************** info of removed node: " + next.getValue());
 		//			System.out.println("..................DID IT C");
 				}
 
