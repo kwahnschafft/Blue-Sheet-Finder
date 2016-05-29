@@ -82,19 +82,8 @@ public class Essay {
 					k++;
 				}
 			}
-	//		System.out.println("************************" + temp + " " + str + " " + i);
 			wordsTree.put(temp, new WordLoc(str, i, temp)); //add method of the tree
-			/*
-			ListNode2 headd = wordsTree.get(temp);
-	    	  ListNode2 nodee = headd;
-	    	  do{
-	    		  System.out.println(((WordLoc)nodee.getValue()).toString());
-	    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
-	    		  System.out.println("Next: " + nodee.getNext().getValue());
-	    		  System.out.println("------------------------------------------");
-	    		  nodee = nodee.getNext();
-	    	  }while(nodee != headd);
-	    	  */
+
 			System.out.println("added \"" + temp + "\"");
 			if(k < str.length() && str.charAt(k) == ' ')
 				k++;
@@ -113,39 +102,44 @@ public class Essay {
 			//wloc.getSentenceNode().setValue(newStr);
 			//TODO is the above line needed??
 			
-			/*
-			System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
-			ListNode2 headd = wordsTree.get("me");
-	    	  ListNode2 nodee = headd;
-	    	  do{
-	    		  System.out.println(((WordLoc)nodee.getValue()).toString());
-	    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
-	    		  System.out.println("Next: " + nodee.getNext().getValue());
-	    		  System.out.println("------------------------------------------");
-	    		  nodee = nodee.getNext();
-	    	  }while(nodee != headd);
-			*/
 			//fix words tree map
 			disconnect(sentence); //from words TreeMap
 			addSentenceWords(newStr);
 			
-			//change sentence
-			wloc.getSentenceNode().setValue(newStr);
-			
-			//removes this error from list to be displayed
-			node.setValue(null);
-			/*
-			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
-			headd = wordsTree.get("me");
-	    	 nodee = headd;
+			System.out.println("BEFOREBFOREBOFERBFOERBFEORBFOERBEFBROFEBREBFEFIREOREFBEOREBFE");
+			ListNode2 headd = sentencesHead;
+	    	ListNode2 nodee = headd;
 	    	  do{
-	    		  System.out.println(((WordLoc)nodee.getValue()).toString());
+	    		  System.out.println(nodee.getValue());
+	    		  if(nodee.getPrevious() != null)
 	    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
+	    		  if(nodee.getNext() != null)
 	    		  System.out.println("Next: " + nodee.getNext().getValue());
 	    		  System.out.println("------------------------------------------");
 	    		  nodee = nodee.getNext();
-	    	  }while(nodee != headd);
-	    	  */
+	    	  }while(nodee != null && nodee != headd);
+			
+			//change sentence
+	    	 System.out.println(newStr);
+			wloc.getSentenceNode().setValue(newStr);
+			System.out.println(wloc.getSentenceNode().getValue() + "************************");
+			
+			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
+			headd = sentencesHead;
+	    	 nodee = headd;
+	    	  do{
+	    		  System.out.println(nodee.getValue());
+	    		  if(nodee.getPrevious() != null)
+	    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
+	    		  if(nodee.getNext() != null)
+	    		  System.out.println("Next: " + nodee.getNext().getValue());
+	    		  System.out.println("------------------------------------------");
+	    		  nodee = nodee.getNext();
+	    	  }while(nodee != null && nodee != headd);
+
+			
+			//removes this error from list to be displayed
+			node.setValue(null);
 		}
 		
 	}
@@ -175,21 +169,6 @@ public class Essay {
 			temp = temp.toLowerCase();
 			System.out.println(temp);
 			
-			/*
-			if(temp.equals("it")){
-				System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
-				ListNode2 headd = wordsTree.get("it");
-		    	  ListNode2 nodee = headd;
-		    	  do{
-		    		  System.out.println(((WordLoc)nodee.getValue()).toString());
-		    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
-		    		  System.out.println("Next: " + nodee.getNext().getValue());
-		    		  System.out.println("------------------------------------------");
-		    		  nodee = nodee.getNext();
-		    	  }while(nodee != headd);
-				}
-		*/
-			
 			System.out.println("Looking for " + temp);
 			//remove node from given word
 			head = wordsTree.get(temp);
@@ -202,7 +181,7 @@ public class Essay {
 					if(node == head){ //don't delete head unless its the only node left
 						if(node.getNext() == node){ //only node left 
 							wordsTree.remove(temp);
-							System.out.println("..................DID IT A");
+		//					System.out.println("..................DID IT A");
 						}else{ //make second node new head
 							head.setValue(head.getNext().getValue());
 							ListNode2 tempNode = head.getNext();
@@ -210,35 +189,19 @@ public class Essay {
 							tempNode.getNext().setPrevious(head);
 							tempNode.setNext(null);
 							tempNode.setPrevious(null);
-							System.out.println("..................DID IT B");
+		//					System.out.println("..................DID IT B");
 						}
 					}else {//not head
 						node.getPrevious().setNext(node.getNext());
 						node.getNext().setPrevious(node.getPrevious());
 						node.setNext(null);
 						node.setPrevious(null);
-						System.out.println("..................DID IT C");
+			//			System.out.println("..................DID IT C");
 					}
 					break;
 				}
 				node = node.getNext();
 			}while(node != head);
-			
-			/*
-			if(temp.equals("it")){
-			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
-			ListNode2 headd = wordsTree.get("it");
-	    	  ListNode2 nodee = headd;
-	    	  do{
-	    		  System.out.println(((WordLoc)nodee.getValue()).toString());
-	    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
-	    		  System.out.println("Next: " + nodee.getNext().getValue());
-	    		  System.out.println("------------------------------------------");
-	    		  nodee = nodee.getNext();
-	    	  }while(nodee != headd);
-			}
-			*/
-	    	  
 			
 			if(k < str.length() && str.charAt(k) == ' ')
 				k++;
@@ -250,8 +213,6 @@ public class Essay {
 	//removes corrected word from wordsTree
 	public void removeCorrected(ListNode2 node){
 
-		
-		
 		WordLoc wloc = (WordLoc)node.getValue();
 		ListNode2 head = wordsTree.get(wloc.getWord());
 		ListNode2 next = head;
@@ -259,19 +220,6 @@ public class Essay {
 		//removes this error from list to be displayed
 		node.setValue(null);
 		
-	//	System.out.println(head.getValue()+ "***************************************************************************************************");
-		/*
-		System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
-		ListNode2 headd = wordsTree.get(wloc.getWord());
-    	  ListNode2 nodee = headd;
-    	  do{
-    		  System.out.println(((WordLoc)nodee.getValue()).toString());
-    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
-    		  System.out.println("Next: " + nodee.getNext().getValue());
-    		  System.out.println("------------------------------------------");
-    		  nodee = nodee.getNext();
-    	  }while(nodee != headd);
-		*/
 		do{
 		//	System.out.println("node string " + ((WordLoc)node.getValue()).getSentenceString());
 		//	System.out.println("String string: " + str);
@@ -281,7 +229,7 @@ public class Essay {
 				if(next == head){ //don't delete head unless its the only node left
 					if(next.getNext() == next){ //only node left 
 						wordsTree.remove(wloc.getWord());
-						System.out.println("..................DID IT A");
+			//			System.out.println("..................DID IT A");
 					}else{ //make second node new head
 						head.setValue(head.getNext().getValue());
 						ListNode2 tempNode = head.getNext();
@@ -289,7 +237,7 @@ public class Essay {
 						tempNode.getNext().setPrevious(head);
 						tempNode.setNext(null);
 						tempNode.setPrevious(null);
-						System.out.println("..................DID IT B");
+		//				System.out.println("..................DID IT B");
 					}
 				}else {//not head
 					next.getPrevious().setNext(next.getNext());
@@ -297,43 +245,14 @@ public class Essay {
 					next.setNext(null);
 					next.setPrevious(null);
 					System.out.println("****************** info of removed node: " + next.getValue());
-					System.out.println("..................DID IT C");
+		//			System.out.println("..................DID IT C");
 				}
-				/*
-				System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
-				headd = wordsTree.get("i");
-		    	 nodee = headd;
-		    	  do{
-		    		  System.out.println(((WordLoc)nodee.getValue()).toString());
-		    		  System.out.println("Prev: " + nodee.getPrevious().getValue());
-		    		  System.out.println("Next: " + nodee.getNext().getValue());
-		    		  System.out.println("------------------------------------------");
-		    		  nodee = nodee.getNext();
-		    	  }while(nodee != headd);
-				*/
+
 				return;
 			}
 			next = next.getNext();
 		}while(next != head);
 		
-		//find wloc and remove
-		/*node = head;
-		do{
-			if(node.getValue() == wloc){
-				//remove node
-				if(node.getNext() == node){ //only node
-					wordsTree.remove(wloc.getWord());
-				}else { //disconnect node from list
-						node.getPrevious().setNext(node.getNext());
-					if(node.getNext() != null)
-						node.getNext().setPrevious(node.getPrevious());
-					node.setNext(null);
-					node.setPrevious(null);
-				}
-				return;
-			}
-		}while(node != head);*/
-		//TODO idk why it would get here
 	}
 	
 	
