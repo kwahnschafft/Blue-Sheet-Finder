@@ -32,7 +32,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    if (word.compareTo(helperVerb) == 0)
 					    {
 					    	//check to see if next word in each sentence is pastTense
-					    	ListNode2 nodeWithWordLoc = tree.get(word);
+					    	ListNode2 nodeWithWordLoc = tree.get(word).getNext();
 					    	ListNode2 oldHead = tree.get(word);
 					    	
 					    	while(!nodeWithWordLoc.equals(oldHead))

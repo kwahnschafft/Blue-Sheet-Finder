@@ -31,7 +31,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 			{
 				 if (word.compareTo(helperVerb) == 0)
 				    {
-				    	ListNode2 nodeWithWordLoc = tree.get(word);
+				    	ListNode2 nodeWithWordLoc = tree.get(word).getNext();
 				    	ListNode2 oldHead = tree.get(word);
 				    	while(!nodeWithWordLoc.equals(oldHead))
 				    	{
@@ -67,6 +67,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 							        	previousNode.setNext(node);  	  
 						    }
 							nodeWithWordLoc = nodeWithWordLoc.getNext();
+							System.out.println("go");
 			            }
 		            }       
 			}
