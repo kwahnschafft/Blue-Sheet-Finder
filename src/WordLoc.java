@@ -10,7 +10,7 @@ public class WordLoc{
 	private int index;
 	private String word;
 	
-	//wraps String in a ListNode2 and creates new WordLoc
+	/*//wraps String in a ListNode2 and creates new WordLoc
 	public WordLoc(String s, int i, String w){
 		ListNode2 node = new ListNode2(s);
 		node.setPrevious(node);
@@ -18,7 +18,7 @@ public class WordLoc{
 		sentence = node;
 		index = i;
 		word = w.toLowerCase();
-	}
+	}*/
 	
 	//constructs new WordLoc
 	public WordLoc(ListNode2 s, int i, String w){

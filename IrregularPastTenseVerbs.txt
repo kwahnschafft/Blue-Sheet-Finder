@@ -1,5 +1,10 @@
 beat	
+<<<<<<< HEAD
 became	
+=======
+beaten	
+became
+>>>>>>> origin/master
 began	
 bent		
 bet
