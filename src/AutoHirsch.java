@@ -605,6 +605,7 @@ public class AutoHirsch extends JFrame {
 			  sentence.setText("");
 		  }
     	  essayEssay.disconnectAndAdd(nodeBeingChanged, changedSentence);
+    	  System.out.println(changedSentence);
     	  checkButtons();
     	  updateDisplay();
       }

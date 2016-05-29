@@ -119,7 +119,9 @@ public class MenuBar extends JMenuBar
         File file = fileChooser.getSelectedFile();
         if (file != null) {
           String pathNameWithOrWithout = file.getAbsolutePath();
-          if(pathNameWithOrWithout.substring(pathNameWithOrWithout.length() - 5).equals(".docx"));
+          if(!(pathNameWithOrWithout.substring(pathNameWithOrWithout.length() - 5).equals(".docx"))) {
+        	  
+          }
         }
 
         XWPFDocument document = new XWPFDocument();
