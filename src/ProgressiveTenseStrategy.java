@@ -42,7 +42,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 				    			
 				    		int origIndex = index;
 				    		char ch = sentence.charAt(index);
-				    		while (punctuation.indexOf(ch) >= 0)
+				    		while ((punctuation.indexOf(ch) < 0) && ch != ' ')
 				    		{
 				    			index++;
 				    			ch = sentence.charAt(index);

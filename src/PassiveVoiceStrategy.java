@@ -44,13 +44,14 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    		
 					    		int origIndex = index;
 					    		char ch = sentence.charAt(index);
-					    		while (punctuation.indexOf(ch) >= 0)
+					    		while ((punctuation.indexOf(ch) < 0) && ch != ' ')
 					    		{
 					    			index++;
 					    			ch = sentence.charAt(index);
 					    		}
-					    		
+					    		System.out.println(origIndex + " " + index);
 					    		String nextWord = sentence.substring(origIndex, index);
+					    		System.out.println("next word " + nextWord);
 					    		
 					    		 if ( nextWord.length() > 2 && nextWord.substring(nextWord.length()-2, nextWord.length()).compareTo("ed") == 0
 					    				 && !Databases.getEdNotPastTenseD().contains(nextWord))
