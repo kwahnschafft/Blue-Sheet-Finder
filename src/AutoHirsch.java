@@ -310,7 +310,6 @@ public class AutoHirsch extends JFrame {
   
   public void makeEssayAndTree(String text) {
 	  essayEssay = new Essay(text);
-	  System.out.println("makeesssayandtree " + text);
 	  newRemove = true;
 	  tree = essayEssay.getTree();
   }
@@ -348,6 +347,7 @@ public class AutoHirsch extends JFrame {
 	  next.setEnabled(false);
 	  previous.setEnabled(false);
 	  createList(array);
+	  System.out.println(current);
 	  if(current != null && current.getValue() != null) {
 		  System.out.println(current);
 		  displaySentence(current);
@@ -467,7 +467,6 @@ public class AutoHirsch extends JFrame {
 
   public void setEssayText(String text) {
     essay.setText(text.toString());
-    System.out.println("setessaytext " + text);
     essay.setCaretPosition(0);
   }
 
@@ -749,8 +748,12 @@ public class AutoHirsch extends JFrame {
     	  GridBagConstraints gbc = new GridBagConstraints();
     	  gbc.gridx = 0;
     	  gbc.gridy = 0;
+    	  gbc.weightx = 1.0;
+    	  gbc.weighty = 1.0;
     	  gbc.gridheight = 2;
-    	  p.add(copy, gbc);
+    	  gbc.anchor = GridBagConstraints.NORTHWEST;
+    	  gbc.fill = GridBagConstraints.BOTH;
+    	  p.add(sentenceScrollPane, gbc);
     	  gbc.gridy = 2;
     	  gbc.gridheight = 1;
     	  p.add(closeAndPaste, gbc);
@@ -758,6 +761,7 @@ public class AutoHirsch extends JFrame {
   
     	  frame.pack();
     	  frame.setVisible(true);
+    	  frame.setMinimumSize(frame.getSize());
       }
      // setTextOut(getTextIn());
     }
