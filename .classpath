@@ -7,21 +7,24 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry exported="true" kind="lib" path="/Users/shannon/Documents/Blue-Sheet-Finder/poi-scratchpad-3.2-FINAL.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/shannon/Documents/Blue-Sheet-Finder/xmlbeans.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/shannon/Documents/Blue-Sheet-Finder/poi-ooxml-schemas-3.8-beta3-20110606.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/shannon/Documents/Blue-Sheet-Finder/poi-ooxml-3.8.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/shannon/Documents/Blue-Sheet-Finder/poi-ooxml-3.7-beta1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/shannon/Documents/Blue-Sheet-Finder/dom4j-1.6.1.jar"/>
+=======
+>>>>>>> origin/master
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
