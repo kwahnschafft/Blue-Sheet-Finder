@@ -3,8 +3,8 @@
  * Authors: Kiara Wahnschafft, Shannon Wing, Kelly Finke
  */
 
+//import statements
 import java.awt.Color;
-
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -34,7 +33,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.swing.JTextArea;
@@ -223,36 +221,52 @@ public class AutoHirsch extends JFrame {
 	 gbc.anchor = GridBagConstraints.CENTER;
 	 panel.add(areaScrollPaneIn, gbc);
 	 
+	 //grid bag constraints for the first panel
 	 gbc.gridx = 1;
 	 gbc.gridy = 0;
 	 gbc.gridwidth = 1;
 	 gbc.gridheight = 1;
 	 panel.add(p1, gbc);
 
+	//grid bag constraints for the sentence scroll panel
 	 gbc.gridx = 0;
 	 gbc.gridy = 1;
 	 gbc.gridheight = 1;
 	 panel.add(sentenceScrollPane, gbc);
 	 
+	//grid bag constraints for the second panel
 	 gbc.gridx = 1;
 	 gbc.gridy = 1;
 	 gbc.gridheight = 3;
 	 panel.add(p2, gbc);
 	 
+	//grid bag constraints for the third panel
 	 gbc.gridx = 0;
 	 gbc.gridy = 3;
 	 gbc.gridheight = 1;
 	 panel.add(p3, gbc);
 	 
+	//grid bag constraints for the fourth panel
 	 gbc.gridx = 0;
 	 gbc.gridy = 4;
 	 gbc.gridheight = 1;
 	 gbc.gridwidth = 2;
 	 panel.add(p4, gbc);
 	 
+	 //create container and add the final panel to the container
 	 Container c = getContentPane();
 	 c.add(panel, BorderLayout.CENTER);
 	 c.setMinimumSize(c.getSize());
+  }
+  
+  /*
+   * creates a new essay object from the text that the user has
+   * inputed and creates a new tree of words in that essay
+   */
+  public void makeEssayAndTree(String text) {
+	  essayEssay = new Essay(text);
+	  newRemove = true;
+	  tree = essayEssay.getTree();
   }
   
   /*
@@ -282,13 +296,11 @@ public class AutoHirsch extends JFrame {
 	    //play the sound stored in the clip object
 	    cl.start();
 	}
-  
-  public void makeEssayAndTree(String text) {
-	  essayEssay = new Essay(text);
-	  newRemove = true;
-	  tree = essayEssay.getTree();
-  }
 
+  /*
+   * set the text in the essay text box to the concatenated sentences
+   * stored in the essay object's linked list
+   */
   public void updateDisplay() {
 	  String currentEssay = "";
 	  for(ListNode2 node = essayEssay.getSentences(); node != null; node = node.getNext())  {
@@ -297,6 +309,12 @@ public class AutoHirsch extends JFrame {
 	  essay.setText(currentEssay);
   }
   
+  /*
+   * makes sure that the previous and next buttons are only enabled if
+   * there is a previous and next potential error to go to, respectively
+   * also makes sure that the change and correct buttons are disabled
+   * if there is no sentence currently being displayed
+   */
   public void checkButtons() {
 	  if(current != null && current.getValue() != null) {
 		  if(getPreviousNotEmpty() == null) {
@@ -318,6 +336,12 @@ public class AutoHirsch extends JFrame {
 		  correct.setEnabled(false);
 	  }
   }
+  
+  /*
+   * displays the potential errors in the designated text area
+   * from an array of list nodes that contain WordLocs, returned
+   * by the strategy currently being used
+   */
   public void displaySentences(ListNode2[] array) {
 	  next.setEnabled(false);
 	  previous.setEnabled(false);
@@ -334,6 +358,48 @@ public class AutoHirsch extends JFrame {
 	  		
   }
   
+  /*
+   * helper method for displaySentences that displays
+   * the WordLoc (sentence with potential error highlighted)
+   * in the designated text box
+   */
+  public void displaySentence(ListNode2 node) {
+	  WordLoc sentenceLoc = (WordLoc)(node.getValue());
+	  String displayedSentence = ((String)(sentenceLoc).getSentenceNode().getValue());
+	  sentence.setText(displayedSentence);
+	  Highlighter highlighter = sentence.getHighlighter();
+      int start = sentenceLoc.getWordIndex();
+      int end = start;
+      //apostrophe error highlight
+      if(displayedSentence.charAt(start) == '\'') {
+    	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ' && displayedSentence.charAt(end) != ',')
+    		  end++;
+      }
+      //quotation error highlight
+      else if(displayedSentence.charAt(start) == '\"') {
+    	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ' && displayedSentence.charAt(end) != ',')
+    		  end++;
+      }
+      //other error highlight
+      else {
+	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ' && Character.isLetter(displayedSentence.charAt(end))) {
+	    	  end++;
+	      }
+      }
+      try {
+		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
+	  } 
+      catch (BadLocationException e) {
+		// Auto-generated catch block
+		e.printStackTrace();
+	  }
+  }
+  
+  /*
+   * helper method for displaySentences that creates a
+   * linked list from the list nodes stored in an array
+   * returned by the strategy currently being used
+   */
   public void createList(ListNode2[] array) {
 	  int i = 0;
 	  while(i < array.length && array[i] == null){ //find first linked list that is populated
@@ -367,7 +433,9 @@ public class AutoHirsch extends JFrame {
 	  }
   }
   
-  //creates duplicates of nodes to be added to list of potential errors
+  /*
+   * creates duplicates of nodes to be added to list of potential errors
+   */
   private ListNode2 addNodeDuplicates(ListNode2 head, ListNode2 tail){ //head to be copied, tail of larger list
 	  ListNode2 node = head;
 	  do{
@@ -378,69 +446,31 @@ public class AutoHirsch extends JFrame {
 	  return tail;
   }
   
-/*  //combines two doubly linked circular lists
-  private void addLinkedLists(ListNode2 subList, ListNode2 bigList){
-	  ListNode2 subLast = subList.getPrevious();
-	  ListNode2 bigLast = bigList.getPrevious();
-	  if(bigList != null) 
-		  bigList.setPrevious(subLast);
-	  if(subLast != null)
-		  subLast.setNext(bigList);
-	  if(bigLast != null)
-		  bigLast.setNext(subList);
-	  if(subList != null)
-		  subList.setPrevious(bigLast);
-  }
-  
-  private ListNode2 duplicate(ListNode2 node){
-	  return new ListNode2(node.getValue());
-  }*/
-
-  public void displaySentence(ListNode2 node) {
-	  WordLoc sentenceLoc = (WordLoc)(node.getValue());
-	  String displayedSentence = ((String)(sentenceLoc).getSentenceNode().getValue());
-	  sentence.setText(displayedSentence);
-	  Highlighter highlighter = sentence.getHighlighter();
-      int start = sentenceLoc.getWordIndex();
-      int end = start;
-      //apostrophe error highlight
-      if(displayedSentence.charAt(start) == '\'') {
-    	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ')
-    		  end++;
-      }
-      //quotation error highlight
-      else if(displayedSentence.charAt(start) == '\"') {
-    	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ')
-    		  end++;
-      }
-      //other error highlight
-      else {
-	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ' && Character.isLetter(displayedSentence.charAt(end))) {
-	    	  end++;
-	      }
-      }
-      try {
-		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
-	  } 
-      catch (BadLocationException e) {
-		// Auto-generated catch block
-		e.printStackTrace();
-	  }
-  }
-  
+  /*
+   * returns the passage that the user inputed and is editing
+   */
   public String getEssayText() {
     return essay.getText();
   }
   
+  /*
+   * returns the sentence of the currently displayed WordLoc
+   */
   public String getSentenceText() {
 	  return sentence.getText();
   }
 
+  /*
+   * sets the text in the essay text box to the parameter "text"
+   */
   public void setEssayText(String text) {
     essay.setText(text.toString());
     essay.setCaretPosition(0);
   }
 
+  /*
+   * sets the text in the displayed WordLoc text box to the parameter "text"
+   */
   public void setSentenceText(String text) {
     sentence.setCaretPosition(0);
   }
@@ -482,19 +512,6 @@ public class AutoHirsch extends JFrame {
           	  ListNode2[] array = firstSecond.findInEssay(tree);
           	  displaySentences(array);
           }
-    	  
-    	  //TODO delete this 
-    	 /*
-    	  ListNode2 head = essayEssay.getTree().get("me");
-    	  ListNode2 node = head;
-    	  do{
-    		  System.out.println(((WordLoc)node.getValue()).toString());
-    		  System.out.println("Prev: " + node.getPrevious().getValue());
-    		  System.out.println("Next: " + node.getNext().getValue());
-    		  System.out.println("------------------------------------------");
-    		  node = node.getNext();
-    	  }while(node != head);
-    	  */
       }
    }
   
@@ -569,7 +586,7 @@ public class AutoHirsch extends JFrame {
   
   /*
    * Set the rule box to the progressive voice rule + use the progressive voice strategy
-   * to obtain and display the sentences with potential passive voic errors
+   * to obtain and display the sentences with potential passive voice errors
    */
   class CustomActionListenerTwelve implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
@@ -586,6 +603,11 @@ public class AutoHirsch extends JFrame {
           }
       }
    }
+  
+  /*
+   * Set the rule box to the quotation rule + use the quotation strategy
+   * to obtain and display the sentences with potential quotation errors
+   */
   class CustomActionListenerThirteen implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
     	  newInsert = false;
@@ -598,6 +620,75 @@ public class AutoHirsch extends JFrame {
       }
    }
  
+ /*
+ * displays the previous WordLoc and ensures that the 
+ * buttons are enabled/disabled properly
+ */
+  class CustomActionListenerPrevious implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  newInsert = false;
+		  newRemove = false;
+		  current = getPreviousNotEmpty();
+		  correct.setEnabled(true);
+		  change.setEnabled(false);
+		  displaySentence(current);
+		  checkButtons();
+      }
+   }
+  
+  /*
+   * helper method for the previous button action listener that returns 
+   * the first previous node that does not contain a WordLoc of value null
+   */
+  private ListNode2 getPreviousNotEmpty() {
+	  ListNode2 node = current;
+	  do{
+		  node= node.getPrevious();
+		  if(node == null){
+			  return null;
+		  }
+	  }while(node.getValue() == null);
+	  return node;
+  }
+
+  /*
+   * displays the next WordLoc and ensures that the 
+   * buttons are enabled/disabled properly
+   */
+  class CustomActionListenerNext implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  newInsert = false;
+		  newRemove = false;
+		  current = getNextNotEmpty();
+		  displaySentence(current);
+		  correct.setEnabled(true);
+		  change.setEnabled(false);
+		  checkButtons();
+      }
+   }
+ 
+  /*
+   * helper method for the next button action listener that returns 
+   * the next node that does not contain a WordLoc of value null
+   */
+  private ListNode2 getNextNotEmpty() {
+	  ListNode2 node = current;
+	  do{
+		  node= node.getNext();
+		  if(node == null){
+			  return null;
+		  }
+	  }while(node.getValue() == null);
+	  return node;
+  }
+ 
+  /*
+   * removes the currently displayed WordLoc from the list of WordLocs
+   * being displayed and adds this new, edited WordLoc back into the
+   * essay's tree map
+   * also ensures that the buttons are enabled/disabled properly and ensures
+   * that the essay text box contains the most recent version of the essay
+   */
   class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
 		  String changedSentence = sentence.getText();
@@ -615,6 +706,11 @@ public class AutoHirsch extends JFrame {
       }
   }
   
+  /*
+   * removes the currently displayed WordLoc from the list of WordLocs,
+   * makes sure that the buttons are enabled/disabled properly, and ensures
+   * that the essay text box contains the most recent version of the essay
+   */
   class CustomActionListenerCorrect implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
 		  ListNode2 nodeBeingRemoved = current;
@@ -631,6 +727,11 @@ public class AutoHirsch extends JFrame {
       }
   }
   
+  /*
+   * ensures that between the correct and change buttons, only one is enabled
+   * at once - enables change and disabled correct as soon as the user makes
+   * a change to the sentence displayed in the displayed WordLoc text box
+   */
   class CustomDocumentListenerChangedSentence implements DocumentListener{
 	    public void insertUpdate(DocumentEvent e) {
 	        if(!newInsert) {
@@ -660,6 +761,10 @@ public class AutoHirsch extends JFrame {
 	    }
    }
   
+  /*
+   * as soon as the error adds text to the "inert text" box, 
+   * saves the text placed in the "insert text" box into the field "copied"
+   */
   class CustomDocumentListenerCopyMade implements DocumentListener{
 	    public void insertUpdate(DocumentEvent e) {
 	    	copied = copy.getText();
@@ -671,52 +776,12 @@ public class AutoHirsch extends JFrame {
 	        //Plain text components do not fire these events
 	    }
  }
-  
-  class CustomActionListenerPrevious implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
-		  newInsert = false;
-		  newRemove = false;
-		  current = getPreviousNotEmpty();
-		  correct.setEnabled(true);
-		  change.setEnabled(false);
-		  displaySentence(current);
-		  checkButtons();
-      }
-   }
-  
-  class CustomActionListenerNext implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
-		  newInsert = false;
-		  newRemove = false;
-		  current = getNextNotEmpty();
-		  displaySentence(current);
-		  correct.setEnabled(true);
-		  change.setEnabled(false);
-		  checkButtons();
-      }
-   }
-  
-  private ListNode2 getNextNotEmpty() {
-	  ListNode2 node = current;
-	  do{
-		  node= node.getNext();
-		  if(node == null){
-			  return null;
-		  }
-	  }while(node.getValue() == null);
-	  return node;
-  }
-  
-  private ListNode2 getPreviousNotEmpty() {
-	  ListNode2 node = current;
-	  do{
-		  node= node.getPrevious();
-		  if(node == null){
-			  return null;
-		  }
-	  }while(node.getValue() == null);
-	  return node;
-  }
+ 
+  /*
+   * closes the "insert text" window after the "insert text" button
+   * is pressed and calls the menu to parse the inserted text
+   * and create an essay object from it
+   */
   class CustomActionListenerPaste implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
 		  frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -724,6 +789,11 @@ public class AutoHirsch extends JFrame {
       }
   }
   
+  /*
+   * when the user clicks file, insert text, this creates a text
+   * box in which the user can insert their own text and then run
+   * the program with that text
+   */
   private class EssayAction implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
@@ -763,7 +833,6 @@ public class AutoHirsch extends JFrame {
     	  frame.setVisible(true);
     	  frame.setMinimumSize(frame.getSize());
       }
-     // setTextOut(getTextIn());
     }
   }
 
