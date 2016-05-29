@@ -404,13 +404,13 @@ public class AutoHirsch extends JFrame {
       int start = sentenceLoc.getWordIndex();
       int end = start;
       //apostrophe error highlight
-      if(displayedSentence.charAt(start) == '\'' && Character.isLetter(displayedSentence.charAt(start)) && displayedSentence.charAt(start) != ' ') {
-    	  while(end < displayedSentence.length() && displayedSentence.charAt(end) == '\'')
+      if(displayedSentence.charAt(start) == '\'') {
+    	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ')
     		  end++;
       }
       //quotation error highlight
-      else if(displayedSentence.charAt(start) == '\"' && !Character.isLetter(displayedSentence.charAt(start)) && displayedSentence.charAt(start) != ' ') {
-    	  while(end < displayedSentence.length() && displayedSentence.charAt(end) == '\"')
+      else if(displayedSentence.charAt(start) == '\"') {
+    	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ')
     		  end++;
       }
       //other error highlight
