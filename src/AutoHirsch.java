@@ -1,5 +1,6 @@
 /**
- * BlueSheet
+ * AutoHirsch.java
+ * Authors: Kiara Wahnschafft, Shannon Wing, Kelly Finke
  */
 
 import java.awt.Color;
@@ -86,8 +87,11 @@ public class AutoHirsch extends JFrame {
   private JFrame frame;
   private MenuBar thisMenu;
   Essay essayEssay;
-  String blueColor = "#B8DFEF";
+  private final String blueColor = "#B8DFEF";
   
+  /*
+   * constructor that instantiates the gui, creating the whole JPanel 
+   */
   public AutoHirsch() throws Exception {
 
 	thisMenu = new MenuBar(this, new EssayAction());
@@ -276,21 +280,22 @@ public class AutoHirsch extends JFrame {
 	 c.setMinimumSize(c.getSize());
   }
   
+  /*
+   * reads in the .wav file "welcome.wav" and plays it
+   */
   public static void read() throws Exception {
 
-	    // specify the sound to play
-	    // (assuming the sound can be played by the audio system)
-	    File soundFile = new File("welcome.wav");
-	    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+	    //choose the file to use (in this case, welcome.wav)
+	    File file = new File("welcome.wav");
+	    AudioInputStream ais = AudioSystem.getAudioInputStream(file);
 
-	    // load the sound into memory (a Clip)
-	    DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
-	    Clip clip = (Clip) AudioSystem.getLine(info);
-	    clip.open(sound);
+	    //load the file into a Clip object
+	    DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat());
+	    Clip cl = (Clip) AudioSystem.getLine(info);
+	    cl.open(ais);
 
-	    // due to bug in Java Sound, explicitly exit the VM when
-	    // the sound has stopped.
-	    clip.addLineListener(new LineListener() {
+	    //stop reading when clip ends
+	    cl.addLineListener(new LineListener() {
 	        public void update(LineEvent event) {
 	            if (event.getType() == LineEvent.Type.STOP) {
 	                event.getLine().close();
@@ -299,8 +304,8 @@ public class AutoHirsch extends JFrame {
 
 	    });
 
-	    // play the sound clip
-	    clip.start();
+	    //play the sound stored in the clip object
+	    cl.start();
 	}
   
   public void makeEssayAndTree(String text) {
@@ -309,6 +314,16 @@ public class AutoHirsch extends JFrame {
 	  newRemove = true;
 	  tree = essayEssay.getTree();
   }
+
+  public void updateDisplay() {
+	  String currentEssay = "";
+	  for(ListNode2 node = essayEssay.getSentences(); node != null; node = node.getNext())  {
+		  //System.out.println("asld fj");
+		  currentEssay += node.getValue();
+	  }
+	  essay.setText(currentEssay);
+  }
+  
 	
   class CustomActionListenerOne implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
@@ -442,6 +457,7 @@ public class AutoHirsch extends JFrame {
     	  updateDisplay();
       }
   }
+  
   class CustomActionListenerCorrect implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
 		  ListNode2 nodeBeingRemoved = current;
@@ -459,14 +475,6 @@ public class AutoHirsch extends JFrame {
       }
   }
   
-  public void updateDisplay() {
-	  String currentEssay = "";
-	  for(ListNode2 node = essayEssay.getSentences(); node != null; node = node.getNext())  {
-		  //System.out.println("asld fj");
-		  currentEssay += node.getValue();
-	  }
-	  essay.setText(currentEssay);
-  }
   class CustomDocumentListenerChangedSentence implements DocumentListener{
 	    public void insertUpdate(DocumentEvent e) {
 	        if(!newInsert) {
@@ -523,6 +531,7 @@ public class AutoHirsch extends JFrame {
 			  previous.setEnabled(false);
       }
    }
+  
   class CustomActionListenerNext implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
 		  System.out.println(((WordLoc) current.getValue()).getSentenceString());
@@ -546,7 +555,7 @@ public class AutoHirsch extends JFrame {
 		  frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		  thisMenu.parseAndCreateEssay(copied);
       }
-   }
+  }
   
   public void checkButtons() {
 	  if(current != null && (current.getPrevious() == null || current.getPrevious().getValue() == null))
