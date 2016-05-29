@@ -107,7 +107,7 @@ public class Essay {
 			//fix words tree map
 			disconnect(sentence); //from words TreeMap
 			
-			
+			/*
 			System.out.println("BEFOREBFOREBOFERBFOERBFEORBFOERBEFBROFEBREBFEFIREOREFBEOREBFE");
 			ListNode2 headd = sentencesHead;
 	    	ListNode2 nodee = headd;
@@ -120,14 +120,14 @@ public class Essay {
 	    		  System.out.println("------------------------------------------");
 	    		  nodee = nodee.getNext();
 	    	  }while(nodee != null && nodee != headd);
-			
+			*/
 			//change sentence
-	    	 System.out.println(newStr);
-	    	 System.out.println(wloc.getSentenceNode().getValue());
+	    //	 System.out.println(newStr);
+	    //	 System.out.println(wloc.getSentenceNode().getValue());
 			wloc.getSentenceNode().setValue(newStr);
-			System.out.println(wloc.getSentenceNode().getValue() + "************************");
+		//	System.out.println(wloc.getSentenceNode().getValue() + "************************");
 			addSentenceWords(wloc.getSentenceNode());
-			
+			/*
 			System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFERT");
 			headd = sentencesHead;
 	    	 nodee = headd;
@@ -140,7 +140,7 @@ public class Essay {
 	    		  System.out.println("------------------------------------------");
 	    		  nodee = nodee.getNext();
 	    	  }while(nodee != null && nodee != headd);
-
+*/
 			
 			//removes this error from list to be displayed
 			node.setValue(null);
