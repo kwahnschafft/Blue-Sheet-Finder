@@ -1,8 +1,6 @@
-
 beat	
 beaten	
-became	
-become
+became
 began	
 begun
 bent		

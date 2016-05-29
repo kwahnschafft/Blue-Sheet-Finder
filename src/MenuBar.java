@@ -10,23 +10,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -35,7 +23,6 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -97,9 +84,7 @@ public class MenuBar extends JMenuBar
           return;
 
         File file = fileChooser.getSelectedFile();
-        String stuff = "";
-     
-        
+            
         FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file.getAbsolutePath());
@@ -132,8 +117,10 @@ public class MenuBar extends JMenuBar
           return;
 
         File file = fileChooser.getSelectedFile();
-        if (file != null)
-          pathName = file.getAbsolutePath() + ".docx";
+        if (file != null) {
+          String pathNameWithOrWithout = file.getAbsolutePath();
+          if(pathNameWithOrWithout.substring(pathNameWithOrWithout.length() - 5).equals(".docx"));
+        }
 
         XWPFDocument document = new XWPFDocument();
         XWPFParagraph tmpParagraph = document.createParagraph();
@@ -148,19 +135,6 @@ public class MenuBar extends JMenuBar
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        
-        /*
-        PrintWriter outputFile;
-        try
-        {
-          outputFile = new PrintWriter(new FileWriter(pathName, false));
-        }
-        catch (IOException ex)
-        {
-          JOptionPane.showMessageDialog(bluesheet, "Invalid File Name",
-                      "Cannot create " + pathName, JOptionPane.ERROR_MESSAGE);
-          return;
-        }*/
       }
       else if (m == exitItem)
       {

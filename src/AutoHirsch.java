@@ -292,7 +292,7 @@ public class AutoHirsch extends JFrame {
   public void updateDisplay() {
 	  String currentEssay = "";
 	  for(ListNode2 node = essayEssay.getSentences(); node != null; node = node.getNext())  {
-		  currentEssay += node.getValue();
+		  currentEssay += node.getValue() + " ";
 	  }
 	  essay.setText(currentEssay);
   }
@@ -312,29 +312,23 @@ public class AutoHirsch extends JFrame {
 			  next.setEnabled(true);
 	  }
 	  else if (current == null || current.getValue() == null) {
-		  System.out.println("madness");
 		  previous.setEnabled(false);
 		  next.setEnabled(false);
 		  change.setEnabled(false);
 		  correct.setEnabled(false);
 	  }
-	  System.out.println(current);
   }
   public void displaySentences(ListNode2[] array) {
-	  System.out.println("b");
 	  next.setEnabled(false);
 	  previous.setEnabled(false);
 	  createList(array);
-	  System.out.println(current);
 	  if(current != null && current.getValue() != null) {
-		  System.out.println(current);
 		  displaySentence(current);
 		  if(current.getNext() != null)
 			  next.setEnabled(true);
 	  }
 	  else {
 		  sentence.setText("");
-		  System.out.println("asdfad");
 	  }
 	  checkButtons();
 	  		
@@ -347,7 +341,6 @@ public class AutoHirsch extends JFrame {
 	  }
 	  if(i >= array.length){
 		  //no populated lists
-		  System.out.println("no populated lists");
 		  current = null;
 		  return;
 	  }
@@ -422,7 +415,7 @@ public class AutoHirsch extends JFrame {
       }
       //other error highlight
       else {
-	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
+	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ' && Character.isLetter(displayedSentence.charAt(end))) {
 	    	  end++;
 	      }
       }
@@ -517,7 +510,6 @@ public class AutoHirsch extends JFrame {
           if(!essay.getText().equals("")) {
           	  ListNode2[] array = tw.findInEssay(tree);
           	  //System.out.println(((WordLoc)(array[0].getValue())).getSentenceString());
-          	System.out.println(array);
           	  displaySentences(array);
           }
       }
@@ -566,7 +558,6 @@ public class AutoHirsch extends JFrame {
           rule.setText(passiveVoice.getRule());
           if(!essay.getText().equals("")) {
         	  ArrayList<ListNode2> list = passiveVoice.findInDatabase(tree);
-        	  System.out.println(list);
         	  ListNode2[] array = new ListNode2[list.size()];
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
@@ -582,11 +573,9 @@ public class AutoHirsch extends JFrame {
           rule.setText(progressive.getRule());
           if(!essay.getText().equals("")) {
         	  ArrayList<ListNode2> list = progressive.findInDatabase(tree);
-        	  System.out.println("LIST " + list);
         	  ListNode2[] array = new ListNode2[list.size()];
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
-        		  System.out.println("a");
         	  }
         	  displaySentences(array);
           }
@@ -606,6 +595,7 @@ public class AutoHirsch extends JFrame {
  
   class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
+		  String changedSentence = sentence.getText();
 		  ListNode2 nodeBeingChanged = current;
 		  if(next.isEnabled())
 			  next.doClick();
@@ -614,7 +604,7 @@ public class AutoHirsch extends JFrame {
 		  else {
 			  sentence.setText("");
 		  }
-    	  essayEssay.disconnectAndAdd(nodeBeingChanged, sentence.getText());
+    	  essayEssay.disconnectAndAdd(nodeBeingChanged, changedSentence);
     	  checkButtons();
     	  updateDisplay();
       }
@@ -691,11 +681,9 @@ public class AutoHirsch extends JFrame {
   
   class CustomActionListenerNext implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
-		  System.out.println(((WordLoc) current.getValue()).getSentenceString());
 		  newInsert = false;
 		  newRemove = false;
 		  current = getNextNotEmpty();
-		  System.out.println(current);
 		  displaySentence(current);
 		  correct.setEnabled(true);
 		  change.setEnabled(false);
