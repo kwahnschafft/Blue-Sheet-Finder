@@ -324,245 +324,19 @@ public class AutoHirsch extends JFrame {
 	  essay.setText(currentEssay);
   }
   
-	
-  class CustomActionListenerOne implements ActionListener{ //database strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  PastTenseStrategy past = new PastTenseStrategy();
-    	  rule.setText(past.getRule());
-      }
-   }
-  
-  class CustomActionListenerThree implements ActionListener{ //essay strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  FirstSecondPersonStrategy firstSecond = new FirstSecondPersonStrategy();
-    	  rule.setText(firstSecond.getRule());
-    	  if(!essay.getText().equals("")) {
-          	  ListNode2[] array = firstSecond.findInEssay(tree);
-          	  displaySentences(array);
-          }
-    	  
-    	  //TODO delete this 
-    	 /*
-    	  ListNode2 head = essayEssay.getTree().get("me");
-    	  ListNode2 node = head;
-    	  do{
-    		  System.out.println(((WordLoc)node.getValue()).toString());
-    		  System.out.println("Prev: " + node.getPrevious().getValue());
-    		  System.out.println("Next: " + node.getNext().getValue());
-    		  System.out.println("------------------------------------------");
-    		  node = node.getNext();
-    	  }while(node != head);
-    	  */
-      }
-   }
-  
-  class CustomActionListenerFour implements ActionListener{ //essay strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  ThisWhichStrategy tw = new ThisWhichStrategy();
-          rule.setText(tw.getRule());
-          if(!essay.getText().equals("")) {
-          	  ListNode2[] array = tw.findInEssay(tree);
-          	  //System.out.println(((WordLoc)(array[0].getValue())).getSentenceString());
-          	System.out.println(array);
-          	  displaySentences(array);
-          }
-      }
-   }
-  
-  class CustomActionListenerSix implements ActionListener{ //essay strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  AppropriateCasePronounsStrategy approp = new AppropriateCasePronounsStrategy();
-          rule.setText(approp.getRule());
-          if(!essay.getText().equals("")) {
-        	  ListNode2[] array = approp.findInEssay(tree);
-              displaySentences(array);
-          }
-      }
-   }
-  
-  class CustomActionListenerEight implements ActionListener{ //essay strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  ApostropheStrategy apost = new ApostropheStrategy();
-          rule.setText(apost.getRule());
-    	  if(!essay.getText().equals("")) {
-    		  ListNode2[] array = apost.findInEssay(tree);
-              displaySentences(array);
-    	  }
-      }
-   }
-  class CustomActionListenerNine implements ActionListener{ //database strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  PassiveVoiceStrategy passiveVoice = new PassiveVoiceStrategy();
-          rule.setText(passiveVoice.getRule());
-          if(!essay.getText().equals("")) {
-        	  ArrayList<ListNode2> list = passiveVoice.findInDatabase(tree);
-        	  System.out.println(list);
-        	  ListNode2[] array = new ListNode2[list.size()];
-        	  for(int i = 0; i < list.size(); i++) {
-        		  array[i] = list.get(i);
-        		  System.out.println("a");
-        	  }
-        	  displaySentences(array);
-          }
-      }
-   }
-  class CustomActionListenerTwelve implements ActionListener{ //database strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  ProgressiveTenseStrategy progressive = new ProgressiveTenseStrategy();
-          rule.setText(progressive.getRule());
-          if(!essay.getText().equals("")) {
-        	  ArrayList<ListNode2> list = progressive.findInDatabase(tree);
-        	  System.out.println("LIST " + list);
-        	  ListNode2[] array = new ListNode2[list.size()];
-        	  for(int i = 0; i < list.size(); i++) {
-        		  array[i] = list.get(i);
-        		  System.out.println("a");
-        	  }
-        	  displaySentences(array);
-          }
-      }
-   }
-  class CustomActionListenerThirteen implements ActionListener{ //essay strategy
-      public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
-    	  QuotationStrategy quotation = new QuotationStrategy();
-          rule.setText(quotation.getRule());
-          if(!essay.getText().equals("")) {
-	          ListNode2[] array = quotation.findInEssay(tree);
-	          displaySentences(array);
-          }
-      }
-   }
- 
-  class CustomActionListenerChange implements ActionListener {
-	  public void actionPerformed(ActionEvent e) {
-		  ListNode2 old = current;
-		  if(next.isEnabled())
-			  next.doClick();
-		  else if(previous.isEnabled())
-			  previous.doClick();
-		  else {
-			  sentence.setText("");
-			  current = null;
-		  }
-    	  essayEssay.disconnectAndAdd(old, sentence.getText());
-    	  checkButtons();
-    	  updateDisplay();
-      }
-  }
-  
-  class CustomActionListenerCorrect implements ActionListener {
-	  public void actionPerformed(ActionEvent e) {
-		  ListNode2 nodeBeingRemoved = current;
-		  if(next.isEnabled())
-			  next.doClick();
-		  else if(previous.isEnabled())
-			  previous.doClick();
-		  else {
-			  sentence.setText("");
-			  current = null;
-		  }
-    	  essayEssay.removeCorrected(nodeBeingRemoved);
-    	  checkButtons();
-    	  updateDisplay();
-      }
-  }
-  
-  class CustomDocumentListenerChangedSentence implements DocumentListener{
-	    public void insertUpdate(DocumentEvent e) {
-	        if(!newInsert) {
-	        	correct.setEnabled(true);
-	        	newInsert = true;
-	        }
-	        else {
-	        	correct.setEnabled(false);
-	        	change.setEnabled(true);
-	        }
-	    }
-	    public void removeUpdate(DocumentEvent e) {
-	    	if(!newRemove) {
-	        	correct.setEnabled(true);
-	        	newRemove = true;
-	        }
-	        else {
-	        	correct.setEnabled(false);
-	        	change.setEnabled(true);
-	        }
-	    	
-	    }
-	    public void changedUpdate(DocumentEvent e) {
-	        //Plain text components do not fire these events
-	    }
-   }
-  
-  class CustomDocumentListenerCopyMade implements DocumentListener{
-	    public void insertUpdate(DocumentEvent e) {
-	    	copied = copy.getText();
-	    }
-	    public void removeUpdate(DocumentEvent e) {
-	    	copied = copy.getText();
-	    }
-	    public void changedUpdate(DocumentEvent e) {
-	        //Plain text components do not fire these events
-	    }
- }
-  
-  class CustomActionListenerPrevious implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
-		  newInsert = false;
-		  newRemove = false;
-		  current = current.getPrevious();
-		  correct.setEnabled(true);
-		  change.setEnabled(false);
-		  System.out.println("prev button pressed");
-		  displaySentence(current);
-		  if(current.getNext() == null)
-			  next.setEnabled(false);
-		  else
-			  next.setEnabled(true);
-		  if(current.getPrevious() == null)
-			  previous.setEnabled(false);
-      }
-   }
-  
-  class CustomActionListenerNext implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
-		  System.out.println(((WordLoc) current.getValue()).getSentenceString());
-		  newInsert = false;
-		  newRemove = false;
-		  current = current.getNext();
-		  displaySentence(current);
-		  correct.setEnabled(true);
-		  change.setEnabled(false);
-		  if(current.getPrevious() == null)
-			  previous.setEnabled(false);
-		  else
-			  previous.setEnabled(true);
-		  if(current.getNext() == null)
-			  next.setEnabled(false);
-      }
-   }
-  
-  class CustomActionListenerPaste implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
-		  frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-		  thisMenu.parseAndCreateEssay(copied);
-      }
-  }
-  
   public void checkButtons() {
-	  if(current != null && (current.getPrevious() == null || current.getPrevious().getValue() == null))
+	  if(current != null && (current.getPrevious() == null || current.getPrevious().getValue() == null)) {
 		  previous.setEnabled(false);
+		  System.out.println("WHY");
+	  }
+	  else if(current != null && (current.getPrevious() != null))
+		  previous.setEnabled(true);
 	  if(current != null && (current.getNext() == null || current.getNext().getValue() == null))
 		  next.setEnabled(false);
+	  else if(current != null && (current.getNext() != null))
+		  next.setEnabled(true);
 	  if(current == null) {
+		  System.out.println("madness");
 		  previous.setEnabled(false);
 		  next.setEnabled(false);
 		  change.setEnabled(false);
@@ -700,7 +474,257 @@ public class AutoHirsch extends JFrame {
   public void setSentenceText(String text) {
     sentence.setCaretPosition(0);
   }
+  
+  /******************************************************************/
+  /***************     Action Listener Classes     ****************/
 
+  /*
+  * Set the rule box to the past tense rule + use the past tense strategy
+  * to obtain and display the sentences with potential past tense errors
+  */
+  class CustomActionListenerOne implements ActionListener{ //database strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  PastTenseStrategy past = new PastTenseStrategy();
+    	  rule.setText(past.getRule());
+      }
+   }
+  
+  /*
+   * Set the rule box to the first or second person rule + use the first 
+   * or second person strategy to obtain and display the sentences with 
+   * potential first or second person errors
+   */
+  class CustomActionListenerThree implements ActionListener{ //essay strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  FirstSecondPersonStrategy firstSecond = new FirstSecondPersonStrategy();
+    	  rule.setText(firstSecond.getRule());
+    	  if(!essay.getText().equals("")) {
+          	  ListNode2[] array = firstSecond.findInEssay(tree);
+          	  displaySentences(array);
+          }
+    	  
+    	  //TODO delete this 
+    	 /*
+    	  ListNode2 head = essayEssay.getTree().get("me");
+    	  ListNode2 node = head;
+    	  do{
+    		  System.out.println(((WordLoc)node.getValue()).toString());
+    		  System.out.println("Prev: " + node.getPrevious().getValue());
+    		  System.out.println("Next: " + node.getNext().getValue());
+    		  System.out.println("------------------------------------------");
+    		  node = node.getNext();
+    	  }while(node != head);
+    	  */
+      }
+   }
+  
+  /*
+   * Set the rule box to the this, which rule + use the this, which strategy
+   * to obtain and display the sentences with potential this, which errors
+   */
+  class CustomActionListenerFour implements ActionListener{ //essay strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  ThisWhichStrategy tw = new ThisWhichStrategy();
+          rule.setText(tw.getRule());
+          if(!essay.getText().equals("")) {
+          	  ListNode2[] array = tw.findInEssay(tree);
+          	  //System.out.println(((WordLoc)(array[0].getValue())).getSentenceString());
+          	System.out.println(array);
+          	  displaySentences(array);
+          }
+      }
+   }
+  
+  /*
+   * Set the rule box to the pronoun case rule + use the past tense strategy
+   * to obtain and display the sentences with potential pronoun case errors
+   */
+  class CustomActionListenerSix implements ActionListener{ //essay strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  AppropriateCasePronounsStrategy approp = new AppropriateCasePronounsStrategy();
+          rule.setText(approp.getRule());
+          if(!essay.getText().equals("")) {
+        	  ListNode2[] array = approp.findInEssay(tree);
+              displaySentences(array);
+          }
+      }
+   }
+  
+  /*
+   * Set the rule box to the pronoun case rule + use the pronoun case strategy
+   * to obtain and display the sentences with potential pronoun case errors
+   */
+  class CustomActionListenerEight implements ActionListener{ //essay strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  ApostropheStrategy apost = new ApostropheStrategy();
+          rule.setText(apost.getRule());
+    	  if(!essay.getText().equals("")) {
+    		  ListNode2[] array = apost.findInEssay(tree);
+              displaySentences(array);
+    	  }
+      }
+   }
+  
+  /*
+   * Set the rule box to the passive voice rule + use the passive voice strategy
+   * to obtain and display the sentences with potential passive voic errors
+   */
+  class CustomActionListenerNine implements ActionListener{ //database strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  PassiveVoiceStrategy passiveVoice = new PassiveVoiceStrategy();
+          rule.setText(passiveVoice.getRule());
+          if(!essay.getText().equals("")) {
+        	  ArrayList<ListNode2> list = passiveVoice.findInDatabase(tree);
+        	  System.out.println(list);
+        	  ListNode2[] array = new ListNode2[list.size()];
+        	  for(int i = 0; i < list.size(); i++) {
+        		  array[i] = list.get(i);
+        		  System.out.println("a");
+        	  }
+        	  displaySentences(array);
+          }
+      }
+   }
+  class CustomActionListenerTwelve implements ActionListener{ //database strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  ProgressiveTenseStrategy progressive = new ProgressiveTenseStrategy();
+          rule.setText(progressive.getRule());
+          if(!essay.getText().equals("")) {
+        	  ArrayList<ListNode2> list = progressive.findInDatabase(tree);
+        	  System.out.println("LIST " + list);
+        	  ListNode2[] array = new ListNode2[list.size()];
+        	  for(int i = 0; i < list.size(); i++) {
+        		  array[i] = list.get(i);
+        		  System.out.println("a");
+        	  }
+        	  displaySentences(array);
+          }
+      }
+   }
+  class CustomActionListenerThirteen implements ActionListener{ //essay strategy
+      public void actionPerformed(ActionEvent e) {
+    	  newInsert = false;
+    	  QuotationStrategy quotation = new QuotationStrategy();
+          rule.setText(quotation.getRule());
+          if(!essay.getText().equals("")) {
+	          ListNode2[] array = quotation.findInEssay(tree);
+	          displaySentences(array);
+          }
+      }
+   }
+ 
+  class CustomActionListenerChange implements ActionListener {
+	  public void actionPerformed(ActionEvent e) {
+		  ListNode2 old = current;
+		  if(next.isEnabled())
+			  next.doClick();
+		  else if(previous.isEnabled())
+			  previous.doClick();
+		  else {
+			  sentence.setText("");
+			  current = null;
+		  }
+    	  essayEssay.disconnectAndAdd(old, sentence.getText());
+    	  checkButtons();
+    	  updateDisplay();
+      }
+  }
+  
+  class CustomActionListenerCorrect implements ActionListener {
+	  public void actionPerformed(ActionEvent e) {
+		  ListNode2 nodeBeingRemoved = current;
+		  if(next.isEnabled())
+			  next.doClick();
+		  else if(previous.isEnabled())
+			  previous.doClick();
+		  else {
+			  sentence.setText("");
+			  current = null;
+		  }
+    	  essayEssay.removeCorrected(nodeBeingRemoved);
+    	  checkButtons();
+    	  updateDisplay();
+      }
+  }
+  
+  class CustomDocumentListenerChangedSentence implements DocumentListener{
+	    public void insertUpdate(DocumentEvent e) {
+	        if(!newInsert) {
+	        	correct.setEnabled(true);
+	        	newInsert = true;
+	        }
+	        else {
+	        	correct.setEnabled(false);
+	        	change.setEnabled(true);
+	        }
+	    }
+	    public void removeUpdate(DocumentEvent e) {
+	    	if(!newRemove) {
+	        	correct.setEnabled(true);
+	        	newRemove = true;
+	        }
+	        else {
+	        	correct.setEnabled(false);
+	        	change.setEnabled(true);
+	        }
+	    	
+	    }
+	    public void changedUpdate(DocumentEvent e) {
+	        //Plain text components do not fire these events
+	    }
+   }
+  
+  class CustomDocumentListenerCopyMade implements DocumentListener{
+	    public void insertUpdate(DocumentEvent e) {
+	    	copied = copy.getText();
+	    }
+	    public void removeUpdate(DocumentEvent e) {
+	    	copied = copy.getText();
+	    }
+	    public void changedUpdate(DocumentEvent e) {
+	        //Plain text components do not fire these events
+	    }
+ }
+  
+  class CustomActionListenerPrevious implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  newInsert = false;
+		  newRemove = false;
+		  current = current.getPrevious();
+		  correct.setEnabled(true);
+		  change.setEnabled(false);
+		  displaySentence(current);
+		  checkButtons();
+      }
+   }
+  
+  class CustomActionListenerNext implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  System.out.println(((WordLoc) current.getValue()).getSentenceString());
+		  newInsert = false;
+		  newRemove = false;
+		  current = current.getNext();
+		  displaySentence(current);
+		  correct.setEnabled(true);
+		  change.setEnabled(false);
+		  checkButtons();
+      }
+   }
+  
+  class CustomActionListenerPaste implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+		  thisMenu.parseAndCreateEssay(copied);
+      }
+  }
+  
   private class EssayAction implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
