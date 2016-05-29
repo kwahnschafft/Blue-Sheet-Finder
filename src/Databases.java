@@ -15,10 +15,10 @@ import java.util.Scanner;
 public class Databases {
 	
 	//check about sizing for each
-	private static Hashtable<Integer, String> ingNotProgressiveTenseD = null;
-	private static Hashtable<Integer, String> edNotPastTenseD = null;
-	private static Hashtable<Integer, String> passiveVoiceD = null;
-	private static Hashtable<Integer, String> irregularPastTenseD = null;
+	private static Hashtable<Integer, String> ingNotProgressiveTenseD ;
+	private static Hashtable<Integer, String> edNotPastTenseD;
+	private static Hashtable<Integer, String> passiveVoiceD ;
+	private static Hashtable<Integer, String> irregularPastTenseD;
 	
 	public static Hashtable<Integer, String> getEdNotPastTenseD()
 	{
