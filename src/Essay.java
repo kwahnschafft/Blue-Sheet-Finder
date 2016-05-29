@@ -11,7 +11,7 @@ public class Essay {
 	private TreeMap wordsTree = new TreeMap();
 	
 	// Constructs an essay
-	public Essay(String text){
+	public Essay(String text) {
 		parse(text);
 		addAllWords();
 	}
@@ -48,13 +48,14 @@ public class Essay {
 		if(sentencesHead != null){
 			sentencesHead.setPrevious(null);
 		}
+		System.out.println("Sentence Node " + sentencesHead.getValue());
 	}
 
 	/*
 	 * adds all the words in all the sentences to the tree of words
 	 */
 	public void addAllWords() {
-		ListNode2 node = sentencesHead.getNext();
+		ListNode2 node = sentencesHead;
 		while(node != null) {
 			addSentenceWords((String)node.getValue());
 			node = node.getNext();

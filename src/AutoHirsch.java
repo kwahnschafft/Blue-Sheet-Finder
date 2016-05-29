@@ -42,15 +42,11 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.Highlighter.HighlightPainter;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-<<<<<<< Updated upstream:src/AutoHirsch.java
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
 import com.sun.medialib.mlib.Image;
-=======
-//import com.sun.medialib.mlib.Image;
->>>>>>> Stashed changes:src/BlueSheetChecker.java
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -284,7 +280,7 @@ public class AutoHirsch extends JFrame {
 
 	    // specify the sound to play
 	    // (assuming the sound can be played by the audio system)
-	    File soundFile = new File("hey.wav");
+	    File soundFile = new File("welcome.wav");
 	    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
 
 	    // load the sound into memory (a Clip)
@@ -298,7 +294,6 @@ public class AutoHirsch extends JFrame {
 	        public void update(LineEvent event) {
 	            if (event.getType() == LineEvent.Type.STOP) {
 	                event.getLine().close();
-	                System.exit(0);
 	            }
 	        }
 
@@ -355,6 +350,8 @@ public class AutoHirsch extends JFrame {
           rule.setText(tw.getRule());
           if(!essay.getText().equals("")) {
           	  ListNode2[] array = tw.findInEssay(tree);
+          	  //System.out.println(((WordLoc)(array[0].getValue())).getSentenceString());
+          	System.out.println(array);
           	  displaySentences(array);
           }
       }
@@ -407,6 +404,7 @@ public class AutoHirsch extends JFrame {
           rule.setText(progressive.getRule());
           if(!essay.getText().equals("")) {
         	  ArrayList<ListNode2> list = progressive.findInDatabase(tree);
+        	  System.out.println("LIST " + list);
         	  ListNode2[] array = new ListNode2[list.size()];
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
@@ -430,7 +428,16 @@ public class AutoHirsch extends JFrame {
  
   class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
-    	  essayEssay.disconnectAndAdd(current, sentence.getText());
+		  ListNode2 old = current;
+		  if(next.isEnabled())
+			  next.doClick();
+		  else if(previous.isEnabled())
+			  previous.doClick();
+		  else {
+			  sentence.setText("");
+			  current = null;
+		  }
+    	  essayEssay.disconnectAndAdd(old, sentence.getText());
     	  checkButtons();
     	  updateDisplay();
       }
@@ -559,6 +566,7 @@ public class AutoHirsch extends JFrame {
 	  previous.setEnabled(false);
 	  createList(array);
 	  if(current != null && current.getValue() != null) {
+		  System.out.println(current);
 		  displaySentence(current);
 		  if(current.getNext() != null)
 			  next.setEnabled(true);
@@ -567,6 +575,7 @@ public class AutoHirsch extends JFrame {
 		  sentence.setText("");
 		  System.out.println("asdfad");
 	  }
+	  checkButtons();
 	  		
   }
   
@@ -577,6 +586,8 @@ public class AutoHirsch extends JFrame {
 	  }
 	  if(i >= array.length){
 		  //no populated lists
+		  System.out.println("no populated lists");
+		  current = null;
 		  return;
 	  }
 	  else{
@@ -638,8 +649,21 @@ public class AutoHirsch extends JFrame {
 	  Highlighter highlighter = sentence.getHighlighter();
       int start = sentenceLoc.getWordIndex();
       int end = start;
-      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
-    	  end++;
+      //apostrophe error highlight
+      if(displayedSentence.charAt(start) == '\'') {
+    	  while(end < displayedSentence.length() && displayedSentence.charAt(end) == '\'')
+    		  end++;
+      }
+      //quotation error highlight
+      else if(displayedSentence.charAt(start) == '\"') {
+    	  while(end < displayedSentence.length() && displayedSentence.charAt(end) == '\"')
+    		  end++;
+      }
+      //other error highlight
+      else {
+	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ') {
+	    	  end++;
+	      }
       }
       try {
 		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));

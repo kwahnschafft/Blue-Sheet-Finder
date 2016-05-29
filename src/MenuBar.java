@@ -57,9 +57,9 @@ public class MenuBar extends JMenuBar
     openItem = new JMenuItem("Open...");
     openItem.setMnemonic('O');
     openItem.addActionListener(fileAction);
-    JMenuItem decodeItem = new JMenuItem("Insert...");
-    decodeItem.setMnemonic('D');
-    decodeItem.addActionListener(essayAction);
+    JMenuItem insertItem = new JMenuItem("Insert...");
+    insertItem.setMnemonic('D');
+    insertItem.addActionListener(essayAction);
     saveItem = new JMenuItem("Save...");
     saveItem.setMnemonic('S');
     saveItem.addActionListener(fileAction);
@@ -67,7 +67,7 @@ public class MenuBar extends JMenuBar
     exitItem.setMnemonic('x');
     exitItem.addActionListener(fileAction);
     fileMenu.add(openItem);
-    fileMenu.add(decodeItem);
+    fileMenu.add(insertItem);
     fileMenu.add(saveItem);
     fileMenu.addSeparator();
     fileMenu.add(exitItem);

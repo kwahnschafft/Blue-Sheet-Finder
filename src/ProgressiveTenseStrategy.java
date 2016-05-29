@@ -36,7 +36,12 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 				    	while(nodeWithWordLoc.getNext() != null)
 				    	{
 				    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
-				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex()+3;
+				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
+				    		if(helperVerb.equals("is"))
+				    			index += 3;
+				    		else
+				    			index += 4;
+				    			
 				    		int origIndex = index;
 				    		char ch = sentence.charAt(index);
 				    		while (ch != ' ')
@@ -52,7 +57,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 						    {
 						    	if (Databases.getIngNotProgressiveTenseD().contains(nextWord) == false)
 						    		 previousNode = node;
-								  node = new ListNode2(nodeWithWordLoc.getValue());
+								node = new ListNode2(nodeWithWordLoc.getValue());
 							    	if (head == null)
 							    	{
 							    	    head = node;
@@ -65,7 +70,8 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 		            }       
 			}
 		}
-		returning.add(head);
+		if(head != null)
+			returning.add(head);
 		return returning;
 	}
 	
