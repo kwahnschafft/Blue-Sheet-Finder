@@ -18,6 +18,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 	//within the essay that contain progressive tense
 	public ArrayList<ListNode2> findInDatabase(TreeMap tree) {
        String[] searchFor = {"is", "are", "was", "were"};
+       String punctuation = ".,\"\'()���[]{}';:?!-/\\";
        
    	ArrayList<ListNode2> returning = new ArrayList<ListNode2>();
 	ListNode2 head = null;
@@ -37,16 +38,11 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 				    	do {
 				    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
 				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
-				    		if (helperVerb.length() == 3)
-				    			index += 4;
-				    		else if (helperVerb.length() == 2)
-				    			index += 3;
-				    		else
-				    			index += 5;
+				    		index = helperVerb.length()+1;
 				    			
 				    		int origIndex = index;
 				    		char ch = sentence.charAt(index);
-				    		while (ch != ' ' && ch != '.')
+				    		while (punctuation.indexOf(ch) >= 0)
 				    		{
 				    			index++;
 				    			ch = sentence.charAt(index);

@@ -18,6 +18,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 	//within the essay that contain passive voice
 	public ArrayList<ListNode2> findInDatabase(TreeMap tree) {
 		 String[] searchFor = {"is", "are", "was", "were"};
+		 String punctuation = ".,\"\'()���[]{}';:?!-/\\";
 			
 			ArrayList<ListNode2> returning = new ArrayList<ListNode2>();
 			ListNode2 head = null;
@@ -39,15 +40,11 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    		//check to see if next word in each sentence is pastTense
 					    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
 					    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
-					    		if (helperVerb.length() == 3)
-					    			index += 4;
-					    		else if (helperVerb.length() == 2)
-					    			index += 3;
-					    		else
-					    			index += 5;
+					    		index += helperVerb.length()+1;
+					    		
 					    		int origIndex = index;
 					    		char ch = sentence.charAt(index);
-					    		while (ch != ' ' && ch != '.')
+					    		while (punctuation.indexOf(ch) >= 0)
 					    		{
 					    			index++;
 					    			ch = sentence.charAt(index);
@@ -66,8 +63,8 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 								    	{
 								    		 head = node;
 								    	}
-								    	else 
-								        	previousNode.setNext(node);
+								    	else {
+								        	previousNode.setNext(node);}
 					
 								    
 								  }
@@ -85,7 +82,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 								 
 								  }
 					    		nodeWithWordLoc = nodeWithWordLoc.getNext();  
-					    		System.out.println("gotcha");
+
 					    } while(!nodeWithWordLoc.equals(oldHead));
 					    	
 					}
@@ -93,7 +90,6 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 				 }
 			
 				}
-				System.out.println("head: " + head);
 			returning.add(head);
 			return returning;
 		
