@@ -38,7 +38,13 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    	do {
 					    		//check to see if next word in each sentence is pastTense
 					    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
-					    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex()+3;
+					    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
+					    		if (helperVerb.length() == 3)
+					    			index += 4;
+					    		else if (helperVerb.length() == 2)
+					    			index += 3;
+					    		else
+					    			index += 5;
 					    		int origIndex = index;
 					    		char ch = sentence.charAt(index);
 					    		while (ch != ' ' && ch != '.')

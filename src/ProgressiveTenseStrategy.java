@@ -37,10 +37,12 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 				    	do {
 				    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
 				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
-				    		if(helperVerb.equals("is"))
+				    		if (helperVerb.length() == 3)
+				    			index += 4;
+				    		else if (helperVerb.length() == 2)
 				    			index += 3;
 				    		else
-				    			index += 4;
+				    			index += 5;
 				    			
 				    		int origIndex = index;
 				    		char ch = sentence.charAt(index);
