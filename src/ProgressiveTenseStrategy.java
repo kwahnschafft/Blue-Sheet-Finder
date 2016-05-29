@@ -17,63 +17,67 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 	//returns an arraylist of LinkedLists containing all of the sentences 
 	//within the essay that contain progressive tense
 	public ArrayList<ListNode2> findInDatabase(TreeMap tree) {
-       String[] searchFor = {"is", "are", "was", "were"};
-       String punctuation = ".,\"\'()���[]{}';:?!-/\\";
-       
-   	ArrayList<ListNode2> returning = new ArrayList<ListNode2>();
-	ListNode2 head = null;
-	ListNode2 node = null;
-	ListNode2 previousNode = null;
-		
-		for (String helperVerb: searchFor)
-		{
-		    //search tree for words ending in ing
-			for (String word: tree.keySet())
-			{
-				 if (word.compareTo(helperVerb) == 0)
-				    {
-				    	ListNode2 nodeWithWordLoc = tree.get(word);
-				    	ListNode2 oldHead = tree.get(word);
-				    	
-				    	do {
-				    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
-				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
-				    		index = helperVerb.length()+1;
-				    			
-				    		int origIndex = index;
-				    		char ch = sentence.charAt(index);
-				    		while ((punctuation.indexOf(ch) < 0) && ch != ' ')
-				    		{
-				    			index++;
-				    			ch = sentence.charAt(index);
-				    		}
-				    		
-				    		String nextWord = sentence.substring(origIndex, index);
-							//when word after 'is' or 'are' ends in 'ing'
-							//check to make sure it is progressive using database and add
-							//the ListNode2 head to the arrayList
-						    if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-3, nextWord.length()).compareTo("ing") == 0
-						    		&& !Databases.getIngNotProgressiveTenseD().contains(nextWord))
-						    {
-						    		 previousNode = node;
-								    node = new ListNode2(nodeWithWordLoc.getValue());
-							    	if (head == null)
-							    	{
-							    	    head = node;
-							    	}
-							    	else {
-							        	previousNode.setNext(node);  }	  
-						    	
-						    }
-							nodeWithWordLoc = nodeWithWordLoc.getNext();
+		 String[] searchFor = {"is", "are", "was", "were"};
+		 String punctuation = ".,\"\'()���[]{}';:?!-/\\";
+			
+			ArrayList<ListNode2> returning = new ArrayList<ListNode2>();
+			ListNode2 head = null;
+			ListNode2 node = null;
+			ListNode2 previousNode = null;
+			
+			    //search tree for helper verbs
+				for (String word: tree.keySet())
+				{
+					for (String helperVerb: searchFor)
+					{
+					    if (word.compareTo(helperVerb) == 0)
+					    {
+					    	
+					    	ListNode2 nodeWithWordLoc = tree.get(word);
+					    	ListNode2 oldHead = tree.get(word);
+					    	
+					    	do {
+					    		//check to see if next word in each sentence is progressive tense
+					    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
+					    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
+					    		index += helperVerb.length()+1;
+					    		
+					    		int origIndex = index;
+					    		char ch = sentence.charAt(index);
+					    		while ((punctuation.indexOf(ch) < 0) && ch != ' ')
+					    		{
+					    			index++;
+					    			ch = sentence.charAt(index);
+					    		}
+					    		String nextWord = sentence.substring(origIndex, index);
+					    		
+					    		//when word after 'is' or 'are' ends in 'ing'
+								//check to make sure it is progressive using database and add
+								//the ListNode2 head to the arrayList
+							    if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-3, nextWord.length()).compareTo("ing") == 0
+							    		&& !Databases.getIngNotProgressiveTenseD().contains(nextWord))
+							    {
+							    		 previousNode = node;
+									    node = new ListNode2(nodeWithWordLoc.getValue());
+								    	if (head == null)
+								    	{
+								    	    head = node;
+								    	}
+								    	else {
+								        	previousNode.setNext(node);  }	  
+							    	
+							    }
+					    		nodeWithWordLoc = nodeWithWordLoc.getNext();  
 
-			            }while(!nodeWithWordLoc.equals(oldHead));
-		            }       
-			}
-		}
-		if(head != null)
+					    } while(!nodeWithWordLoc.equals(oldHead));
+					    	
+					}
+				  
+				 }
+			
+				}
 			returning.add(head);
-		return returning;
+			return returning;
 	}
 	
 	//returns a String representation of the  

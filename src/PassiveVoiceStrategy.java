@@ -25,7 +25,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 			ListNode2 node = null;
 			ListNode2 previousNode = null;
 			
-			    //search tree for 'is'
+			    //search tree for helper verbs
 				for (String word: tree.keySet())
 				{
 					for (String helperVerb: searchFor)
