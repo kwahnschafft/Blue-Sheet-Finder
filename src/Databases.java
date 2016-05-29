@@ -36,6 +36,8 @@ public class Databases {
 	         System.out.println("*** Cannot open file ***");
 	         System.exit(1); //quit the program
 	       }
+	       
+	       edNotPastTenseD = new Hashtable<Integer, String>();
 	     
 	       while(input.hasNextLine())
 	       {
@@ -67,6 +69,8 @@ public class Databases {
 	         System.out.println("*** Cannot open file ***");
 	         System.exit(1); //quit the program
 	       }
+	       
+	       ingNotProgressiveTenseD = new  Hashtable<Integer, String>();
 	     
 	       while(input.hasNextLine())
 	       {
@@ -98,6 +102,8 @@ public class Databases {
 		     System.out.println("*** Cannot open file ***");
 		     System.exit(1); //quit the program
 		   }
+		   
+		   ingNotProgressiveTenseD = new Hashtable<Integer, String>();
 		 
 		   while(input.hasNextLine())
 		   {
@@ -106,7 +112,7 @@ public class Databases {
 		        	ingNotProgressiveTenseD.put(in.hashCode(), in);
 			  }
 		 	  catch(Exception e) {
-		 		
+		 		  
 		 	  }
 		   }
 		}
@@ -129,6 +135,8 @@ public class Databases {
 	         System.out.println("*** Cannot open file ***");
 	         System.exit(1); //quit the program
 	       }
+	       
+	       passiveVoiceD = new Hashtable<Integer, String>();
 	     
 	       while(input.hasNextLine())
 	       {
