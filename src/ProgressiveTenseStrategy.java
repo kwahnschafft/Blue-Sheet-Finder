@@ -33,7 +33,7 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 				    {
 				    	ListNode2 nodeWithWordLoc = tree.get(word);
 				    	
-				    	while(nodeWithWordLoc.getNext() != null)
+				    	while(nodeWithWordLoc != null)
 				    	{
 				    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
 				    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
