@@ -4,6 +4,7 @@
  */
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -47,7 +48,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
-import com.sun.medialib.mlib.Image;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;

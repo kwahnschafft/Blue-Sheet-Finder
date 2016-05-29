@@ -48,7 +48,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 					    		
 					    		String nextWord = sentence.substring(origIndex, index);
 					    		
-					    		 if (nextWord.length() > 3 && nextWord.substring(nextWord.length()-2, nextWord.length()).compareTo("ed") == 0)
+					    		 if (nextWord.length() > 2 && nextWord.length() > 2 && nextWord.substring(nextWord.length()-2, nextWord.length()).compareTo("ed") == 0)
 								 {
 					    			 //if the next word is past tense, create a clone of the ListNode2
 					    			 //and add it to the LinkedList that is being returned
