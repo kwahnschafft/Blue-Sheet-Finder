@@ -442,7 +442,7 @@ public class AutoHirsch extends JFrame {
 		  tail.setNext(new ListNode2(node.getValue(), tail, null));
 		  tail = tail.getNext();
 		  node = node.getNext();
-	  }while(node != head);
+	  }while(node != null && node != head);
 	  return tail;
   }
   
