@@ -66,7 +66,7 @@ public class Essay {
 	public void addSentenceWords(ListNode2 sen){
 		String str = (String)sen.getValue();
 		//TODO ...
-		String punctuation = ".,\"'()[]{};:?!-/\\"; //TODO all punctuation?
+		String punctuation = ".,\"\'()’”“[]{}';:?!-/\\"; //TODO all punctuation?
 		String temp = "";
 		int i = 0;
 		while(i < str.length()) {
