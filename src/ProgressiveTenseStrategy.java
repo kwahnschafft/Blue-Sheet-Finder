@@ -61,8 +61,8 @@ public class ProgressiveTenseStrategy implements DatabaseSearchStrategy{
 							    	{
 							    	    head = node;
 							    	}
-							    	else 
-							        	previousNode.setNext(node);  	  
+							    	else {
+							        	previousNode.setNext(node);  }	  
 						    	
 						    }
 							nodeWithWordLoc = nodeWithWordLoc.getNext();
