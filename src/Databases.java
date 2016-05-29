@@ -70,7 +70,7 @@ public class Databases {
 	         System.exit(1); //quit the program
 	       }
 	       
-	       ingNotProgressiveTenseD = new  Hashtable<Integer, String>();
+	       irregularPastTenseD = new  Hashtable<Integer, String>();
 	     
 	       while(input.hasNextLine())
 	       {
