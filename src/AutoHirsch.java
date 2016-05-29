@@ -9,21 +9,13 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Container;
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
@@ -31,43 +23,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import javax.swing.text.Highlighter.HighlightPainter;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
-
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-
-import com.sun.corba.se.impl.orbutil.graph.Node;
 
 public class AutoHirsch extends JFrame {
 
@@ -317,30 +292,33 @@ public class AutoHirsch extends JFrame {
   public void updateDisplay() {
 	  String currentEssay = "";
 	  for(ListNode2 node = essayEssay.getSentences(); node != null; node = node.getNext())  {
-		  //System.out.println("asld fj");
 		  currentEssay += node.getValue();
 	  }
 	  essay.setText(currentEssay);
   }
   
   public void checkButtons() {
-	  if(current != null && (current.getPrevious() == null || current.getPrevious().getValue() == null)) {
-		  previous.setEnabled(false);
-		  System.out.println("WHY");
+	  if(current != null && current.getValue() != null) {
+		  if(getPreviousNotEmpty() == null) {
+			  previous.setEnabled(false);
+		  }
+		  if(getNextNotEmpty() == null) {
+			  next.setEnabled(false);
+		  }
+		  if(current.getValue() != null && getPreviousNotEmpty() != null) {
+			  previous.setEnabled(true);
+		  }
+		  if(current.getValue() != null && getNextNotEmpty() != null)
+			  next.setEnabled(true);
 	  }
-	  else if(current != null && (current.getPrevious() != null))
-		  previous.setEnabled(true);
-	  if(current != null && (current.getNext() == null || current.getNext().getValue() == null))
-		  next.setEnabled(false);
-	  else if(current != null && (current.getNext() != null))
-		  next.setEnabled(true);
-	  if(current == null) {
+	  else if (current == null || current.getValue() == null) {
 		  System.out.println("madness");
 		  previous.setEnabled(false);
 		  next.setEnabled(false);
 		  change.setEnabled(false);
 		  correct.setEnabled(false);
 	  }
+	  System.out.println(current);
   }
   public void displaySentences(ListNode2[] array) {
 	  System.out.println("b");
@@ -486,6 +464,14 @@ public class AutoHirsch extends JFrame {
     	  newInsert = false;
     	  PastTenseStrategy past = new PastTenseStrategy();
     	  rule.setText(past.getRule());
+          if(!essay.getText().equals("")) {
+        	  ArrayList<ListNode2> list = past.findInDatabase(tree);
+        	  ListNode2[] array = new ListNode2[list.size()];
+        	  for(int i = 0; i < list.size(); i++) {
+        		  array[i] = list.get(i);
+        	  }
+        	  displaySentences(array);
+          }
       }
    }
   
@@ -584,7 +570,6 @@ public class AutoHirsch extends JFrame {
         	  ListNode2[] array = new ListNode2[list.size()];
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
-        		  System.out.println("a");
         	  }
         	  displaySentences(array);
           }
@@ -621,16 +606,15 @@ public class AutoHirsch extends JFrame {
  
   class CustomActionListenerChange implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
-		  ListNode2 old = current;
+		  ListNode2 nodeBeingChanged = current;
 		  if(next.isEnabled())
 			  next.doClick();
 		  else if(previous.isEnabled())
 			  previous.doClick();
 		  else {
 			  sentence.setText("");
-			  current = null;
 		  }
-    	  essayEssay.disconnectAndAdd(old, sentence.getText());
+    	  essayEssay.disconnectAndAdd(nodeBeingChanged, sentence.getText());
     	  checkButtons();
     	  updateDisplay();
       }
@@ -645,7 +629,6 @@ public class AutoHirsch extends JFrame {
 			  previous.doClick();
 		  else {
 			  sentence.setText("");
-			  current = null;
 		  }
     	  essayEssay.removeCorrected(nodeBeingRemoved);
     	  checkButtons();
@@ -657,6 +640,7 @@ public class AutoHirsch extends JFrame {
 	    public void insertUpdate(DocumentEvent e) {
 	        if(!newInsert) {
 	        	correct.setEnabled(true);
+	        	change.setEnabled(false);
 	        	newInsert = true;
 	        }
 	        else {
@@ -667,6 +651,7 @@ public class AutoHirsch extends JFrame {
 	    public void removeUpdate(DocumentEvent e) {
 	    	if(!newRemove) {
 	        	correct.setEnabled(true);
+	        	change.setEnabled(true);
 	        	newRemove = true;
 	        }
 	        else {
@@ -696,7 +681,7 @@ public class AutoHirsch extends JFrame {
 	  public void actionPerformed(ActionEvent e) {
 		  newInsert = false;
 		  newRemove = false;
-		  current = current.getPrevious();
+		  current = getPreviousNotEmpty();
 		  correct.setEnabled(true);
 		  change.setEnabled(false);
 		  displaySentence(current);
@@ -709,7 +694,8 @@ public class AutoHirsch extends JFrame {
 		  System.out.println(((WordLoc) current.getValue()).getSentenceString());
 		  newInsert = false;
 		  newRemove = false;
-		  current = current.getNext();
+		  current = getNextNotEmpty();
+		  System.out.println(current);
 		  displaySentence(current);
 		  correct.setEnabled(true);
 		  change.setEnabled(false);
@@ -717,6 +703,27 @@ public class AutoHirsch extends JFrame {
       }
    }
   
+  private ListNode2 getNextNotEmpty() {
+	  ListNode2 node = current;
+	  do{
+		  node= node.getNext();
+		  if(node == null){
+			  return null;
+		  }
+	  }while(node.getValue() == null);
+	  return node;
+  }
+  
+  private ListNode2 getPreviousNotEmpty() {
+	  ListNode2 node = current;
+	  do{
+		  node= node.getPrevious();
+		  if(node == null){
+			  return null;
+		  }
+	  }while(node.getValue() == null);
+	  return node;
+  }
   class CustomActionListenerPaste implements ActionListener{
 	  public void actionPerformed(ActionEvent e) {
 		  frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
