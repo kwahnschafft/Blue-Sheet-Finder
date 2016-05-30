@@ -1,6 +1,16 @@
 /*
  * strategy to check for sentences with passive voice within an essay
  * 
+ * we are aware that this strategy does not find all passive voice errors because 
+ * we are checking for a helper verb and then a paste tense verb rather than
+ * the past participle form of the verb. Conveniently the past participle of a verb
+ * if often the same as the past tense, but not always. For example, the sentence
+ * The book was written by her." would not be found because written is not past tense.
+ * To check for such cases we would need a large database of all possible past participle 
+ * conjugations of the verb that would take too much time to compile and take up too
+ *  much space on the computer. 
+ * 
+ * 
  * Written By: Shannon Wing, Kiara Wahschafft, Kelly Finke
  * Date: 5/31/16
  */
@@ -17,81 +27,7 @@ public class PassiveVoiceStrategy implements DatabaseSearchStrategy{
 	//returns an arraylist with one LinkedList containing all of the sentences 
 	//within the essay that contain passive voice
 	public ArrayList<ListNode2> findInDatabase(TreeMap tree) {
-		 String[] searchFor = {"is", "are", "was", "were"};
-		 String punctuation = ".,\"\'()���[]{}';:?!-/\\";
-			
-			ArrayList<ListNode2> returning = new ArrayList<ListNode2>();
-			ListNode2 head = null;
-			ListNode2 node = null;
-			ListNode2 previousNode = null;
-			
-			    //search tree for helper verbs
-				for (String word: tree.keySet())
-				{
-					for (String helperVerb: searchFor)
-					{
-					    if (word.compareTo(helperVerb) == 0)
-					    {
-					    	
-					    	ListNode2 nodeWithWordLoc = tree.get(word);
-					    	ListNode2 oldHead = tree.get(word);
-					    	
-					    	do {
-					    		//check to see if next word in each sentence is pastTense
-					    		String sentence =((WordLoc)( nodeWithWordLoc.getValue())).getSentenceString();
-					    		int index = ((WordLoc)( nodeWithWordLoc.getValue())).getWordIndex();
-					    		index += helperVerb.length()+1;
-					    		
-					    		int origIndex = index;
-					    		char ch = sentence.charAt(index);
-					    		while ((punctuation.indexOf(ch) < 0) && ch != ' ')
-					    		{
-					    			index++;
-					    			ch = sentence.charAt(index);
-					    		}
-					    		String nextWord = sentence.substring(origIndex, index);
-					    		
-					    		 if ( nextWord.length() > 2 && nextWord.substring(nextWord.length()-2, nextWord.length()).compareTo("ed") == 0
-					    				 && !Databases.getEdNotPastTenseD().contains(nextWord))
-								 {
-					    			 //if the next word is past tense, create a clone of the ListNode2
-					    			 //and add it to the LinkedList that is being returned
-								    	previousNode = node;
-								    	node = new ListNode2(nodeWithWordLoc.getValue());
-								    	if (head == null)
-								    	{
-								    		 head = node;
-								    	}
-								    	else {
-								        	previousNode.setNext(node);}
-					
-								    
-								  }
-								  //check to see if word is an irregular past tense verb
-								  else if (Databases.getIrregularPastTenseD().contains(nextWord)) 
-								  {
-									  previousNode = node;
-									  node = new ListNode2(nodeWithWordLoc.getValue());
-								    	if (head == null)
-								    	{
-								    	    head = node;
-								    	}
-								    	else 
-								        	previousNode.setNext(node);  
-								 
-								  }
-					    		nodeWithWordLoc = nodeWithWordLoc.getNext();  
-
-					    } while(!nodeWithWordLoc.equals(oldHead));
-					    	
-					}
-				  
-				 }
-			
-				}
-			returning.add(head);
-			return returning;
-		
+		 return StrategyHelperMethods.helperVerbStrategy(tree,  false);
 	}
 
 	//returns a String representation of the 

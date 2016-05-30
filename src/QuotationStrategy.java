@@ -24,21 +24,9 @@ public class QuotationStrategy implements EssaySearchStrategy{
 	//returns an array of LinkedLists containing all of the sentences 
 	//within the essay that contain a quotation
 	public ListNode2[] findInEssay(TreeMap tree) {
-		String searchFor = "\"";
+		String[] searchFor = {"\""};
 			
-			ListNode2[] returning = new ListNode2[1];
-			//search tree for each pronoun case
-			
-				//when quotation is found add head of LinkedList to array slot
-				for (String word: tree.keySet())
-				{
-				    if (word.compareTo(searchFor) == 0)
-				    {
-				        returning[0] = tree.get(word);
-				        break;
-				    }
-				}
-			return returning;
+			return StrategyHelperMethods.findInEssayHelper(searchFor, tree);
 			
 	}
 

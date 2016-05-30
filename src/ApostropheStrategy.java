@@ -16,24 +16,9 @@ public class ApostropheStrategy implements EssaySearchStrategy {
 	//returns an array of Linked Lists containing all of the sentences 
 	//within the essay that contain an apostrophe or 'its'
 	public ListNode2[] findInEssay(TreeMap tree) {
-		String[] searchFor = {"'", "’", "its"};
+		String[] searchFor = {"'", "ï¿½", "its"};
 		
-		ListNode2[] returning = new ListNode2[6];
-		
-		//search tree for an apostrophe or its
-		for (int i = 0; i < searchFor.length; i++)
-		{
-			//when an apostrophe or 'its' is found add head of LinkedList to array slot
-			for (String word: tree.keySet())
-			{
-			    if (word.compareTo(searchFor[i]) == 0)
-			    {
-			        returning[i] = tree.get(word);
-			        break;
-			    }
-			}
-		}
-		return returning;
+		return StrategyHelperMethods.findInEssayHelper(searchFor, tree);
 		
 	}
 	

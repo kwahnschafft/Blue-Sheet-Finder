@@ -18,22 +18,7 @@ public class ThisWhichStrategy implements EssaySearchStrategy {
 	public ListNode2[] findInEssay(TreeMap tree) {
 		String[] searchFor = {"this", "which"};
 			
-			ListNode2[] returning = new ListNode2[2];
-			
-			//search tree for this, then which
-			for (int i = 0; i < searchFor.length; i++)
-			{
-				//when word is found add head of LinkedList to array slot
-				for (String word: tree.keySet())
-				{
-				    if (word.compareTo(searchFor[i]) == 0)
-				    {
-				        returning[i] = tree.get(word);
-				        break;
-				    }
-				}
-			}
-			return returning;
+			return StrategyHelperMethods.findInEssayHelper(searchFor, tree);
 		
 	}
 

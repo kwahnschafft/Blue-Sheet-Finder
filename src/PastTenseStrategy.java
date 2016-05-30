@@ -24,19 +24,10 @@ public class PastTenseStrategy implements DatabaseSearchStrategy{
 			    //search tree for words ending in ed
 				for (String word: tree.keySet())
 				{
-					 //check to see if word is an irregular past tense verb
-					  if (Databases.getIrregularPastTenseD().contains(word)) 
-					    	returning.add(tree.get(word));
-					//when word ending in ed is found 
-					//check to make sure it is past tense using database and add
-					//the ListNode2 head to the arrayList
-					  else if (word.length() > 2 && word.substring(word.length()-2, word.length()).compareTo(searchFor) == 0)
-				    {
-				    	if (!Databases.getEdNotPastTenseD().contains(word))
-				        	returning.add(tree.get(word));  	  
-				    }
-				 
-				  
+					 //if word is past tense its LinkedList to the arrayList
+					if (StrategyHelperMethods.isPastTense(word))
+				        returning.add(tree.get(word)); 
+				
 				 }
 			return returning;
 		}
