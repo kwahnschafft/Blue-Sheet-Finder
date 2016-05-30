@@ -10,13 +10,20 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -77,38 +84,87 @@ public class MenuBar extends JMenuBar
     public void actionPerformed(ActionEvent e)
     {
       JMenuItem m = (JMenuItem)e.getSource();
+      //opens a word document or text document that the user chooses, 
+      //parses its text and creates an essay object from this text
       if (m == openItem)
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("TEXT FILES", "txt", "text"));
         fileChooser.setAcceptAllFileFilterUsed(false);
         int result = fileChooser.showOpenDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
         File file = fileChooser.getSelectedFile();
-            
-        FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file.getAbsolutePath());
-		} catch (FileNotFoundException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}
-       XWPFDocument document = null;
-		try {
-			document = new XWPFDocument(fis);
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-        XWPFWordExtractor extractor = null;
-		extractor = new XWPFWordExtractor(document);
-        String rawText = extractor.getText();
-        String displayText = WordExtractor.stripFields(rawText);
-        //String text = bluesheet.getEssayText();
-        parseAndCreateEssay(displayText);
+        pathName = file.getAbsolutePath();
+        
+        if(!(pathName.substring(pathName.length() - 5).equals(".docx")) && !(pathName.substring(pathName.length() - 4).equals(".txt"))) {
+        	JOptionPane.showMessageDialog(bluesheet, "Please choose a word document or text document.");
+        }
+        //if the document the user chooses is a word document
+        else if(pathName.substring(pathName.length() - 5).equals(".docx")) {
+	        FileInputStream fis = null;
+			try {
+				fis = new FileInputStream(file.getAbsolutePath());
+			} catch (FileNotFoundException e3) {
+				// TODO Auto-generated catch block
+				e3.printStackTrace();
+			}
+	       XWPFDocument document = null;
+			try {
+				document = new XWPFDocument(fis);
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+	        XWPFWordExtractor extractor = null;
+			extractor = new XWPFWordExtractor(document);
+	        String rawText = extractor.getText();
+	        String displayText = WordExtractor.stripFields(rawText);
+	        parseAndCreateEssay(displayText);
+        }
+        //if the document that the user chooses is a text document
+        else if(pathName.substring(pathName.length() - 4).equals(".txt")) {
+        	BufferedReader inputFile;
+            try
+            {
+              inputFile = new BufferedReader(new FileReader(pathName), 1024);
+            }
+            catch (FileNotFoundException ex)
+            {
+              return;
+            }
+
+            StringBuffer buffer = new StringBuffer((int)file.length());
+
+            try
+            {
+              while (inputFile.ready())
+                {
+                  buffer.append((char)inputFile.read());
+                }
+            }
+            catch (IOException ex)
+            {
+              System.err.println("Error reading " + pathName + "\n");
+              return;
+            }
+
+            try
+            {
+              inputFile.close();
+            }
+            catch (IOException ex)
+            {
+              System.err.println("Error closing " + pathName + "\n");
+              return;
+            }
+
+            String text = buffer.toString();
+            parseAndCreateEssay(text);
+        }
       }
       else if (m == saveItem)
       {
@@ -120,11 +176,13 @@ public class MenuBar extends JMenuBar
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
+        System.out.println(fileChooser.getFileFilter().getDescription());
         File file = fileChooser.getSelectedFile();
         if (file != null) {
-          pathName = file.getAbsolutePath() + ".docx";
+          pathName = file.getAbsolutePath();
         }
-
+        
+        
         XWPFDocument document = new XWPFDocument();
         XWPFParagraph tmpParagraph = document.createParagraph();
         XWPFRun tmpRun = tmpParagraph.createRun();
@@ -143,6 +201,7 @@ public class MenuBar extends JMenuBar
       {
         System.exit(0);
       }
+
     }
   }
   public void parseAndCreateEssay(String str) {
