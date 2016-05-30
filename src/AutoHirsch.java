@@ -60,6 +60,7 @@ public class AutoHirsch extends JFrame {
   private JFrame frame;
   private MenuBar thisMenu;
   Essay essayEssay;
+  private String currentError = "";
   private final String blueColor = "#B8DFEF";
   
   /*
@@ -370,23 +371,34 @@ public class AutoHirsch extends JFrame {
 	  Highlighter highlighter = sentence.getHighlighter();
       int start = sentenceLoc.getWordIndex();
       int end = start;
+      int spaceCounter = 0;
       //apostrophe error highlight
-      if(displayedSentence.charAt(start) == '\'') {
+      if(currentError.equals("apostrophe")) {
     	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ' && displayedSentence.charAt(end) != ',')
     		  end++;
       }
       //quotation error highlight
-      else if(displayedSentence.charAt(start) == '\"') {
+      else if(currentError.equals("quotation")) {
     	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ' && displayedSentence.charAt(end) != ',')
     		  end++;
       }
-      //other error highlight
+      else if(currentError.equals("passive") || currentError.equals("progressive")) {
+    	  System.out.println(spaceCounter);
+    	//  System.out.println();
+    	  while(end < displayedSentence.length() && spaceCounter < 2) {
+    		  end++;
+    		  if(displayedSentence.charAt(end) == ' ')
+    			  spaceCounter++;
+    	  }
+      }
+      //any other error highlight
       else {
 	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ' && Character.isLetter(displayedSentence.charAt(end))) {
 	    	  end++;
 	      }
       }
       try {
+    	  System.out.println(start + " " + end);
 		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
 	  } 
       catch (BadLocationException e) {
@@ -493,6 +505,7 @@ public class AutoHirsch extends JFrame {
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
         	  }
+        	  currentError = "past";
         	  displaySentences(array);
           }
       }
@@ -510,6 +523,7 @@ public class AutoHirsch extends JFrame {
     	  rule.setText(firstSecond.getRule());
     	  if(!essay.getText().equals("")) {
           	  ListNode2[] array = firstSecond.findInEssay(tree);
+          	  currentError = "fs";
           	  displaySentences(array);
           }
       }
@@ -526,7 +540,7 @@ public class AutoHirsch extends JFrame {
           rule.setText(tw.getRule());
           if(!essay.getText().equals("")) {
           	  ListNode2[] array = tw.findInEssay(tree);
-          	  //System.out.println(((WordLoc)(array[0].getValue())).getSentenceString());
+          	  currentError = "tw";
           	  displaySentences(array);
           }
       }
@@ -543,6 +557,7 @@ public class AutoHirsch extends JFrame {
           rule.setText(approp.getRule());
           if(!essay.getText().equals("")) {
         	  ListNode2[] array = approp.findInEssay(tree);
+        	  currentError = "case";
               displaySentences(array);
           }
       }
@@ -559,6 +574,7 @@ public class AutoHirsch extends JFrame {
           rule.setText(apost.getRule());
     	  if(!essay.getText().equals("")) {
     		  ListNode2[] array = apost.findInEssay(tree);
+    		  currentError = "apostrophe";
               displaySentences(array);
     	  }
       }
@@ -579,6 +595,7 @@ public class AutoHirsch extends JFrame {
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
         	  }
+        	  currentError = "passive";
         	  displaySentences(array);
           }
       }
@@ -599,6 +616,7 @@ public class AutoHirsch extends JFrame {
         	  for(int i = 0; i < list.size(); i++) {
         		  array[i] = list.get(i);
         	  }
+        	  currentError = "progressive";
         	  displaySentences(array);
           }
       }
@@ -615,6 +633,7 @@ public class AutoHirsch extends JFrame {
           rule.setText(quotation.getRule());
           if(!essay.getText().equals("")) {
 	          ListNode2[] array = quotation.findInEssay(tree);
+	          currentError = "quotation";
 	          displaySentences(array);
           }
       }
