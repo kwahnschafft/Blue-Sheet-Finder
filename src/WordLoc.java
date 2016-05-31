@@ -1,8 +1,9 @@
 /**
  * Represents the location of a word as a ListNode containing its
  * sentence and an int containing the index of the first letter of the word
- * @author Kelly Finke
- * @version 5/15/16
+ * 
+ * Written By: Kelly Finke, Shannon Wing, Kiara Wahschafft
+ * Date: 5/31/16
  *
  */
 public class WordLoc{
