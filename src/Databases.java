@@ -14,12 +14,12 @@ import java.util.Scanner;
 
 public class Databases {
 	
-	//check about sizing for each
 	private static Hashtable<Integer, String> ingNotProgressiveTenseD ;
 	private static Hashtable<Integer, String> edNotPastTenseD;
 	private static Hashtable<Integer, String> passiveVoiceD ;
 	private static Hashtable<Integer, String> irregularPastTenseD;
 	
+	//returns edNotPastTenseD hashTable
 	public static Hashtable<Integer, String> getEdNotPastTenseD()
 	{
 		if (edNotPastTenseD == null)
@@ -53,6 +53,7 @@ public class Databases {
 		return edNotPastTenseD;
 	}
 	
+	//returns irregularPastTenseD HashTable
 	public static Hashtable<Integer, String> getIrregularPastTenseD()
 	{
 		if (irregularPastTenseD == null)
@@ -85,7 +86,8 @@ public class Databases {
 		}
 		return irregularPastTenseD;
 	}
-		
+	
+	//returns ingNotProgressiveTenseD Hashtable
 	public static Hashtable<Integer, String> getIngNotProgressiveTenseD()
 	{
 		if (ingNotProgressiveTenseD == null)
@@ -120,6 +122,7 @@ public class Databases {
 		return ingNotProgressiveTenseD;
 	} 
 	
+	//returns passiveVoiceD HashTable
 	public static Hashtable<Integer, String> getPassiveVoiceD()
 	{
 		if (passiveVoiceD == null)
