@@ -111,7 +111,6 @@ public class Databases {
 		   {
 		 	  try {
 		        	String in = input.nextLine();
-		        	System.out.println("dog");
 		        	ingNotProgressiveTenseD.put(in.hashCode(), in);
 			  }
 		 	  catch(Exception e) {
