@@ -68,7 +68,7 @@ public class Essay {
 	public void addSentenceWords(ListNode2 sen){
 		String str = (String)sen.getValue();
 		//TODO ...
-		String punctuation = ".,\"\'()���[]{}';:?!-/\\"; //TODO all punctuation?
+		String punctuation = ".,\"\'()���[]{}';:?!-/\\"; 
 		String temp = "";
 		int i = 0;
 		while(i < str.length()) {
@@ -98,14 +98,11 @@ public class Essay {
 		WordLoc wloc = (WordLoc)node.getValue();
 		String sentence = (String)wloc.getSentenceNode().getValue();
 		if(!sentence.equals(newStr)){ //Not the exact same
-			//insert sentence into sentences linked list
-			//TODO error is person deletes entire sentence?
-			//wloc.getSentenceNode().setValue(newStr);
-			//TODO is the above line needed??
 			
 			//fix words tree map
 			disconnect(sentence); //from words TreeMap
 			
+			//add words of new sentence to wordsTree
 			wloc.getSentenceNode().setValue(newStr);
 			addSentenceWords(wloc.getSentenceNode());
 			node.setValue(null);
@@ -115,7 +112,7 @@ public class Essay {
 	
 	//updates any changes in a sentence in the word tree
 	public void disconnect(String str){
-		String punctuation = ".,\"'()[]{};:?!-/\\"; 
+		String punctuation = ".,\"\'()���[]{}';:?!-/\\"; 
 		String temp = "";
 		int i = 0;
 		ListNode2 head;
