@@ -2,13 +2,13 @@
  * strategy to check for sentences with passive voice within an essay
  * 
  * we are aware that this strategy does not find all passive voice errors because 
- * we are checking for a helper verb and then a paste tense verb rather than
+ * we are checking for a helper verb and then a past tense verb rather than
  * the past participle form of the verb. Conveniently the past participle of a verb
- * if often the same as the past tense, but not always. For example, the sentence
- * The book was written by her." would not be found because written is not past tense.
+ * is often the same as the past tense, but not always. For example, the sentence
+ * "The book was written by her." would not be found because written is not past tense.
  * To check for such cases we would need a large database of all possible past participle 
  * conjugations of the verb that would take too much time to compile and take up too
- *  much space on the computer. 
+ * much space on the computer. 
  * 
  * 
  * Written By: Shannon Wing, Kiara Wahschafft, Kelly Finke

@@ -1,5 +1,7 @@
 /**
  * AutoHirsch.java
+ * Represents the main content panel with all the buttons set with
+ * their respective action listeners
  * Authors: Kiara Wahnschafft, Shannon Wing, Kelly Finke
  */
 
@@ -14,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -33,14 +34,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 
 public class AutoHirsch extends JFrame {
 

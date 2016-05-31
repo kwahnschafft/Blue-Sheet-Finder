@@ -1,11 +1,14 @@
 /**
- * Menu for AutoHirsch
+ * MenuBar.java
+ * Creates the Menu bar for AutoHirsch, allowing the user to open a file,
+ * insert text, save the edited text, or exit the program
  * Citation: Used parts of Cryptogram menu to write this class
  * 
- * Written By: Kiara Wahnschafft, Kelly Finke, Shannon Wing extends Java Methods
+ * Written By: Kiara Wahnschafft, Kelly Finke, Shannon Wing extend Java Methods
  * Date: 5/31/16
  */
 
+//import statements
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
@@ -14,17 +17,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -91,14 +88,14 @@ public class MenuBar extends JMenuBar
     public void actionPerformed(ActionEvent e)
     {
       JMenuItem m = (JMenuItem)e.getSource();
-      //opens a word document or text document that the user chooses, 
-      //parses its text and creates an essay object from this text
+      //opens a word document that the user chooses, saves its text as
+      //a string and calls the parseAndCreateEssay helper method on this
+      //text
       if (m == openItem)
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt", "text"));
         fileChooser.setAcceptAllFileFilterUsed(false);
         int result = fileChooser.showOpenDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
@@ -107,8 +104,9 @@ public class MenuBar extends JMenuBar
         File file = fileChooser.getSelectedFile();
         pathName = file.getAbsolutePath();
         
-        if(!(pathName.substring(pathName.length() - 5).equals(".docx")) && !(pathName.substring(pathName.length() - 4).equals(".txt"))) {
-        	JOptionPane.showMessageDialog(bluesheet, "Please choose a word document or text document.");
+      //ensure that the document being opened is a .docx document
+        if(!(pathName.substring(pathName.length() - 5).equals(".docx"))) {
+        	JOptionPane.showMessageDialog(bluesheet, "Please choose a .docx word document.");
         }
         //if the document the user chooses is a word document
         else if(pathName.substring(pathName.length() - 5).equals(".docx")) {
@@ -132,47 +130,8 @@ public class MenuBar extends JMenuBar
 	        String displayText = WordExtractor.stripFields(rawText);
 	        parseAndCreateEssay(displayText);
         }
-        //if the document that the user chooses is a text document
-        else if(pathName.substring(pathName.length() - 4).equals(".txt")) {
-        	BufferedReader inputFile;
-            try
-            {
-              inputFile = new BufferedReader(new FileReader(pathName), 1024);
-            }
-            catch (FileNotFoundException ex)
-            {
-              return;
-            }
-
-            StringBuffer buffer = new StringBuffer((int)file.length());
-
-            try
-            {
-              while (inputFile.ready())
-                {
-                  buffer.append((char)inputFile.read());
-                }
-            }
-            catch (IOException ex)
-            {
-              System.err.println("Error reading " + pathName + "\n");
-              return;
-            }
-
-            try
-            {
-              inputFile.close();
-            }
-            catch (IOException ex)
-            {
-              System.err.println("Error closing " + pathName + "\n");
-              return;
-            }
-
-            String text = buffer.toString();
-            parseAndCreateEssay(text);
-        }
       }
+      //save the edited text as a word file (.docx) or text file (.txt)
       else if (m == saveItem)
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
@@ -189,6 +148,7 @@ public class MenuBar extends JMenuBar
           pathName = file.getAbsolutePath();
         }
         
+        //ensure that the document is going to be saved either as .docx or .txt
         if(!(pathName.substring(pathName.length() - 5).equals(".docx")) && !(pathName.substring(pathName.length() - 4).equals(".txt"))) {
         	JOptionPane.showMessageDialog(bluesheet, "Please write either .docx or .txt after your file name.");
         }
@@ -209,6 +169,7 @@ public class MenuBar extends JMenuBar
 			}
         }
       }
+      //exit the program
       else if (m == exitItem)
       {
         System.exit(0);
@@ -238,7 +199,7 @@ public class MenuBar extends JMenuBar
 	      result1 = result1.replace( (char)148, (char)'\"');
 	      result1 = result1.replace( (char)8220, (char)'\"'); // left double
 	      result1 = result1.replace( (char)8221, (char)'\"'); // right double
-	      result1 = result1.replace( (char)8211, (char)'-' ); // em dash??    
+	      result1 = result1.replace( (char)8211, (char)'-' ); // em dash   
 	      result1 = result1.replace( (char)150, (char)'-' );
 	  }
       bluesheet.makeEssayAndTree(result1);
