@@ -350,8 +350,8 @@ public class AutoHirsch extends JFrame {
       int start = sentenceLoc.getWordIndex();
       int end = start;
       int spaceCounter = 0;
-      //apostrophe error highlight
-      if(currentError.equals("apostrophe")) {
+      //apostrophe error highlight (not its)
+      if(currentError.equals("apostrophe") && !(Character.isLetter(displayedSentence.charAt(end)))) {
     	  while(end < displayedSentence.length() && !Character.isLetter(displayedSentence.charAt(end)) && displayedSentence.charAt(end) != ' ' && displayedSentence.charAt(end) != ',')
     		  end++;
       }
@@ -367,7 +367,7 @@ public class AutoHirsch extends JFrame {
     			  spaceCounter++;
     	  }
       }
-      //any other error highlight
+      //any other error highlight (and its for apostrophe error)
       else {
 	      while(end < displayedSentence.length() && displayedSentence.charAt(end) != '.' && displayedSentence.charAt(end) != ' ' && Character.isLetter(displayedSentence.charAt(end))) {
 	    	  end++;

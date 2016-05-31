@@ -177,8 +177,9 @@ public class MenuBar extends JMenuBar
       {
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
         fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt", "text"));
         int result = fileChooser.showSaveDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
           return;
@@ -191,20 +192,22 @@ public class MenuBar extends JMenuBar
         if(!(pathName.substring(pathName.length() - 5).equals(".docx")) && !(pathName.substring(pathName.length() - 4).equals(".txt"))) {
         	JOptionPane.showMessageDialog(bluesheet, "Please write either .docx or .txt after your file name.");
         }
-        //write to a new word file (.docx)
-        XWPFDocument document = new XWPFDocument();
-        XWPFParagraph tmpParagraph = document.createParagraph();
-        XWPFRun tmpRun = tmpParagraph.createRun();
-        tmpRun.setText(bluesheet.getEssayText());
-        try {
-			document.write(new FileOutputStream(new File(pathName)));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        else {
+	        //write to a new word file (.docx) or text file (.txt)
+	        XWPFDocument document = new XWPFDocument();
+	        XWPFParagraph tmpParagraph = document.createParagraph();
+	        XWPFRun tmpRun = tmpParagraph.createRun();
+	        tmpRun.setText(bluesheet.getEssayText());
+	        try {
+				document.write(new FileOutputStream(new File(pathName)));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
       }
       else if (m == exitItem)
       {
