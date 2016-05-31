@@ -187,27 +187,6 @@ public class AutoHirsch extends JFrame {
     next.addActionListener(new CustomActionListenerNext());
     next.setEnabled(false);
     p3.add(next);
-	  
-     //create panel for the HirschoMeter
-     JPanel p4 = new JPanel();
-     p4.setPreferredSize(new Dimension(200, 75));
-     p4.setLayout(new GridLayout(1, 5));
-     p4.setBorder(new LineBorder(Color.BLACK));
-     BufferedImage image = null;
-     try
-     {
-       image = ImageIO.read(new File("leader.jpg"));
-     }
-     catch (Exception e)
-     {
-       e.printStackTrace();
-       System.exit(1);
-     }
-     ImageIcon img = new ImageIcon(image);
-     JLabel label = new JLabel("");
-     label.setIcon(img);
-     label.setPreferredSize(new Dimension(300,100));
-     p4.add( label, BorderLayout.CENTER );
      
      //create final panel and add all the previous panels to this panel
 	 JPanel panel = new JPanel(new GridBagLayout());
@@ -252,7 +231,6 @@ public class AutoHirsch extends JFrame {
 	 gbc.gridy = 4;
 	 gbc.gridheight = 1;
 	 gbc.gridwidth = 2;
-	 panel.add(p4, gbc);
 	 
 	 //create container and add the final panel to the container
 	 Container c = getContentPane();
@@ -383,8 +361,6 @@ public class AutoHirsch extends JFrame {
     		  end++;
       }
       else if(currentError.equals("passive") || currentError.equals("progressive")) {
-    	  System.out.println(spaceCounter);
-    	//  System.out.println();
     	  while(end < displayedSentence.length() && spaceCounter < 2) {
     		  end++;
     		  if(displayedSentence.charAt(end) == ' ')
@@ -398,7 +374,6 @@ public class AutoHirsch extends JFrame {
 	      }
       }
       try {
-    	  System.out.println(start + " " + end);
 		highlighter.addHighlight(start, end, new DefaultHighlighter.DefaultHighlightPainter(Color.pink));
 	  } 
       catch (BadLocationException e) {

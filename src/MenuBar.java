@@ -1,7 +1,8 @@
 /**
- * Menu for Cryptogram Solver
+ * Menu for AutoHirsch
+ * Citation: Used parts of Cryptogram menu to write this class
  * 
- * Written By: Kiara Wahnschafft, Kelly Finke, Shannon Wing
+ * Written By: Kiara Wahnschafft, Kelly Finke, Shannon Wing extends Java Methods
  * Date: 5/31/16
  */
 
@@ -52,24 +53,30 @@ public class MenuBar extends JMenuBar
     fileMenu.setMnemonic('F');
 
     FileAction fileAction = new FileAction();
+    //open menu item
     openItem = new JMenuItem("Open...");
     openItem.setMnemonic('O');
     openItem.addActionListener(fileAction);
+    //insert menu item
     JMenuItem insertItem = new JMenuItem("Insert...");
     insertItem.setMnemonic('D');
     insertItem.addActionListener(essayAction);
+    //save menu item
     saveItem = new JMenuItem("Save...");
     saveItem.setMnemonic('S');
     saveItem.addActionListener(fileAction);
+    //exit menu item
     exitItem = new JMenuItem("Exit");
     exitItem.setMnemonic('x');
     exitItem.addActionListener(fileAction);
+    //add the open, insert, and save menu items to the file menu 
     fileMenu.add(openItem);
     fileMenu.add(insertItem);
     fileMenu.add(saveItem);
     fileMenu.addSeparator();
     fileMenu.add(exitItem);
 
+    //add the file menu to the AutoHirsch window
     add(fileMenu);
   }
 
@@ -91,7 +98,7 @@ public class MenuBar extends JMenuBar
         JFileChooser fileChooser = new JFileChooser(pathName);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Microsoft Word Document (.docx)", "docx"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("TEXT FILES", "txt", "text"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt", "text"));
         fileChooser.setAcceptAllFileFilterUsed(false);
         int result = fileChooser.showOpenDialog(bluesheet);
         if (result == JFileChooser.CANCEL_OPTION)
@@ -176,13 +183,15 @@ public class MenuBar extends JMenuBar
         if (result == JFileChooser.CANCEL_OPTION)
           return;
 
-        System.out.println(fileChooser.getFileFilter().getDescription());
         File file = fileChooser.getSelectedFile();
         if (file != null) {
           pathName = file.getAbsolutePath();
         }
         
-        
+        if(!(pathName.substring(pathName.length() - 5).equals(".docx")) && !(pathName.substring(pathName.length() - 4).equals(".txt"))) {
+        	JOptionPane.showMessageDialog(bluesheet, "Please write either .docx or .txt after your file name.");
+        }
+        //write to a new word file (.docx)
         XWPFDocument document = new XWPFDocument();
         XWPFParagraph tmpParagraph = document.createParagraph();
         XWPFRun tmpRun = tmpParagraph.createRun();
@@ -204,6 +213,14 @@ public class MenuBar extends JMenuBar
 
     }
   }
+  
+  /*
+   * ensures that special characters are correct if the user is
+   * on a mac, calls auto hirsch's makeEssayAndTree method on the
+   * text in the inserted document or the inserted text and sets the
+   * essay panel's text to the text in the inserted document or 
+   * the inserted text
+   */
   public void parseAndCreateEssay(String str) {
 	  String osName = System.getProperty("os.name").toLowerCase();
 	  boolean isMacOs = osName.startsWith("mac os x");
