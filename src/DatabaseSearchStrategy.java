@@ -1,5 +1,5 @@
 /*
- * an interface that represents bluesheet search strategies 
+ * an interface that represents blue sheet search strategies 
  * that utilize databases of hashtables 
  * 
  * Written By: Shannon Wing, Kelly Finke, Kiara Wahnschafft

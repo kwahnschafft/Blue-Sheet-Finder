@@ -110,6 +110,7 @@ public class MenuBar extends JMenuBar
         }
         //if the document the user chooses is a word document
         else if(pathName.substring(pathName.length() - 5).equals(".docx")) {
+        	bluesheet.getError().setText("");
 	        FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(file.getAbsolutePath());

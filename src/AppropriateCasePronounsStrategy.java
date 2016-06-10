@@ -1,7 +1,7 @@
 /*
  * strategy to check for sentences with possible pronoun case errors within an essay
  * 
- *  Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
+ * Written By: Shannon Wing, Kelly Finke, Kiara Wahschafft
  * Date: 5/31/16
  */
 public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
@@ -22,7 +22,7 @@ public class AppropriateCasePronounsStrategy implements EssaySearchStrategy {
 	}
 
 	//returns a String representation of
-	// the pronoun case bluesheet rule
+	// the pronoun case blue sheet rule
 	public String getRule()
 	{
 		return rule;

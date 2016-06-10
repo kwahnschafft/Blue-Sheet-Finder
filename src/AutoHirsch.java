@@ -1,8 +1,11 @@
 /**
  * AutoHirsch.java
+ * 
  * Represents the main content panel with all the buttons set with
  * their respective action listeners
+ * 
  * Authors: Kiara Wahnschafft, Shannon Wing, Kelly Finke
+ * Date: 5/31/16
  */
 
 //import statements
@@ -43,17 +46,19 @@ import javax.swing.ButtonGroup;
 
 public class AutoHirsch extends JFrame {
 
-  private JTextArea essay;
-  private JTextArea sentence;
-  private JTextArea copy;
-  private String copied;
-  private JLabel rule;
-  private TreeMap tree;
-  private ListNode2 current;
+  private JTextArea essay; //essay panel
+  private JTextArea sentence; //error panel
+  private JLabel rule; //rule panel
+  private JTextArea copy; //insert text panel
+  private String copied; //text in insert text panel
+  private TreeMap tree; //word tree
+  private ListNode2 current; //currently-displayed node
+  //the four buttons
   private JButton next;
   private JButton previous;
   private JButton change;
   private JButton correct;
+  //boolean of whether or not text in error panel is edited
   private boolean newInsert;
   private boolean newRemove;
   private JFrame frame;
@@ -237,6 +242,12 @@ public class AutoHirsch extends JFrame {
 	 c.setMinimumSize(c.getSize());
   }
   
+  /*
+   * getter method for error panel
+   */
+  public JTextArea getError() {
+	  return sentence;
+  }
   /*
    * creates a new essay object from the text that the user has
    * inputed and creates a new tree of words in that essay
@@ -470,16 +481,12 @@ public class AutoHirsch extends JFrame {
   */
   class CustomActionListenerOne implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("past");
     	  PastTenseStrategy past = new PastTenseStrategy();
     	  rule.setText(past.getRule());
           if(!essay.getText().equals("")) {
         	  ArrayList<ListNode2> list = past.findInDatabase(tree);
-        	  ListNode2[] array = new ListNode2[list.size()];
-        	  for(int i = 0; i < list.size(); i++) {
-        		  array[i] = list.get(i);
-        	  }
-        	  currentError = "past";
+        	  ListNode2[] array = convertToArray(list);
         	  displaySentences(array);
           }
       }
@@ -492,12 +499,11 @@ public class AutoHirsch extends JFrame {
    */
   class CustomActionListenerThree implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("fs");
     	  FirstSecondPersonStrategy firstSecond = new FirstSecondPersonStrategy();
     	  rule.setText(firstSecond.getRule());
     	  if(!essay.getText().equals("")) {
           	  ListNode2[] array = firstSecond.findInEssay(tree);
-          	  currentError = "fs";
           	  displaySentences(array);
           }
       }
@@ -509,12 +515,11 @@ public class AutoHirsch extends JFrame {
    */
   class CustomActionListenerFour implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("fw");
     	  ThisWhichStrategy tw = new ThisWhichStrategy();
           rule.setText(tw.getRule());
           if(!essay.getText().equals("")) {
           	  ListNode2[] array = tw.findInEssay(tree);
-          	  currentError = "tw";
           	  displaySentences(array);
           }
       }
@@ -526,29 +531,27 @@ public class AutoHirsch extends JFrame {
    */
   class CustomActionListenerSix implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("case");
     	  AppropriateCasePronounsStrategy approp = new AppropriateCasePronounsStrategy();
           rule.setText(approp.getRule());
           if(!essay.getText().equals("")) {
         	  ListNode2[] array = approp.findInEssay(tree);
-        	  currentError = "case";
               displaySentences(array);
           }
       }
    }
   
   /*
-   * Set the rule box to the pronoun case rule + use the pronoun case strategy
-   * to obtain and display the sentences with potential pronoun case errors
+   * Set the rule box to the apostrophe rule + use the apostrophe strategy
+   * to obtain and display the sentences with potential apostrophe errors
    */
   class CustomActionListenerEight implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+	      setUp("apostrophe");
     	  ApostropheStrategy apost = new ApostropheStrategy();
           rule.setText(apost.getRule());
     	  if(!essay.getText().equals("")) {
     		  ListNode2[] array = apost.findInEssay(tree);
-    		  currentError = "apostrophe";
               displaySentences(array);
     	  }
       }
@@ -560,16 +563,12 @@ public class AutoHirsch extends JFrame {
    */
   class CustomActionListenerNine implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("passive");
     	  PassiveVoiceStrategy passiveVoice = new PassiveVoiceStrategy();
           rule.setText(passiveVoice.getRule());
           if(!essay.getText().equals("")) {
         	  ArrayList<ListNode2> list = passiveVoice.findInDatabase(tree);
-        	  ListNode2[] array = new ListNode2[list.size()];
-        	  for(int i = 0; i < list.size(); i++) {
-        		  array[i] = list.get(i);
-        	  }
-        	  currentError = "passive";
+        	  ListNode2[] array = convertToArray(list);
         	  displaySentences(array);
           }
       }
@@ -581,16 +580,12 @@ public class AutoHirsch extends JFrame {
    */
   class CustomActionListenerTwelve implements ActionListener{ //database strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("progressive");
     	  ProgressiveTenseStrategy progressive = new ProgressiveTenseStrategy();
           rule.setText(progressive.getRule());
           if(!essay.getText().equals("")) {
         	  ArrayList<ListNode2> list = progressive.findInDatabase(tree);
-        	  ListNode2[] array = new ListNode2[list.size()];
-        	  for(int i = 0; i < list.size(); i++) {
-        		  array[i] = list.get(i);
-        	  }
-        	  currentError = "progressive";
+        	  ListNode2[] array = convertToArray(list);
         	  displaySentences(array);
           }
       }
@@ -602,16 +597,38 @@ public class AutoHirsch extends JFrame {
    */
   class CustomActionListenerThirteen implements ActionListener{ //essay strategy
       public void actionPerformed(ActionEvent e) {
-    	  newInsert = false;
+    	  setUp("quotation");
     	  QuotationStrategy quotation = new QuotationStrategy();
           rule.setText(quotation.getRule());
           if(!essay.getText().equals("")) {
 	          ListNode2[] array = quotation.findInEssay(tree);
-	          currentError = "quotation";
 	          displaySentences(array);
           }
       }
    }
+  
+  /*
+   * helper method that sets newInsert to false (so that the change
+   * button is only enabled after the user makes a change to the sentence),
+   * sets the error panel to empty text and sets the currentError to the
+   * blue sheet error the user is searching for
+   */
+  private void setUp(String error){
+	  newInsert = false;
+	  currentError = error;
+  }
+  
+  /*
+   * helper method for action listeners for radio buttons that converts 
+   * an array list of ListNode2 objects to an array of ListNode2 objects
+   */
+  private ListNode2[] convertToArray(ArrayList<ListNode2> list) {
+	  ListNode2[] array = new ListNode2[list.size()];
+	  for(int i = 0; i < list.size(); i++) {
+		  array[i] = list.get(i);
+	  }
+	  return array;
+  }
  
  /*
  * displays the previous WordLoc and ensures that the 
